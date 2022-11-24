@@ -1,6 +1,7 @@
 <script lang="ts">
-	export let data: string[] = [];
-	console.log(data)
+	import {page} from '$app/stores';
+	/** @type {import('./$types').PageData} */
+	export let data: any;
 
 	import Toolbar from '$lib/components/Toolbar.svelte';
 	import Canvas from '$lib/components/Canvas.svelte';
@@ -12,10 +13,11 @@
 	<meta name="description" content="View [this story]" />
 </svelte:head>
 
+{data.story.title} by {data.story.author}
 <div class="story-container">
-	<Toolbar data={data} />
-	<Canvas />
-	<Slider />
+	<Toolbar {data} />
+	<Canvas {data} />
+	<Slider {data} />
 </div>
 
 <style lang="scss">

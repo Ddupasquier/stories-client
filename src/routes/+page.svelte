@@ -1,5 +1,5 @@
 <script>
-
+	import { fakerStories } from '$lib/placeholderData';
 </script>
 
 <svelte:head>
@@ -8,9 +8,12 @@
 </svelte:head>
 
 <section>
-	<h1>
-		This is the home page
-	</h1>
+	{#each fakerStories as story}
+		<a href="/story/{story.id}">
+			<h1>{story.title}</h1>
+			<p>{story.description}</p>
+		</a>
+	{/each}
 </section>
 
 <style lang="scss">

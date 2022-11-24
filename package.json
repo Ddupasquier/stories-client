@@ -11,6 +11,9 @@
 		"lint": "prettier --plugin-search-dir . --check . && eslint .",
 		"format": "prettier --plugin-search-dir . --write ."
 	},
+	"dependencies": {
+		"sass": "^1.56.1"
+	},
 	"devDependencies": {
 		"@fontsource/fira-mono": "^4.5.0",
 		"@neoconfetti/svelte": "^1.0.0",
@@ -29,13 +32,9 @@
 		"svelte": "^3.46.0",
 		"svelte-check": "^2.7.1",
 		"svelte-preprocess": "^4.10.6",
-		"ts-node": "^10.9.1",
 		"tslib": "^2.3.1",
 		"typescript": "^4.7.4",
 		"vite": "^3.1.0"
-	},
-	"dependencies": {
-		"sass": "^1.56.1"
 	},
 	"type": "module"
 }
