@@ -1,0 +1,5 @@
+<svg id="moon-loader" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 300 300" shape-rendering="geometricPrecision" text-rendering="geometricPrecision" style="background-color:transparent">
+<style><![CDATA[
+#moon-loader-s-path1_tr {animation: moon-loader-s-path1_tr__tr 2000ms linear infinite normal forwards}@keyframes moon-loader-s-path1_tr__tr { 0% {transform: translate(150px,150px) rotate(0deg)} 100% {transform: translate(150px,150px) rotate(360deg)}}
+]]></style>
+<g id="moon-loader-s-path1_tr" transform="translate(150,150) rotate(0)"><path id="moon-loader-s-path1" d="M32.14819,150c0-65.08776,52.76405-117.85181,117.85182-117.85181c31.53298,0,60.17346,12.38424,81.32299,32.55427-18.58916-14.77607-42.11888-23.6035-67.71036-23.6035C103.46825,41.09896,54.7116,89.85562,54.7116,150s48.75666,108.90104,108.90104,108.90104c25.59148,0,49.1212-8.82743,67.71036-23.6035-21.14953,20.17003-49.79001,32.55427-81.32299,32.55427C84.91225,267.85181,32.1482,215.08776,32.1482,150h-.00001Z" transform="translate(-150,-150)" fill="#d2dbed" stroke-width="0"/></g></svg>

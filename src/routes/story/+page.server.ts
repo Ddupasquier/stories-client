@@ -1,3 +1,5 @@
+// import { getSVGs } from '../../services/apiCalls';
+
 // import { dev } from '$app/environment';
 
 // // we don't need any JS on this page, though we'll load
@@ -7,3 +9,8 @@
 // // since there's no dynamic data here, we can prerender
 // // it so that it gets served as a static asset in production
 export const prerender = true;
+
+// export async function get() {
+// 	const data = await getSVGs();
+// 	return data;
+// }
