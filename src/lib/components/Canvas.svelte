@@ -1,25 +1,23 @@
 <script lang="ts">
+	import ImgElement from '$lib/components/ImgElement.svelte';
+
 	interface PageInfoProps {
 		id: number;
 		background: string;
-		elements: PageElement[];
+		elements?: PageElement[];
 	}
 
 	export let info: PageInfoProps;
-	console.log(info);
+
+	$: elements = info.elements;
 </script>
 
 <div class="canvas">
-	{#each info.elements as element}
-		<img
-			src={element.id}
-			alt={element.id}
-			height={element.size + '%'}
-			style="position: absolute; top: {element.x + '%'}; left: {element.y +
-				'%'}; z-index: {element.zIndex};"
-			class="canvas-element"
-		/>
-	{/each}
+	{#if elements}
+		{#each elements as element}
+			<ImgElement {element} />
+		{/each}
+	{/if}
 	Page {info.id}
 </div>
 
@@ -29,9 +27,5 @@
 		width: 100%;
 		height: 100%;
 		overflow: hidden;
-	}
-
-	.canvas-element {
-		aspect-ratio: 1.1;
 	}
 </style>

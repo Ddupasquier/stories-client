@@ -25,7 +25,7 @@ interface TextElement extends PageElement {
 interface Page {
 	id: number;
 	background: string; // a hex value,
-	elements: PageElement[];
+	elements?: PageElement[];
 }
 
 interface Story {

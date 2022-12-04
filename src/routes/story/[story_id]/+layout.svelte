@@ -10,7 +10,7 @@
 		currentPageId.set(id);
 	};
 
-	changePageId(1)
+	changePageId(1);
 </script>
 
 <svelte:head>
@@ -26,6 +26,7 @@
 	<slot />
 	<Slider {data} />
 </div>
+<button class="save">SAVE</button>
 
 <style lang="scss">
 	h2 {
@@ -40,5 +41,6 @@
 		border: black solid;
 		aspect-ratio: 16/9;
 		width: 90vw;
+		user-select: none;
 	}
 </style>

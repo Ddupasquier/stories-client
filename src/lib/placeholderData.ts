@@ -12,35 +12,24 @@ export const fakerStories: Story[] = [
 				elements: [
 					{
 						id: images.totoro,
-						x: 20,
-						y: 35,
+						x: 30,
+						y: 15,
 						zIndex: 1,
-						size: 80,
+						size: 80
 					},
 					{
 						id: images.moonLoader,
-						x: 15,
-						y: 50,
+						x: 45,
+						y: 20,
 						zIndex: 0,
-						size: 50,
+						size: 50
 					}
 				]
 			},
 			{
 				id: 2,
 				background: '#fff000',
-				elements: [
-					{
-						x: 0,
-						y: 0,
-						zIndex: 0
-					},
-					{
-						x: 0,
-						y: 0,
-						zIndex: 1
-					}
-				]
+				elements: []
 			}
 		]
 	},
@@ -52,32 +41,25 @@ export const fakerStories: Story[] = [
 			{
 				id: 1,
 				background: 'red',
-				elements: [
-					{
-						x: 0,
-						y: 0,
-						zIndex: 0
-					},
-					{
-						x: 0,
-						y: 0,
-						zIndex: 1
-					}
-				]
+				elements: []
 			},
 			{
 				id: 2,
 				background: 'green',
 				elements: [
 					{
-						x: 0,
-						y: 0,
-						zIndex: 0
+						id: images.totoro,
+						x: 20,
+						y: 35,
+						zIndex: 1,
+						size: 80
 					},
 					{
-						x: 0,
-						y: 0,
-						zIndex: 1
+						id: images.moonLoader,
+						x: 15,
+						y: 50,
+						zIndex: 0,
+						size: 50
 					}
 				]
 			}
@@ -91,32 +73,25 @@ export const fakerStories: Story[] = [
 			{
 				id: 1,
 				background: 'orange',
-				elements: [
-					{
-						x: 0,
-						y: 0,
-						zIndex: 0
-					},
-					{
-						x: 0,
-						y: 0,
-						zIndex: 1
-					}
-				]
+				elements: []
 			},
 			{
 				id: 2,
 				background: 'purple',
 				elements: [
 					{
-						x: 0,
-						y: 0,
-						zIndex: 0
+						id: images.totoro,
+						x: 20,
+						y: 35,
+						zIndex: 1,
+						size: 80
 					},
 					{
-						x: 0,
-						y: 0,
-						zIndex: 1
+						id: images.moonLoader,
+						x: 15,
+						y: 50,
+						zIndex: 0,
+						size: 50
 					}
 				]
 			}
