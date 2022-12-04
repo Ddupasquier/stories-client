@@ -1,4 +1,23 @@
-<div class="container">Slider</div>
+<script lang="ts">
+	import { currentPageId } from '$lib/stores/storyStore';
+	/** @type {import('./$types').PageData} */
+	export let data: StoryProps;
+
+	const changePageId = (id: number) => {
+		currentPageId.set(id);
+	};
+</script>
+
+<div class="container">
+	{#each data.story.pages as page}
+		<!-- svelte-ignore a11y-click-events-have-key-events -->
+		<div
+			style={`background: ${page.background}`}
+			class="page-selection"
+			on:click={() => changePageId(page.id)}
+		/>
+	{/each}
+</div>
 
 <style lang="scss">
 	.container {
@@ -8,7 +27,14 @@
 		align-items: center;
 		gap: 1rem;
 		width: 100%;
+		height: 8em;
 		background: #222;
 		color: white;
+		overflow-x: auto;
+	}
+
+	.page-selection {
+		height: 80%;
+		aspect-ratio: 16/9;
 	}
 </style>

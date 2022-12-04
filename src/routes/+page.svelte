@@ -11,7 +11,7 @@
 	{#each fakerStories as story}
 		<a href="/story/{story.id}">
 			<h1>{story.title}</h1>
-			<p>{story.description}</p>
+			<p>{story.author}</p>
 		</a>
 	{/each}
 </section>

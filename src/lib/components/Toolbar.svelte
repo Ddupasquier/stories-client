@@ -1,5 +1,7 @@
 <script lang="ts">
 	import * as SVGs from '$lib/images';
+
+
 </script>
 
 <div class="container">
@@ -18,10 +20,10 @@
 		width: 100%;
 		background: #222;
 		color: white;
+		height: 6em;
 	}
 
       .toolbar-item {
-            width: 2rem;
-            height: 2rem;
+		height: 80%;
       }
 </style>

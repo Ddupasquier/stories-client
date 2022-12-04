@@ -1,6 +1,3 @@
-// load the 1st page of the story provided by data
-
-// src/routes/story/[story_id]/+page.ts
 import { error } from '@sveltejs/kit';
 import { fakerStories } from '$lib/placeholderData';
 
@@ -19,3 +16,14 @@ export function load({ params }: { params: StoryParams }) {
 		story
 	};
 }
+
+// /** @type {import('./$types').PageLoad} */
+// export function load({ params }: { params: StoryParams }) {
+// 	const story = fakerStories.find((story) => story.id === +params.story_id);
+// 	if (!story) {
+// 		return error(404, 'Story not found');
+// 	}
+// 	return {
+// 		story
+// 	};
+// }

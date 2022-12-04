@@ -1,35 +1,24 @@
 <script lang="ts">
-	import {page} from '$app/stores';
-	/** @type {import('./$types').PageData} */
-	export let data: any;
+	import { currentPageId } from '$lib/stores/storyStore';
 
-	import Toolbar from '$lib/components/Toolbar.svelte';
-	import Canvas from '$lib/components/Canvas.svelte';
-	import Slider from '$lib/components/Slider.svelte';
+	let pageIndex: number;
+
+	currentPageId.subscribe((value) => {
+		pageIndex = value - 1;
+	});
+
+	/** @type {import('./$types').PageData} */
+	export let data: PageProps;
+	console.log(data);
 </script>
 
-<svelte:head>
-	<title>Story</title>
-	<meta name="description" content="View [this story]" />
-</svelte:head>
-
-{data.story.title} by {data.story.author}
-<div class="story-container">
-	<Toolbar {data} />
-	<Canvas {data} />
-	<Slider {data} />
+<div style="background: {data.story.pages[pageIndex].background}">
+	{data.story.pages[pageIndex].background}
 </div>
 
 <style lang="scss">
-	.story-container {
-		display: grid;
-		grid-template-columns: 1fr;
-		grid-template-rows: 10% 80% 10%;
-		grid-template-areas:
-			'toolbar'
-			'canvas'
-			'slider';
-		border: black solid;
-		aspect-ratio: 16/9;
+	div {
+		width: 100%;
+		height: 100%;
 	}
 </style>
