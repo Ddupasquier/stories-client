@@ -1,3 +1,5 @@
+import * as images from './images';
+
 export const fakerStories: Story[] = [
 	{
 		id: 1,
@@ -9,14 +11,18 @@ export const fakerStories: Story[] = [
 				background: '#ffffff',
 				elements: [
 					{
-						x: 0,
-						y: 0,
-						zIndex: 0
+						id: images.totoro,
+						x: 20,
+						y: 35,
+						zIndex: 1,
+						size: 80,
 					},
 					{
-						x: 0,
-						y: 0,
-						zIndex: 1
+						id: images.moonLoader,
+						x: 15,
+						y: 50,
+						zIndex: 0,
+						size: 50,
 					}
 				]
 			},

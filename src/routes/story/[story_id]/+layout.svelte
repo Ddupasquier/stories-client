@@ -4,6 +4,13 @@
 
 	import Toolbar from '$lib/components/Toolbar.svelte';
 	import Slider from '$lib/components/Slider.svelte';
+	import { currentPageId } from '$lib/stores/storyStore';
+
+	const changePageId = (id: number) => {
+		currentPageId.set(id);
+	};
+
+	changePageId(1)
 </script>
 
 <svelte:head>
@@ -26,7 +33,7 @@
 		margin: 0;
 		font-weight: 800;
 	}
-	
+
 	.story-container {
 		display: flex;
 		flex-direction: column;
