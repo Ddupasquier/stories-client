@@ -54,3 +54,9 @@ interface PageProps {
 	background: string;
 	page: Page;
 }
+
+interface PageInfoProps {
+	id: number;
+	background: string;
+	elements?: PageElement[];
+}

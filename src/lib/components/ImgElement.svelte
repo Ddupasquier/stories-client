@@ -1,5 +1,19 @@
 <script lang="ts">
 	export let element: PageElement;
+	import { savePosition } from '$lib/api/apiPatch';
+
+	import { currentStory, currentPageId } from '$lib/stores/storyStore';
+	
+	let story: object;
+	let page: number
+
+	currentStory.subscribe((value) => {
+		story = value;
+	});
+
+	currentPageId.subscribe((value) => {
+		page = value;
+	});
 
 	$: top = element.y;
 	$: left = element.x;
@@ -16,12 +30,15 @@
 			top += e.movementY / 10;
 		}
 	};
+
+	
 </script>
 
 <svelte:window
 	on:mousemove={move}
 	on:mouseup={() => {
 		moving = false;
+		savePosition(story, page, element, top, left);
 	}}
 />
 

@@ -26,7 +26,7 @@
 	<slot />
 	<Slider {data} />
 </div>
-<button class="save">SAVE</button>
+<!-- <button class="save" on:click={() => saveChanges()}>SAVE</button> -->
 
 <style lang="scss">
 	h2 {

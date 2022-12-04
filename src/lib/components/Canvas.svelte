@@ -1,13 +1,6 @@
 <script lang="ts">
-	import ImgElement from '$lib/components/ImgElement.svelte';
-
-	interface PageInfoProps {
-		id: number;
-		background: string;
-		elements?: PageElement[];
-	}
-
 	export let info: PageInfoProps;
+	import ImgElement from '$lib/components/ImgElement.svelte';
 
 	$: elements = info.elements;
 </script>
