@@ -1,5 +1,6 @@
-<script>
+<script lang="ts">
 	import { fakerStories } from '$lib/placeholderData';
+	import LoginForm from '$lib/components/LoginForm.svelte';
 </script>
 
 <svelte:head>
@@ -7,6 +8,7 @@
 	<meta name="description" content="Svelte demo app" />
 </svelte:head>
 
+<LoginForm />
 <section>
 	{#each fakerStories as story}
 		<a href="/story/{story.id}">
@@ -27,21 +29,5 @@
 
 	h1 {
 		width: 100%;
-	}
-
-	.welcome {
-		display: block;
-		position: relative;
-		width: 100%;
-		height: 0;
-		padding: 0 0 calc(100% * 495 / 2048) 0;
-	}
-
-	.welcome img {
-		position: absolute;
-		width: 100%;
-		height: 100%;
-		top: 0;
-		display: block;
 	}
 </style>

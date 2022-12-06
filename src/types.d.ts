@@ -41,10 +41,6 @@ interface SVGAsset {
 	// data: // svg data
 }
 
-// firebase store
-
-//    assets: SVGAsset[]
-//    stories: Story[]
 interface StoryProps {
 	story: Story;
 }

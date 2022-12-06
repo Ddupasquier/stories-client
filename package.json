@@ -12,6 +12,7 @@
 		"format": "prettier --plugin-search-dir . --write ."
 	},
 	"dependencies": {
+		"firebase": "^9.14.0",
 		"sass": "^1.56.1"
 	},
 	"devDependencies": {

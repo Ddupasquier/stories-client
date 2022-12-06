@@ -26,8 +26,8 @@
 
 	const move = (e: { movementX: number; movementY: number }) => {
 		if (moving) {
-			left += e.movementX / 10;
-			top += e.movementY / 10;
+			left += e.movementX / 12;
+			top += e.movementY / 12;
 		}
 	};
 
