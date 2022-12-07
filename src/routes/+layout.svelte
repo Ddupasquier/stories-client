@@ -10,7 +10,7 @@
 		<slot />
 	</main>
 
-	<footer>Dylan and Ramiro are pretty cool.</footer>
+	<footer>Dylan and Ramiro are pretty cool</footer>
 </div>
 
 <style>
