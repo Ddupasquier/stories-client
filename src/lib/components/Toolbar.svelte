@@ -1,6 +1,6 @@
 <script lang="ts">
 	import * as SVGs from '$lib/images';
-	console.log(SVGs);
+	// console.log(SVGs);
 </script>
 
 <div class="container">
