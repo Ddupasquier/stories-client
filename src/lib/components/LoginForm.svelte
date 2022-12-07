@@ -1,4 +1,3 @@
-<!-- create simple login form for username and password as well as google authentication -->
 <script lang='ts'>
       // import { login } from '$lib/api/apiPost';
       // import { user } from '$lib/stores/userStore';
