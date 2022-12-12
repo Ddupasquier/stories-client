@@ -1,3 +1,3 @@
-export const saveChanges = (changes: any) => {
+export const saveChanges = (changes: unknown) => {
   console.log(changes)
 }

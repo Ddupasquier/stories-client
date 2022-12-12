@@ -1,7 +1,8 @@
 <script lang="ts">
-	import { fakerStories } from '$lib/placeholderData';
+	export let data: any = [];
+
 	import LoginForm from '$lib/components/LoginForm.svelte';
-	// import ImgElement from '$lib/components/ImgElement.svelte';
+	import ImgElement from '$lib/components/ImgElement.svelte';
 </script>
 
 <svelte:head>
@@ -12,7 +13,7 @@
 <LoginForm />
 
 <div class="stories">
-	{#each fakerStories as story}
+	{#each data.stories as story}
 		<a href="/story/{story.id}">
 			<div class="story" style="background: {story.pages[0].background}">
 				<!-- {#if story.pages[0].elements?.length}

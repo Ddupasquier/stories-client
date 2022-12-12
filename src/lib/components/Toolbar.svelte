@@ -1,11 +1,10 @@
 <script lang="ts">
-	import * as SVGs from '$lib/images';
-	// console.log(SVGs);
+	import { images } from '$lib/images';
 </script>
 
 <div class="container">
-	{#each Object.keys(SVGs) as key}
-		<img src={SVGs[key]} alt={key} class="toolbar-item" />
+	{#each images as image}
+		<img src={image.src} alt={image.name} class="toolbar-item" />
 	{/each}
 </div>
 
@@ -15,14 +14,14 @@
 		flex-direction: row;
 		justify-content: center;
 		align-items: center;
-		gap: .5rem;
+		gap: 0.5rem;
 		width: 100%;
 		background: #222;
 		color: white;
 		height: 6em;
 	}
 
-      .toolbar-item {
+	.toolbar-item {
 		height: 80%;
-      }
+	}
 </style>

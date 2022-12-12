@@ -1,0 +1,52 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+// import has many from prisma/client
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id      Int     @id @default(autoincrement())
+  email   String  @unique
+  name    String?
+  stories Story[]
+}
+
+model Story {
+  id     Int    @id @default(autoincrement())
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+  title  String @unique
+  author String
+  pages  Page[] 
+  User   User?  @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId Int?
+}
+
+model Page {
+  id         Int           @id @default(autoincrement())
+  background String
+  elements   Element[]
+  Story      Story?        @relation(fields: [storyId], references: [id], onDelete: Cascade)
+  storyId    Int?
+}
+
+model Element {
+  id        Int     @id @default(autoincrement())
+  elementId Int
+  type      String
+  x         Int
+  y         Int
+  zIndex    Int
+  size      Int
+  color     String?
+  text      String?
+  Page      Page?   @relation(fields: [pageId], references: [id], onDelete: Cascade)
+  pageId    Int?
+}

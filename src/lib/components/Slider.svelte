@@ -9,12 +9,12 @@
 </script>
 
 <div class="container">
-	{#each data.story.pages as page}
+	{#each data.story[0].pages as page, i}
 		<!-- svelte-ignore a11y-click-events-have-key-events -->
 		<div
 			style={`background: ${page.background}`}
 			class="page-selection"
-			on:click={() => changePageId(page.id)}
+			on:click={() => changePageId(i + 1)}
 		/>
 	{/each}
 </div>

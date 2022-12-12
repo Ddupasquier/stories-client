@@ -4,6 +4,7 @@
 declare namespace App {}
 
 interface PageElement {
+	[x: string]: string;
 	id?: string;
 	x: number;
 	y: number;
@@ -33,6 +34,7 @@ interface Story {
 	title: string;
 	author: string;
 	pages: Page[];
+	0: Story;
 }
 
 interface SVGAsset {
@@ -42,6 +44,7 @@ interface SVGAsset {
 }
 
 interface StoryProps {
+	[x: string]: unknown;
 	story: Story;
 }
 

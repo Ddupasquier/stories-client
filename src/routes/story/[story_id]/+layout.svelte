@@ -14,12 +14,12 @@
 </script>
 
 <svelte:head>
-	<title>{data.story.title}</title>
+	<title>{data.story[0]?.title}</title>
 	<meta name="description" content="View [this story]" />
 </svelte:head>
 
 <h2>
-	{data.story.title} by {data.story.author}
+	{data.story[0]?.title} by {data.story[0]?.author}
 </h2>
 <div class="story-container">
 	<Toolbar />

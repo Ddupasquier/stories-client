@@ -11,11 +11,11 @@
 	/** @type {import('./$types').PageData} */
 	export let data: PageProps;
 
-	currentStory.set(data.story);
+	currentStory.set(data.story[0]);
 </script>
 
-<div style="background: {data.story.pages[pageIndex].background}">
-	<Canvas info={data.story.pages[pageIndex]} />
+<div style="background: {data.story[0]?.pages[pageIndex].background}">
+	<Canvas info={data.story[0]?.pages[pageIndex]} />
 </div>
 
 <style lang="scss">

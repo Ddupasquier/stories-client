@@ -1,11 +1,23 @@
 <script lang="ts">
 	export let element: PageElement;
-	import { savePosition } from '$lib/api/apiPatch';
 
+	import { images } from '$lib/images';
 	import { currentStory, currentPageId } from '$lib/stores/storyStore';
-	
+
+	interface Image {
+		id: number;
+		name: string;
+		src: string;
+	}
+
+	const findImage = (id: string) => {
+		return images.find((image) => image.id === Number(id));
+	};
+
+	$: image = findImage(element.elementId);
+
 	let story: object;
-	let page: number
+	let page: number;
 
 	currentStory.subscribe((value) => {
 		story = value;
@@ -30,15 +42,13 @@
 			top += e.movementY / 12;
 		}
 	};
-
-	
 </script>
 
 <svelte:window
 	on:mousemove={move}
 	on:mouseup={() => {
 		moving = false;
-		savePosition(story, page, element, top, left);
+		// savePosition(story, page, element, top, left);
 	}}
 />
 
@@ -47,7 +57,7 @@
 	style="position: absolute; top: {top + '%'}; left: {left +
 		'%'}; z-index: {element.zIndex}; height: {element.size + '%'};"
 >
-	<img src={element.id} alt={element.id} />
+	<img src={image.src} alt={image.name} />
 	<div class="move-icon" on:mousedown={startMoving}>Move</div>
 </div>
 
