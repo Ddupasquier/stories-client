@@ -8,9 +8,12 @@
 			<li aria-current={$page.url.pathname === '/' ? 'page' : undefined}>
 				<a href="/">Browse Stories</a>
 			</li>
-			<li aria-current={$page.url.pathname === '/create' ? 'page' : undefined}>
+			<!-- <li aria-current={$page.url.pathname === '/create' ? 'page' : undefined}>
 				<a href="/create">Create</a>
-			</li>
+			</li> -->
+			<!-- <li aria-current={$page.url.pathname === '/profile' ? 'page' : undefined}>
+				<a href="/profile">Profile</a>
+			</li> -->
 		</ul>
 	</nav>
 </header>

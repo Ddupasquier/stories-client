@@ -1,8 +1,21 @@
 <script lang="ts">
-	export let data: any = [];
+	import { onMount } from 'svelte';
+	import { supabase } from '$lib/supabase';
+	import type { AuthSession } from '@supabase/supabase-js';
+	import Profile from '$lib/views/profile/Profile.svelte';
+	import Auth from '$lib/views/auth/Auth.svelte';
 
-	import LoginForm from '$lib/components/LoginForm.svelte';
-	import ImgElement from '$lib/components/ImgElement.svelte';
+	let session: AuthSession;
+
+	onMount(() => {
+		supabase.auth.getSession().then(({ data }) => {
+			session = data.session;
+		});
+
+		supabase.auth.onAuthStateChange((_event, _session) => {
+			session = _session;
+		});
+	});
 </script>
 
 <svelte:head>
@@ -10,23 +23,28 @@
 	<meta name="description" content="Svelte demo app" />
 </svelte:head>
 
-<LoginForm />
-
 <div class="stories">
-	{#each data.stories as story}
+	<div class="container" style="padding: 50px 0 100px 0">
+		{#if !session}
+			<Auth />
+		{:else}
+			<Profile {session} />
+		{/if}
+	</div>
+	<!-- {#each data.stories as story}
 		<a href="/story/{story.id}">
 			<div class="story" style="background: {story.pages[0].background}">
-				<!-- {#if story.pages[0].elements?.length}
+				{#if story.pages[0].elements?.length}
 					{#each story.pages[0].elements as element}
 						<ImgElement {element} />
 					{/each}
-				{/if} -->
+				{/if}
 				<h1>
 					{story.title}
 				</h1>
 			</div>
 		</a>
-	{/each}
+	{/each} -->
 </div>
 
 <style lang="scss">
