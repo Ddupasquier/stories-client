@@ -19,8 +19,9 @@
 			loading = true;
 			const { user } = session;
 
-      // user.id is a string
+			// user.id is a string
 			console.log(user.id, typeof user.id, 'get');
+			console.log(user)
 
 			const { data, error, status } = await supabase
 				.from('profiles')
@@ -28,8 +29,9 @@
 				.eq('id', user.id)
 				.single();
 
-      // data is an object but is for some reason null
+			// data is type of object null
 			console.log(data, error, status);
+			console.log('d4e8e930-d21b-4aa9-9639-24ac4fc952e6' === 'd4e8e930-d21b-4aa9-9639-24ac4fc952e6')
 
 			if (error && status !== 406) throw error;
 
@@ -61,6 +63,9 @@
 				avatarUrl,
 				updatedAt: new Date().toISOString()
 			};
+
+			// This logs as a string
+			console.log(typeof updates.id);
 
 			let { error } = await supabase.from('profiles').upsert(updates);
 
