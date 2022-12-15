@@ -24,34 +24,24 @@ interface TextElement extends PageElement {
 }
 
 interface Page {
+	storyId: { id: number; profileId: { username: string }; title: string };
 	id: number;
 	background: string; // a hex value,
-	elements?: PageElement[];
 }
 
 interface Story {
 	id: number;
 	title: string;
-	author: string;
-	pages: Page[];
-	0: Story;
-}
-
-interface SVGAsset {
-	id: string; // unique id
-	label: string;
-	// data: // svg data
+	author?: string;
+	pages?: Page[];
 }
 
 interface StoryProps {
-	[x: string]: unknown;
 	story: Story;
 }
 
 interface PageProps {
-	story: Story;
-	background: string;
-	page: Page;
+	pages: Page[];
 }
 
 interface PageInfoProps {

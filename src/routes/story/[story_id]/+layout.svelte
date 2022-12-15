@@ -1,6 +1,6 @@
 <script lang="ts">
 	/** @type {import('./$types').PageData} */
-	export let data: StoryProps;
+	export let data: PageProps;
 
 	import Toolbar from '$lib/components/Toolbar.svelte';
 	import Slider from '$lib/components/Slider.svelte';
@@ -14,16 +14,16 @@
 </script>
 
 <svelte:head>
-	<title>{data.story[0]?.title}</title>
+	<title>{data.pages[0].storyId.title}</title>
 	<meta name="description" content="View [this story]" />
 </svelte:head>
 
 <h2>
-	{data.story[0]?.title} by {data.story[0]?.author}
+	<!-- {data.story[0]?.title} by {data.story[0]?.author} -->
 </h2>
 <div class="story-container">
 	<Toolbar />
-	<slot />
+	<slot {data}/>
 	<Slider {data} />
 </div>
 <!-- <button class="save" on:click={() => saveChanges()}>SAVE</button> -->

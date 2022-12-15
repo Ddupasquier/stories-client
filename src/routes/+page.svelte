@@ -1,11 +1,25 @@
 <script lang="ts">
+	import { user, id, name } from '$lib/stores/userStore';
 	import { onMount } from 'svelte';
 	import { supabase } from '$lib/supabase';
 	import type { AuthSession } from '@supabase/supabase-js';
-	import Profile from '$lib/views/profile/Profile.svelte';
-	import Auth from '$lib/views/auth/Auth.svelte';
+	import Profile from '$lib/components/profile/Profile.svelte';
+	import Auth from '$lib/components/auth/Auth.svelte';
+	import StoryCard from '$lib/components/StoryCard.svelte';
 
-	let session: AuthSession;
+	let session: AuthSession | null;
+	let stories: Story[] = [];
+	let background: string = 'white';
+
+	const getMyStories = async () => {
+		const { data, error } = await supabase.from('stories').select('id, title').eq('profileId', $id);
+
+		if (error) {
+			throw new Error(error.message);
+		} else {
+			stories = data;
+		}
+	};
 
 	onMount(() => {
 		supabase.auth.getSession().then(({ data }) => {
@@ -15,55 +29,51 @@
 		supabase.auth.onAuthStateChange((_event, _session) => {
 			session = _session;
 		});
+
+		setTimeout(async () => {
+			await getMyStories();
+		}, 500);
 	});
 </script>
 
 <svelte:head>
-	<title>Home</title>
+	<title>{$user ? `${$user}'s Stories` : 'Your stories'}</title>
 	<meta name="description" content="Svelte demo app" />
 </svelte:head>
 
-<div class="stories">
-	<div class="container" style="padding: 50px 0 100px 0">
-		{#if !session}
-			<Auth />
-		{:else}
-			<Profile {session} />
-		{/if}
-	</div>
-	<!-- {#each data.stories as story}
-		<a href="/story/{story.id}">
-			<div class="story" style="background: {story.pages[0].background}">
-				{#if story.pages[0].elements?.length}
-					{#each story.pages[0].elements as element}
-						<ImgElement {element} />
-					{/each}
-				{/if}
-				<h1>
-					{story.title}
-				</h1>
-			</div>
-		</a>
-	{/each} -->
+<div class="container">
+	{#if !session}
+		<Auth />
+	{:else}
+		<Profile {session} />
+		<div class="stories">
+			{#if stories.length}
+				{#each stories as story}
+					<StoryCard {story} />
+				{/each}
+			{/if}
+		</div>
+	{/if}
 </div>
 
 <style lang="scss">
+	.container {
+		display: flex;
+		flex-flow: column wrap;
+		justify-content: center;
+		align-items: center;
+		align-self: center;
+		gap: 2rem;
+		width: 100%;
+	}
+
 	.stories {
 		display: flex;
 		flex-flow: row wrap;
-		justify-content: space-evenly;
+		justify-content: center;
+		align-items: center;
 		align-self: center;
-		width: fit-content;
 		gap: 2rem;
-	}
-
-	.story {
-		border: black solid;
-		height: 200px;
-		aspect-ratio: 16/9;
-	}
-
-	h1 {
 		width: 100%;
 	}
 </style>

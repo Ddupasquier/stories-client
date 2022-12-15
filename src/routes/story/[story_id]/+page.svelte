@@ -1,6 +1,6 @@
 <script lang="ts">
 	import Canvas from '$lib/components/Canvas.svelte';
-	import { currentPageId, currentStory } from '$lib/stores/storyStore';
+	import { currentPageId } from '$lib/stores/storyStore';
 
 	let pageIndex: number;
 
@@ -8,14 +8,11 @@
 		pageIndex = value - 1;
 	});
 
-	/** @type {import('./$types').PageData} */
 	export let data: PageProps;
-
-	currentStory.set(data.story[0]);
 </script>
 
-<div style="background: {data.story[0]?.pages[pageIndex].background}">
-	<Canvas info={data.story[0]?.pages[pageIndex]} />
+<div style="background: {data.pages[pageIndex].background}">
+	<Canvas info={data.pages[pageIndex]} />
 </div>
 
 <style lang="scss">

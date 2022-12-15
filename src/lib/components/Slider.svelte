@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { currentPageId } from '$lib/stores/storyStore';
 	/** @type {import('./$types').PageData} */
-	export let data: StoryProps;
+	export let data: PageProps;
 
 	const changePageId = (id: number) => {
 		currentPageId.set(id);
@@ -9,7 +9,8 @@
 </script>
 
 <div class="container">
-	{#each data.story[0].pages as page, i}
+	{#each data.pages as page, i}
+		
 		<!-- svelte-ignore a11y-click-events-have-key-events -->
 		<div
 			style={`background: ${page.background}`}

@@ -1,14 +1,22 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
+	import { user, name, avatar, id} from '$lib/stores/userStore';
 	import type { AuthSession } from '@supabase/supabase-js';
 	import { supabase } from '$lib/supabase';
 
 	export let session: AuthSession;
 
-	let loading = false;
+	let profileLoading = false;
 	let username: string | null = null;
 	let fullName: string | null = null;
 	let avatarUrl: string | null = null;
+
+	const updateUserStore = (a: string, b: string, c: string, d: string) => {
+		user.set(a);
+		name.set(b);
+		avatar.set(c);
+		id.set(d)
+	}
 
 	onMount(() => {
 		getProfile();
@@ -16,12 +24,9 @@
 
 	const getProfile = async () => {
 		try {
-			loading = true;
-			const { user } = session;
+			profileLoading = true;
 
-			// user.id is a string
-			console.log(user.id, typeof user.id, 'get');
-			console.log(user)
+			const { user } = session;
 
 			const { data, error, status } = await supabase
 				.from('profiles')
@@ -29,32 +34,27 @@
 				.eq('id', user.id)
 				.single();
 
-			// data is type of object null
-			console.log(data, error, status);
-			console.log('d4e8e930-d21b-4aa9-9639-24ac4fc952e6' === 'd4e8e930-d21b-4aa9-9639-24ac4fc952e6')
-
 			if (error && status !== 406) throw error;
 
 			if (data) {
 				username = data.username;
 				fullName = data.fullName;
 				avatarUrl = data.avatarUrl;
+				updateUserStore(data.username, data.fullName, data.avatarUrl, user.id)
 			}
 		} catch (error) {
 			if (error instanceof Error) {
 				alert(error.message);
 			}
 		} finally {
-			loading = false;
+			profileLoading = false;
 		}
 	};
 
 	const updateProfile = async () => {
 		try {
-			loading = true;
+			profileLoading = true;
 			const { user } = session;
-
-			console.log(user.id, 'update');
 
 			const updates = {
 				id: user.id,
@@ -63,9 +63,6 @@
 				avatarUrl,
 				updatedAt: new Date().toISOString()
 			};
-
-			// This logs as a string
-			console.log(typeof updates.id);
 
 			let { error } = await supabase.from('profiles').upsert(updates);
 
@@ -77,7 +74,7 @@
 				alert(error.message);
 			}
 		} finally {
-			loading = false;
+			profileLoading = false;
 		}
 	};
 </script>
@@ -94,11 +91,11 @@
 	</div>
 	<div>
 		<label for="avatar_url">Avatar</label>
-		<input id="avatar_url" type="text" placeholder={avatarUrl} bind:value={avatarUrl} required />
+		<input id="avatar_url" type="text" placeholder={avatarUrl} bind:value={avatarUrl} />
 	</div>
 	<div>
-		<button type="submit" disabled={loading}>
-			{loading ? 'Saving ...' : 'Update profile'}
+		<button type="submit" disabled={profileLoading}>
+			{profileLoading ? 'Saving ...' : 'Update profile'}
 		</button>
 	</div>
 	<button type="button" on:click={() => supabase.auth.signOut()}> Sign Out </button>

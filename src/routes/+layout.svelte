@@ -24,9 +24,8 @@
 		flex: 1;
 		display: flex;
 		flex-direction: column;
-		/* justify-content: center; */
 		align-items: center;
-		padding: 1rem;
+		padding: 1rem 4rem;
 	}
 
 	footer {

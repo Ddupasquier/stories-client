@@ -1,19 +1,17 @@
 <script>
 	import { page } from '$app/stores';
+	import { user } from '$lib/stores/userStore';
 </script>
 
 <header>
 	<nav>
 		<ul>
 			<li aria-current={$page.url.pathname === '/' ? 'page' : undefined}>
-				<a href="/">Browse Stories</a>
+				<a href="/">{$user ? $user : 'Profile'}</a>
 			</li>
-			<!-- <li aria-current={$page.url.pathname === '/create' ? 'page' : undefined}>
+			<li aria-current={$page.url.pathname === '/create' ? 'page' : undefined}>
 				<a href="/create">Create</a>
-			</li> -->
-			<!-- <li aria-current={$page.url.pathname === '/profile' ? 'page' : undefined}>
-				<a href="/profile">Profile</a>
-			</li> -->
+			</li>
 		</ul>
 	</nav>
 </header>

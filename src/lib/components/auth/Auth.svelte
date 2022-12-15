@@ -15,7 +15,6 @@
         alert(error.message)
       }
     } finally {
-      console.log('logged in')
       loading = false
     }
   }
