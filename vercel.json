@@ -1,8 +1,11 @@
 {
-	"build": {
-		"env": {
-                  "VITE_SUPABASE_URL": "@VITE_SUPABASE_URL",
-			"MY_API_KEY": "@VITE_SUPABASE_ANON_KEY"
-		}
-	}
+      "builds": [
+        {
+          "src": "package.json",
+          "use": "@vercel/next",
+          "config": {
+            "env": ["process.env.VITE_SUPABASE_URL", "process.env.VITE_SUPABASE_ANON_KEY"]
+          }
+        }
+      ]
 }
