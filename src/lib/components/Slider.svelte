@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { currentPageId } from '$lib/stores/storyStore';
+	import { currentPageId, pageId } from '$lib/stores/storyStore';
 	/** @type {import('./$types').PageData} */
 	export let data: PageProps;
 
@@ -10,12 +10,14 @@
 
 <div class="container">
 	{#each data.pages as page, i}
-		
 		<!-- svelte-ignore a11y-click-events-have-key-events -->
 		<div
 			style={`background: ${page.background}`}
 			class="page-selection"
-			on:click={() => changePageId(i + 1)}
+			on:click={() => {
+				changePageId(i + 1);
+				pageId.set(page.id);
+			}}
 		/>
 	{/each}
 </div>

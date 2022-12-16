@@ -4,7 +4,8 @@
 	import ImgElement from '$lib/components/ImgElement.svelte';
 
 	let pageIndex: number;
-	import { currentPageId } from '$lib/stores/storyStore';
+
+	import { currentPageId, pageId } from '$lib/stores/storyStore';
 
 	currentPageId.subscribe((value) => {
 		pageIndex = value;
@@ -12,10 +13,14 @@
 
 	export let info: PageInfoProps;
 
-	let elements: PageElement[] = []
+	let elements: PageElement[] = [];
+	$: console.log(elements);
 
 	const getElements = async () => {
-		const { data, error } = await supabase.from('elements').select().eq('pageId', info.storyId.id - 1);
+		const { data, error } = await supabase
+			.from('elements')
+			.select()
+			.eq('pageId', info.storyId.id - 1);
 
 		if (error) {
 			throw new Error(error.message);
@@ -32,7 +37,9 @@
 <div class="canvas">
 	{#if elements}
 		{#each elements as element}
-			<ImgElement {element} />
+			{#if Number(element.pageId) === Number($pageId)}
+				<ImgElement {element} />
+			{/if}
 		{/each}
 	{/if}
 	Page {pageIndex}
