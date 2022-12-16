@@ -42,7 +42,9 @@
 			{/if}
 		{/each}
 	{/if}
-	Page {pageIndex}
+	<div class="page">
+		Page {pageIndex}
+	</div>
 </div>
 
 <style lang="scss">
@@ -51,5 +53,20 @@
 		width: 100%;
 		height: 100%;
 		overflow: hidden;
+	}
+
+	.page {
+		position: absolute;
+		bottom: 0;
+		right: 0;
+		width: fit-content;
+		height: fit-content;
+		background-color: rgba(255, 255, 255, 0.493);
+		border-radius: 50%;
+		color: rgb(0, 0, 0);
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		font-size: 2rem;
 	}
 </style>
