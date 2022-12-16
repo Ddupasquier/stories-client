@@ -1,10 +1,10 @@
 <script lang="ts">
 	import Canvas from '$lib/components/Canvas.svelte';
-	import { currentPageId } from '$lib/stores/storyStore';
+	import { currentPageIndex } from '$lib/stores/storyStore';
 
 	let pageIndex: number;
 
-	currentPageId.subscribe((value) => {
+	currentPageIndex.subscribe((value) => {
 		pageIndex = value - 1;
 	});
 

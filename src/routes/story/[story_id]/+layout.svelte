@@ -4,10 +4,10 @@
 
 	import Toolbar from '$lib/components/Toolbar.svelte';
 	import Slider from '$lib/components/Slider.svelte';
-	import { currentPageId } from '$lib/stores/storyStore';
+	import { currentPageIndex } from '$lib/stores/storyStore';
 
 	const changePageId = (id: number) => {
-		currentPageId.set(id);
+		currentPageIndex.set(id);
 	};
 
 	changePageId(1);
@@ -23,11 +23,11 @@
 </h2>
 <div class="story-container">
 	<Toolbar />
-	<slot {data}/>
+	<slot {data} />
 	<Slider {data} />
 </div>
-<!-- <button class="save" on:click={() => saveChanges()}>SAVE</button> -->
 
+<!-- <button class="save" on:click={() => saveChanges()}>SAVE</button> -->
 <style lang="scss">
 	h2 {
 		font-size: 1.5rem;

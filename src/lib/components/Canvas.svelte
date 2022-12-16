@@ -5,9 +5,9 @@
 
 	let pageIndex: number;
 
-	import { currentPageId, pageId } from '$lib/stores/storyStore';
+	import { currentPageIndex, pageId } from '$lib/stores/storyStore';
 
-	currentPageId.subscribe((value) => {
+	currentPageIndex.subscribe((value) => {
 		pageIndex = value;
 	});
 
@@ -57,16 +57,18 @@
 
 	.page {
 		position: absolute;
-		bottom: 0;
-		right: 0;
+		bottom: 1rem;
+		right: 1rem;
 		width: fit-content;
-		height: fit-content;
+		aspect-ratio: 1/1;
+		padding: 0.5rem;
 		background-color: rgba(255, 255, 255, 0.493);
 		border-radius: 50%;
 		color: rgb(0, 0, 0);
 		display: flex;
 		justify-content: center;
 		align-items: center;
-		font-size: 2rem;
+		font-size: 1rem;
+		font-weight: 600;
 	}
 </style>

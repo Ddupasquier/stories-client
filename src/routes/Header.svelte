@@ -12,6 +12,9 @@
 			<li aria-current={$page.url.pathname === '/create' ? 'page' : undefined}>
 				<a href="/create">Create</a>
 			</li>
+			<li aria-current={$page.url.pathname === '/browse' ? 'page' : undefined}>
+				<a href="/browse">Browse</a>
+			</li>
 		</ul>
 	</nav>
 </header>

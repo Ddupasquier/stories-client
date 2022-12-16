@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { currentStory, currentPageId } from '$lib/stores/storyStore';
+	import { currentStory, currentPageIndex } from '$lib/stores/storyStore';
 	import { supabase } from '$lib/supabase';
 	import { onMount } from 'svelte';
 
@@ -23,7 +23,7 @@
 		story = value;
 	});
 
-	currentPageId.subscribe((value) => {
+	currentPageIndex.subscribe((value) => {
 		page = value;
 	});
 

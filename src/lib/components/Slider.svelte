@@ -1,10 +1,10 @@
 <script lang="ts">
-	import { currentPageId, pageId } from '$lib/stores/storyStore';
+	import { currentPageIndex, pageId } from '$lib/stores/storyStore';
 	/** @type {import('./$types').PageData} */
 	export let data: PageProps;
 
 	const changePageId = (id: number) => {
-		currentPageId.set(id);
+		currentPageIndex.set(id);
 	};
 </script>
 
