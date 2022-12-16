@@ -12,12 +12,16 @@
 	let background: string = 'white';
 
 	const getMyStories = async () => {
-		const { data, error } = await supabase.from('stories').select('id, title').eq('profileId', $id);
-
-		if (error) {
-			throw new Error(error.message);
-		} else {
-			stories = data;
+		if ($id) {
+			const { data, error } = await supabase
+				.from('stories')
+				.select('id, title')
+				.eq('profileId', $id);
+			if (error) {
+				throw new Error(error.message);
+			} else {
+				stories = data;
+			}
 		}
 	};
 
