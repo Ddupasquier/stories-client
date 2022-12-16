@@ -1,11 +1,5 @@
 {
-      "builds": [
-        {
-          "src": "package.json",
-          "use": "@vercel/next",
-          "config": {
-            "env": ["process.env.VITE_SUPABASE_URL", "process.env.VITE_SUPABASE_ANON_KEY"]
-          }
-        }
-      ]
+	"config": {
+		"env": ["process.env.VITE_SUPABASE_URL", "process.env.VITE_SUPABASE_ANON_KEY"]
+	}
 }
