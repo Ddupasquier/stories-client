@@ -4,7 +4,7 @@
 	import { onMount } from 'svelte';
 
 	export let element: PageElement;
-	console.log(element)
+	console.log(element);
 
 	const getElement = async () => {
 		const { data } = supabase.storage.from('svg-assets').getPublicUrl(element.elementName);
@@ -30,6 +30,7 @@
 
 	$: top = element.y;
 	$: left = element.x;
+	$: console.log(top, left);
 
 	let moving = false;
 
@@ -43,13 +44,26 @@
 			top += e.movementY / 12;
 		}
 	};
+
+	const savePosition = async (top: number, left: number) => {
+		const { data, error } = await supabase
+			.from('elements')
+			.update({ x: left, y: top })
+			.eq('id', element.id);
+
+		if (error) {
+			throw new Error(error.message);
+		}
+
+		console.log('saved');
+	};
 </script>
 
 <svelte:window
 	on:mousemove={move}
 	on:mouseup={() => {
 		moving = false;
-		// savePosition(story, page, element, top, left);
+		savePosition(top, left);
 	}}
 />
 
