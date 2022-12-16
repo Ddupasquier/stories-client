@@ -1,6 +1,6 @@
 <script lang="ts">
-	import { user, id, name } from '$lib/stores/userStore';
-	import {storyToDelete, deleteIsOpen} from '$lib/stores/modalStore';
+	import { user, id } from '$lib/stores/userStore';
+	import { deleteIsOpen } from '$lib/stores/modalStore';
 	import { onMount } from 'svelte';
 	import { supabase } from '$lib/supabase';
 	import type { AuthSession } from '@supabase/supabase-js';

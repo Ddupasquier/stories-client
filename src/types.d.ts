@@ -30,6 +30,7 @@ interface Page {
 }
 
 interface Story {
+	profileId?: number;
 	id: number;
 	title: string;
 	author?: string;

@@ -1,14 +1,18 @@
 <script lang="ts">
 	import { supabase } from '$lib/supabase';
+	import { user } from '$lib/stores/userStore';
 	import Header from './Header.svelte';
 	import './styles.scss';
+	import { signout } from '$lib/services/auth';
 </script>
 
 <div class="app">
 	<Header />
-	<button type="button" on:click={() => supabase.auth.signOut()} class="button logout">
-		Sign Out
-	</button>
+	{#if $user}
+		<button type="button" on:click={() => {supabase.auth.signOut(); signout()}} class="button logout">
+			Sign Out
+		</button>
+	{/if}
 
 	<main>
 		<slot />

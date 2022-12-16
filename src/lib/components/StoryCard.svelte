@@ -2,10 +2,12 @@
 	import { page } from '$app/stores';
 	import { onMount } from 'svelte';
 	import { supabase } from '$lib/supabase';
+	import { downloadAvatar } from '$lib/services/getImages';
 
 	import { storyToDelete, deleteIsOpen } from '$lib/stores/modalStore';
 
 	export let story: Story;
+	console.log(story);
 
 	let background: string = '';
 
@@ -25,6 +27,7 @@
 
 	onMount(async () => {
 		await getFirstPageBackground(story.id);
+		// await downloadAvatar(story.profileId?.avatarUrl);
 	});
 </script>
 
