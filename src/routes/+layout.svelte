@@ -1,10 +1,14 @@
 <script lang="ts">
+	import { supabase } from '$lib/supabase';
 	import Header from './Header.svelte';
 	import './styles.scss';
 </script>
 
 <div class="app">
 	<Header />
+	<button type="button" on:click={() => supabase.auth.signOut()} class="button logout">
+		Sign Out
+	</button>
 
 	<main>
 		<slot />
@@ -34,6 +38,12 @@
 		justify-content: center;
 		align-items: center;
 		padding: 12px;
+	}
+
+	.logout {
+		position: absolute;
+		top: 1rem;
+		right: 1rem;
 	}
 
 	/* footer a {

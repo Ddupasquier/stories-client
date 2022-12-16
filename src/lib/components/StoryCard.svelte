@@ -1,6 +1,10 @@
 <script lang="ts">
+	import { page } from '$app/stores';
 	import { onMount } from 'svelte';
 	import { supabase } from '$lib/supabase';
+
+	import { storyToDelete, deleteIsOpen } from '$lib/stores/modalStore';
+
 	export let story: Story;
 
 	let background: string = '';
@@ -24,27 +28,54 @@
 	});
 </script>
 
-<a href="/story/{story.id}">
-	<div class="story" style="background: {background}">
-		<!-- {#if story.pages[0].elements?.length}
-								{#each story.pages[0].elements as element}
-									<ImgElement {element} />
-								{/each}
-							{/if} -->
-		<h1>
-			{story.title}
-		</h1>
-	</div>
-</a>
+<div class="container">
+	<a href="/story/{story.id}/view">
+		<div class="story" style="background: {background}">
+			<h1>
+				{story.title}
+			</h1>
+		</div>
+	</a>
+	{#if $page.route.id === '/'}
+		<div class="controls">
+			<a href="/story/{story.id}/edit">Edit</a> |
+			<!-- svelte-ignore a11y-invalid-attribute -->
+			<a
+				href=""
+				on:click={() => {
+					storyToDelete.set(story);
+					deleteIsOpen.set(true);
+				}}>Delete</a
+			>
+		</div>
+	{/if}
+</div>
 
 <style lang="scss">
+	.container {
+		box-shadow: -5px -5px 25px #5a5a5a, 5px 5px 25px #ffffff;
+	}
 	.story {
-		border: black solid;
+		position: relative;
+		border-image: linear-gradient(45deg, purple, orange) 1;
+		border-style: solid;
+		border-width: 0.5rem 0;
 		height: 200px;
 		aspect-ratio: 16/9;
 	}
 
+	.controls {
+		text-align: center;
+		background: rgba(199, 199, 199, 0.205);
+		padding: 0.5rem;
+		border-radius: 0.5rem;
+	}
+
 	h1 {
-		width: 100%;
+		position: absolute;
+		top: -2.5rem;
+		left: -1rem;
+		background: purple;
+		padding: 0 1rem;
 	}
 </style>

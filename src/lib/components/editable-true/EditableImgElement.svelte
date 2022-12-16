@@ -3,6 +3,8 @@
 	import { supabase } from '$lib/supabase';
 	import { onMount } from 'svelte';
 
+	import Loading from '$lib/components/Loading.svelte';
+
 	export let element: PageElement;
 
 	const getElement = async () => {
@@ -11,9 +13,14 @@
 	};
 
 	let image: { publicUrl: string };
+	let loading = true;
 
 	onMount(async () => {
 		image = await getElement();
+
+		setTimeout(() => {
+			loading = false;
+		}, 1000);
 	});
 
 	let story: object;
@@ -70,6 +77,9 @@
 	style="position: absolute; top: {top + '%'}; left: {left +
 		'%'}; z-index: {element.zIndex}; height: {element.size + '%'};"
 >
+	{#if loading}
+		<Loading />
+	{/if}
 	{#if image}
 		<img src={image.publicUrl} alt={element.elementName} />
 	{/if}

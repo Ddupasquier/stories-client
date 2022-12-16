@@ -1,15 +1,16 @@
 <script lang="ts">
 	import { user, id, name } from '$lib/stores/userStore';
+	import {storyToDelete, deleteIsOpen} from '$lib/stores/modalStore';
 	import { onMount } from 'svelte';
 	import { supabase } from '$lib/supabase';
 	import type { AuthSession } from '@supabase/supabase-js';
 	import Profile from '$lib/components/profile/Profile.svelte';
 	import Auth from '$lib/components/auth/Auth.svelte';
 	import StoryCard from '$lib/components/StoryCard.svelte';
+	import DeleteModal from '$lib/components/modals/DeleteModal.svelte';
 
 	let session: AuthSession | null;
 	let stories: Story[] = [];
-	let background: string = 'white';
 
 	const getMyStories = async () => {
 		if ($id) {
@@ -60,6 +61,10 @@
 	{/if}
 </div>
 
+{#if $deleteIsOpen}
+	<DeleteModal />
+{/if}
+
 <style lang="scss">
 	.container {
 		display: flex;
@@ -77,7 +82,7 @@
 		justify-content: center;
 		align-items: center;
 		align-self: center;
-		gap: 2rem;
+		gap: 5rem;
 		width: 100%;
 	}
 </style>

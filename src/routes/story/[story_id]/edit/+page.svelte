@@ -1,5 +1,5 @@
 <script lang="ts">
-	import Canvas from '$lib/components/Canvas.svelte';
+	import Canvas from '$lib/components/editable-true/EditableCanvas.svelte';
 	import { currentPageIndex } from '$lib/stores/storyStore';
 
 	let pageIndex: number;

@@ -23,7 +23,7 @@
 		justify-content: center;
 		align-items: center;
 		align-self: center;
-		gap: 2rem;
+		gap: 5rem;
 		width: 100%;
 	}
 </style>

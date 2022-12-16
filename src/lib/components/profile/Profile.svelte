@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
-	import { user, name, avatar, id} from '$lib/stores/userStore';
+	import { user, name, avatar, id } from '$lib/stores/userStore';
 	import type { AuthSession } from '@supabase/supabase-js';
 	import { supabase } from '$lib/supabase';
 
@@ -15,8 +15,8 @@
 		user.set(a);
 		name.set(b);
 		avatar.set(c);
-		id.set(d)
-	}
+		id.set(d);
+	};
 
 	onMount(() => {
 		getProfile();
@@ -40,7 +40,7 @@
 				username = data.username;
 				fullName = data.fullName;
 				avatarUrl = data.avatarUrl;
-				updateUserStore(data.username, data.fullName, data.avatarUrl, user.id)
+				updateUserStore(data.username, data.fullName, data.avatarUrl, user.id);
 			}
 		} catch (error) {
 			if (error instanceof Error) {
@@ -80,23 +80,61 @@
 </script>
 
 <form on:submit|preventDefault={updateProfile}>
-	<div>Email: {session.user.email}</div>
+	<div><b>Email: {session.user.email}</b></div>
 	<div>
 		<label for="username">Username</label>
-		<input id="username" type="text" placeholder={username} bind:value={username} required />
+		<input
+			id="username"
+			type="text"
+			placeholder={username}
+			bind:value={username}
+			class="input"
+			required
+		/>
 	</div>
 	<div>
 		<label for="full_name">Full Name</label>
-		<input id="full_name" type="text" placeholder={fullName} bind:value={fullName} required />
+		<input
+			id="full_name"
+			type="text"
+			placeholder={fullName}
+			bind:value={fullName}
+			class="input"
+			required
+		/>
 	</div>
 	<div>
 		<label for="avatar_url">Avatar</label>
-		<input id="avatar_url" type="text" placeholder={avatarUrl} bind:value={avatarUrl} />
+		<input
+			id="avatar_url"
+			type="text"
+			placeholder={avatarUrl}
+			bind:value={avatarUrl}
+			class="input"
+		/>
 	</div>
-	<div>
-		<button type="submit" disabled={profileLoading}>
-			{profileLoading ? 'Saving ...' : 'Update profile'}
-		</button>
-	</div>
-	<button type="button" on:click={() => supabase.auth.signOut()}> Sign Out </button>
+	<button type="submit" disabled={profileLoading} class="button">
+		{profileLoading ? 'Saving ...' : 'Update profile'}
+	</button>
 </form>
+
+<style lang="scss">
+	form {
+		display: flex;
+		flex-flow: column nowrap;
+		justify-content: center;
+		align-items: center;
+		align-self: center;
+		gap: 1rem;
+		width: 100%;
+		max-width: 400px;
+		padding: 5rem;
+		div {
+			display: flex;
+			flex-flow: column nowrap;
+		}
+		button {
+			align-self: center;
+		}
+	}
+</style>

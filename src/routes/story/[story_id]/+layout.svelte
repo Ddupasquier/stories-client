@@ -1,5 +1,5 @@
 <script lang="ts">
-	/** @type {import('./$types').PageData} */
+	import { page } from '$app/stores';
 	export let data: PageProps;
 
 	import Toolbar from '$lib/components/Toolbar.svelte';
@@ -19,15 +19,16 @@
 </svelte:head>
 
 <h2>
-	<!-- {data.story[0]?.title} by {data.story[0]?.author} -->
+	<h2>{data.pages[0].storyId.title} by {data.pages[0].storyId.profileId.username}</h2>
 </h2>
 <div class="story-container">
-	<Toolbar />
+	{#if $page.route.id?.includes('/edit')}
+		<Toolbar />
+	{/if}
 	<slot {data} />
 	<Slider {data} />
 </div>
 
-<!-- <button class="save" on:click={() => saveChanges()}>SAVE</button> -->
 <style lang="scss">
 	h2 {
 		font-size: 1.5rem;

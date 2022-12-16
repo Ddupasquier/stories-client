@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { supabase } from '$lib/supabase';
 	import { onMount } from 'svelte';
-	import ImgElement from '$lib/components/ImgElement.svelte';
+	import ImgElement from '$lib/components/editable-false/NotEditableImgElement.svelte';
 
 	let pageIndex: number;
 
@@ -14,7 +14,6 @@
 	export let info: PageInfoProps;
 
 	let elements: PageElement[] = [];
-	$: console.log(elements);
 
 	const getElements = async () => {
 		const { data, error } = await supabase
@@ -53,6 +52,7 @@
 		width: 100%;
 		height: 100%;
 		overflow: hidden;
+		user-select: none;
 	}
 
 	.page {
@@ -70,5 +70,6 @@
 		align-items: center;
 		font-size: 1rem;
 		font-weight: 600;
+		user-select: none;
 	}
 </style>
