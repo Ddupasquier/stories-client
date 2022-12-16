@@ -80,7 +80,7 @@
 	{#if loading}
 		<Loading />
 	{/if}
-	{#if image}
+	{#if image && !loading}
 		<img src={image.publicUrl} alt={element.elementName} />
 	{/if}
 	<div class="move-icon" on:mousedown={startMoving}>Move</div>
