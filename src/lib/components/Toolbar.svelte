@@ -1,11 +1,31 @@
 <script lang="ts">
-	import { images } from '$lib/images';
+	// import { images } from '$lib/images';
+	import { onMount } from 'svelte';
+	import { supabase } from '$lib/supabase';
+
+	// const getAllImages = async () => {
+	// 	// const { data: svgAssets, error } = await supabase.storage.getBucket('svg-assets')
+	// 	const { data, error } = await supabase.storage.from('svg-assets').list()
+
+	// 	if (error) {
+	// 		console.log(error);
+	// 	} else {
+	// 		console.log(data);
+	// 		return data;
+	// 	}
+	// };
+
+	// let images = [];
+
+	// onMount(async () => {
+	// 	images = await getAllImages();
+	// });
 </script>
 
 <div class="container">
-	{#each images as image}
+	<!-- {#each images as image}
 		<img src={image.src} alt={image.name} class="toolbar-item" />
-	{/each}
+	{/each} -->
 </div>
 
 <style lang="scss">

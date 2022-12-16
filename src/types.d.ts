@@ -45,6 +45,7 @@ interface PageProps {
 }
 
 interface PageInfoProps {
+	storyId: any;
 	id: number;
 	background: string;
 	elements?: PageElement[];

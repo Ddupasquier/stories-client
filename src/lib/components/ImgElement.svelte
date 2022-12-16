@@ -1,20 +1,21 @@
 <script lang="ts">
-	export let element: PageElement;
-
-	import { images } from '$lib/images';
 	import { currentStory, currentPageId } from '$lib/stores/storyStore';
+	import { supabase } from '$lib/supabase';
+	import { onMount } from 'svelte';
 
-	interface Image {
-		id: number;
-		name: string;
-		src: string;
-	}
+	export let element: PageElement;
+	console.log(element)
 
-	const findImage = (id: string) => {
-		return images.find((image) => image.id === Number(id));
+	const getElement = async () => {
+		const { data } = supabase.storage.from('svg-assets').getPublicUrl(element.elementName);
+		return data;
 	};
 
-	$: image = findImage(element.elementId);
+	let image: { publicUrl: string };
+
+	onMount(async () => {
+		image = await getElement();
+	});
 
 	let story: object;
 	let page: number;
@@ -57,7 +58,9 @@
 	style="position: absolute; top: {top + '%'}; left: {left +
 		'%'}; z-index: {element.zIndex}; height: {element.size + '%'};"
 >
-	<img src={image.src} alt={image.name} />
+	{#if image}
+		<img src={image.publicUrl} alt={element.elementName} />
+	{/if}
 	<div class="move-icon" on:mousedown={startMoving}>Move</div>
 </div>
 

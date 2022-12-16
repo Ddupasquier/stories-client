@@ -1,4 +1,8 @@
 <script lang="ts">
+	import { supabase } from '$lib/supabase';
+	import { onMount } from 'svelte';
+	import ImgElement from '$lib/components/ImgElement.svelte';
+
 	let pageIndex: number;
 	import { currentPageId } from '$lib/stores/storyStore';
 
@@ -7,9 +11,22 @@
 	});
 
 	export let info: PageInfoProps;
-	import ImgElement from '$lib/components/ImgElement.svelte';
 
-	$: elements = info?.elements;
+	let elements: PageElement[] = []
+
+	const getElements = async () => {
+		const { data, error } = await supabase.from('elements').select().eq('pageId', info.storyId.id - 1);
+
+		if (error) {
+			throw new Error(error.message);
+		} else {
+			return data;
+		}
+	};
+
+	onMount(async () => {
+		elements = await getElements();
+	});
 </script>
 
 <div class="canvas">
