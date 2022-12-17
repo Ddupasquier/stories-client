@@ -2,6 +2,7 @@
 	import { onMount } from 'svelte';
 	import { supabase } from '$lib/supabase';
 	import { convToPublicUrl } from '$lib/utils';
+	import { pageId } from '$lib/stores/storyStore';
 	import Loading from './Loading.svelte';
 
 	const getAllImages = async () => {
@@ -11,6 +12,24 @@
 			throw new Error(error.message);
 		} else {
 			return data;
+		}
+	};
+
+	const addElementToPage = async (name: string) => {
+		const { error } = await supabase.from('elements').insert([
+			{
+				elementName: name,
+				pageId: $pageId,
+				x: 50,
+				y: 50,
+				zIndex: 0,
+				size: 30,
+				type: 'svg'
+			}
+		]);
+
+		if (error) {
+			throw new Error(error.message);
 		}
 	};
 
@@ -32,7 +51,19 @@
 			{#if loading}
 				<Loading />
 			{:else}
-				<img src={convToPublicUrl(image)} alt={image.name} class="toolbar-item" />
+				<!-- svelte-ignore a11y-click-events-have-key-events -->
+				<img
+					src={convToPublicUrl(image)}
+					alt={image.name}
+					title={image.name}
+					class="toolbar-item"
+					on:click={() => {
+						addElementToPage(image.name);
+						// setTimeout(() => {
+						// 	window.location.reload();
+						// }, 100);
+					}}
+				/>
 			{/if}
 		{/if}
 	{/each}
@@ -45,7 +76,6 @@
 		justify-content: start;
 		align-items: center;
 		gap: 1rem;
-		width: 100%;
 		padding: 0 1rem;
 		background: #222;
 		color: white;

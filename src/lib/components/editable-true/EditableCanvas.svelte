@@ -1,44 +1,32 @@
 <script lang="ts">
-	import { supabase } from '$lib/supabase';
+	import { getElements } from '$lib/services/getImages';
 	import { onMount } from 'svelte';
 	import ImgElement from '$lib/components/editable-true/EditableImgElement.svelte';
 
 	let pageIndex: number;
 
 	import { currentPageIndex, pageId } from '$lib/stores/storyStore';
+	$: console.log('pageId', $pageId)
 
 	currentPageIndex.subscribe((value) => {
 		pageIndex = value;
 	});
 
 	export let info: PageInfoProps;
-	console.log(info)
 
 	let elements: PageElement[] = [];
 
-	const getElements = async () => {
-		const { data, error } = await supabase
-			.from('elements')
-			.select()
-			.eq('pageId', info.id);
-
-		if (error) {
-			throw new Error(error.message);
-		} else {
-			return data;
-		}
-	};
-
 	onMount(async () => {
-		elements = await getElements();
+		pageId.set(info.id);
+		elements = await getElements(info.id);
 	});
 </script>
 
 <div class="canvas">
 	{#if elements}
-		{#each elements as element}
+		{#each elements as element }
 			{#if Number(element.pageId) === Number($pageId)}
-				<ImgElement {element} />
+				<ImgElement {element}  />
 			{/if}
 		{/each}
 	{/if}

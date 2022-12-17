@@ -12,7 +12,7 @@
 </script>
 
 <div style="background: {data.pages[pageIndex].background}">
-	<Canvas info={data.pages[pageIndex]} />
+	<Canvas info={data.pages[pageIndex]}/>
 </div>
 
 <style lang="scss">

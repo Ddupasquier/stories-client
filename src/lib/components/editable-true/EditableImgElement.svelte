@@ -6,6 +6,7 @@
 	import Loading from '$lib/components/Loading.svelte';
 
 	export let element: PageElement;
+	console.log(element);
 
 	const getElement = async () => {
 		const { data } = supabase.storage.from('svg-assets').getPublicUrl(element.elementName);
@@ -45,7 +46,7 @@
 
 	const move = (e: { movementX: number; movementY: number }) => {
 		if (moving) {
-			left += e.movementX / 12;
+			left += e.movementX / 20;
 			top += e.movementY / 12;
 		}
 	};
@@ -55,6 +56,18 @@
 			.from('elements')
 			.update({ x: left, y: top })
 			.eq('id', element.id);
+
+		if (error) {
+			throw new Error(error.message);
+		}
+	};
+
+	const deleteElement = async (
+		e: MouseEvent & { currentTarget: EventTarget & HTMLImageElement },
+		id: string | undefined
+	) => {
+		e.preventDefault();
+		const { error } = await supabase.from('elements').delete().eq('id', id);
 
 		if (error) {
 			throw new Error(error.message);
@@ -72,16 +85,21 @@
 
 <div
 	class="canvas-element"
-	style="position: absolute; top: {top + '%'}; left: {left +
-		'%'}; z-index: {element.zIndex}; height: {element.size + '%'};"
+	style="display: flex; justify-content: center; align-items: center; position: absolute; top: {top +
+		'%'}; left: {left + '%'}; z-index: {element.zIndex}; height: {element.size + '%'};"
 >
 	{#if loading}
 		<Loading />
 	{/if}
 	{#if image && !loading}
-		<img src={image.publicUrl} alt={element.elementName} />
+		<img
+			src={image.publicUrl}
+			alt={element.elementName}
+			on:mousedown={startMoving}
+			draggable="false"
+			on:contextmenu={(e) => deleteElement(e, element.id)}
+		/>
 	{/if}
-	<div class="move-icon" on:mousedown={startMoving}>Move</div>
 </div>
 
 <style lang="scss">
@@ -89,26 +107,7 @@
 		width: fit-content;
 		aspect-ratio: 1.1;
 		img {
-			width: 100%;
-			height: 100%;
 			user-select: none;
-		}
-
-		.move-icon {
-			position: absolute;
-			display: flex;
-			justify-content: center;
-			align-items: center;
-			top: 50%;
-			left: 48%;
-			transform: translate(-50%, -50%);
-			height: 80%;
-			width: 60%;
-			opacity: 0;
-			&:hover {
-				cursor: move;
-				opacity: 1;
-			}
 		}
 	}
 </style>

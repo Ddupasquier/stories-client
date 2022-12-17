@@ -16,3 +16,13 @@ export const downloadAvatar = async (path: string,) => {
 		}
 	}
 };
+
+export const getElements = async (pageId: number) => {
+	const { data, error } = await supabase.from('elements').select().eq('pageId', pageId);
+
+	if (error) {
+		throw new Error(error.message);
+	} else {
+		return data;
+	}
+};
