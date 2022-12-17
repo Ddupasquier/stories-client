@@ -59,8 +59,6 @@
 		if (error) {
 			throw new Error(error.message);
 		}
-
-		console.log('saved');
 	};
 </script>
 

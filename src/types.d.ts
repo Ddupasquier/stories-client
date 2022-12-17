@@ -51,3 +51,22 @@ interface PageInfoProps {
 	background: string;
 	elements?: PageElement[];
 }
+
+interface ImgURLmeta {
+	cacheControl?: string;
+	contentLength?: number;
+	eTag?: string;
+	httpStatusCode?: number;
+	lastModified?: string;
+	mimetype?: string;
+	size?: number;
+}
+
+interface ImgURL {
+	created_at: string;
+	id: string;
+	last_accessed_at: string;
+	metadata?: ImgURLmeta;
+	name: string;
+	updated_at: string;
+}

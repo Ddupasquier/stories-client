@@ -6,8 +6,7 @@
 
 <style lang="scss">
 	.spinner {
-		margin: 100px auto;
-		width: 70px;
+		width: fit-content;
 		text-align: center;
 	}
 

@@ -19,7 +19,7 @@
 		const { data, error } = await supabase
 			.from('elements')
 			.select()
-			.eq('pageId', info.storyId.id - 1);
+			.eq('pageId', info.id);
 
 		if (error) {
 			throw new Error(error.message);

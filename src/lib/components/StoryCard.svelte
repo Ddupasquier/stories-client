@@ -7,7 +7,6 @@
 	import { storyToDelete, deleteIsOpen } from '$lib/stores/modalStore';
 
 	export let story: Story;
-	console.log(story);
 
 	let background: string = '';
 
