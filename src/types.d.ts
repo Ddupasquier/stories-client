@@ -4,12 +4,13 @@
 declare namespace App {}
 
 interface PageElement {
-	[x: string]: string;
 	id?: string;
+	elementName: string;
 	x: number;
 	y: number;
 	zIndex: number;
 	size?: number;
+	pageId: number;
 }
 
 interface VisualElement extends PageElement {

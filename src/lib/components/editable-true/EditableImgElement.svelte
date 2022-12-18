@@ -6,7 +6,6 @@
 	import Loading from '$lib/components/Loading.svelte';
 
 	export let element: PageElement;
-	console.log(element);
 
 	const getElement = async () => {
 		const { data } = supabase.storage.from('svg-assets').getPublicUrl(element.elementName);

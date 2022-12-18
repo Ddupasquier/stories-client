@@ -27,7 +27,7 @@
 	{/if}
 	<slot {data} />
 	<Slider {data} />
-</div>
+	</div>
 
 <style lang="scss">
 	h2 {

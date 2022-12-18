@@ -1,18 +1,29 @@
 <script lang="ts">
-	import { currentPageIndex, currentStoryId, pageId } from '$lib/stores/storyStore';
+	import { supabase } from '$lib/supabase';
+	import { onMount } from 'svelte';
+	import { currentPageIndex, pageId } from '$lib/stores/storyStore';
 	import { page } from '$app/stores';
 	import { addPage } from '$lib/services/storyActions';
 	/** @type {import('./$types').PageData} */
 	export let data: PageProps;
+	// $: pages = data.pages;
 
 	const changePageId = (id: number) => {
 		currentPageIndex.set(id);
 	};
+
+	// onMount(async () => {
+	// 	supabase
+	// 		.channel('public:pages')
+	// 		.on('postgres_changes', { event: 'INSERT', schema: 'public' }, (payload) => {
+	// 			pages = [...pages, payload.new] as PageProps[];
+	// 		})
+	// 		.subscribe();
+	// });
 </script>
 
 <div class="container">
 	{#each data.pages as page, i}
-		<!-- svelte-ignore a11y-click-events-have-key-events -->
 		<div
 			style={`background: ${page.background}`}
 			class="page-selection"
@@ -20,17 +31,27 @@
 				changePageId(i + 1);
 				pageId.set(page.id);
 			}}
+			on:keydown={(e) => {
+				if (e.key === 'Enter') {
+					changePageId(i + 1);
+					pageId.set(page.id);
+				}
+			}}
 		/>
 	{/each}
 	{#if $page.route.id?.includes('/edit')}
-		<!-- svelte-ignore a11y-click-events-have-key-events -->
-		<div
+		<button
 			class="page-selection add-page"
 			title="Add Page"
-			on:click={() => addPage($currentStoryId, '#000000')}
+			on:click={() => addPage(data.pages[0].storyId.id, '#ffffff')}
+			on:keydown={(e) => {
+				if (e.key === 'Enter') {
+					addPage(data.pages[0].storyId.id, '#ffffff');
+				}
+			}}
 		>
 			+
-		</div>
+		</button>
 	{/if}
 </div>
 
