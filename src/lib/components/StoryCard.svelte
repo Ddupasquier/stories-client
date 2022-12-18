@@ -5,6 +5,7 @@
 	import { downloadAvatar } from '$lib/services/getImages';
 
 	import { storyToDelete, deleteIsOpen } from '$lib/stores/modalStore';
+	import { currentStoryId } from '$lib/stores/storyStore';
 
 	export let story: Story;
 
@@ -30,7 +31,8 @@
 	});
 </script>
 
-<div class="container">
+<!-- svelte-ignore a11y-click-events-have-key-events -->
+<div class="container" on:click={() => currentStoryId.set(story.id)}>
 	<a href="/story/{story.id}/view">
 		<div class="story" style="background: {background}">
 			<h1>

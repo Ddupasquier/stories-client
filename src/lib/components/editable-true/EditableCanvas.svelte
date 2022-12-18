@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { supabase } from '$lib/supabase';
 	import { getElements } from '$lib/services/getImages';
 	import { onMount } from 'svelte';
 	import ImgElement from '$lib/components/editable-true/EditableImgElement.svelte';
@@ -6,7 +7,6 @@
 	let pageIndex: number;
 
 	import { currentPageIndex, pageId } from '$lib/stores/storyStore';
-	$: console.log('pageId', $pageId)
 
 	currentPageIndex.subscribe((value) => {
 		pageIndex = value;
@@ -19,14 +19,20 @@
 	onMount(async () => {
 		pageId.set(info.id);
 		elements = await getElements(info.id);
+		// supabase
+		// 	.channel('elements')
+		// 	.on('postgres_changes', { event: '*', schema: '*' }, (payload) => {
+		// 		console.log('Change received!', payload);
+		// 	})
+		// 	.subscribe();
 	});
 </script>
 
 <div class="canvas">
 	{#if elements}
-		{#each elements as element }
+		{#each elements as element}
 			{#if Number(element.pageId) === Number($pageId)}
-				<ImgElement {element}  />
+				<ImgElement {element} />
 			{/if}
 		{/each}
 	{/if}

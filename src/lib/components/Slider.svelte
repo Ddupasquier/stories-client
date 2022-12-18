@@ -1,5 +1,7 @@
 <script lang="ts">
-	import { currentPageIndex, pageId } from '$lib/stores/storyStore';
+	import { currentPageIndex, currentStoryId, pageId } from '$lib/stores/storyStore';
+	import { page } from '$app/stores';
+	import { addPage } from '$lib/services/storyActions';
 	/** @type {import('./$types').PageData} */
 	export let data: PageProps;
 
@@ -20,6 +22,16 @@
 			}}
 		/>
 	{/each}
+	{#if $page.route.id?.includes('/edit')}
+		<!-- svelte-ignore a11y-click-events-have-key-events -->
+		<div
+			class="page-selection add-page"
+			title="Add Page"
+			on:click={() => addPage($currentStoryId, '#000000')}
+		>
+			+
+		</div>
+	{/if}
 </div>
 
 <style lang="scss">
@@ -39,5 +51,14 @@
 	.page-selection {
 		height: 80%;
 		aspect-ratio: 16/9;
+	}
+
+	.add-page {
+		background: rgba(255, 255, 255, 0.2);
+		font-size: 500%;
+		font-weight: 700;
+		display: flex;
+		justify-content: center;
+		align-items: center;
 	}
 </style>

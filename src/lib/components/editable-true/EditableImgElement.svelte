@@ -37,6 +37,8 @@
 
 	$: top = element.y;
 	$: left = element.x;
+	$: zIndex = element.zIndex;
+	$: height = element.size;
 
 	let moving = false;
 
@@ -46,8 +48,8 @@
 
 	const move = (e: { movementX: number; movementY: number }) => {
 		if (moving) {
-			left += e.movementX / 20;
-			top += e.movementY / 12;
+			left += e.movementX / 16;
+			top += e.movementY / 7;
 		}
 	};
 
@@ -62,10 +64,7 @@
 		}
 	};
 
-	const deleteElement = async (
-		e: MouseEvent & { currentTarget: EventTarget & HTMLImageElement },
-		id: string | undefined
-	) => {
+	const deleteElement = async (e: { preventDefault: () => void }, id: string | undefined) => {
 		e.preventDefault();
 		const { error } = await supabase.from('elements').delete().eq('id', id);
 

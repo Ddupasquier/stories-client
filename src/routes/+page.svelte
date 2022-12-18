@@ -52,10 +52,13 @@
 	{:else}
 		<Profile {session} />
 		<div class="stories">
-			{#if stories.length}
+			
+			{#if stories.length > 0}
 				{#each stories as story}
 					<StoryCard {story} />
 				{/each}
+			{:else}
+				<p>You have no stories yet.</p>
 			{/if}
 		</div>
 	{/if}
