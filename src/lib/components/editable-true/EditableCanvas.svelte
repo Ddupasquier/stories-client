@@ -2,10 +2,12 @@
 	import { supabase } from '$lib/supabase';
 	import { getElements } from '$lib/services/getImages';
 	import { onMount } from 'svelte';
+	import { screenshotCanvas } from '$lib/utils';
 	import ImgElement from '$lib/components/editable-true/EditableImgElement.svelte';
 	import { currentPageIndex, pageId } from '$lib/stores/storyStore';
+	import { uploadThumbnail } from '$lib/services/pageActions';
 	export let info: PageInfoProps;
-	
+
 	let pageIndex: number;
 
 	currentPageIndex.subscribe((value) => {
@@ -17,11 +19,11 @@
 	onMount(async () => {
 		pageId.set(info.id);
 		elements = await getElements(info.id);
-		
+
 		supabase
 			.channel('public:elements')
 			.on('postgres_changes', { event: 'INSERT', schema: 'public' }, (payload) => {
-				elements = [...elements, payload.new] as PageElement[]
+				elements = [...elements, payload.new] as PageElement[];
 			})
 			.subscribe();
 
@@ -33,7 +35,10 @@
 			.subscribe();
 	});
 
-	const screenshotCanvas = () => {}
+	const doScreenshot = async () => {
+		const file = await screenshotCanvas('.canvas');
+		uploadThumbnail(file, info.id);
+	};
 </script>
 
 <div class="canvas">
@@ -48,9 +53,7 @@
 		Page {pageIndex}
 	</div>
 </div>
-<button class="save" on:click={() => screenshotCanvas()}>
-	Save
-</button>
+<button class="save" on:click={() => doScreenshot()}> Save </button>
 
 <style lang="scss">
 	.canvas {
