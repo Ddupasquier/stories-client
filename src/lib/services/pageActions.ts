@@ -1,9 +1,14 @@
 import { supabase } from '$lib/supabase';
 
-export const uploadThumbnail = async (
-	file: File | null,
-	id: number
-) => {
+const updateScreenshotColumn = async (pageId: string, screenshot: string) => {
+	const { error: pageError } = await supabase.from('pages').update({ screenshot }).eq('id', pageId);
+
+	if (pageError) {
+		throw new Error(pageError.message);
+	}
+};
+
+export const uploadThumbnail = async (file: File, id: string) => {
 	const { data, error } = await supabase.storage
 		.from('page-screenshots')
 		.upload(`thumbnail-${id}.webp`, file, {
@@ -13,8 +18,7 @@ export const uploadThumbnail = async (
 
 	if (error) {
 		throw new Error(error.message);
+	} else {
+		updateScreenshotColumn(id, data.path);
 	}
-//TODO: addto screenshot column
-	// maybe peramlink
-	return data;
 };

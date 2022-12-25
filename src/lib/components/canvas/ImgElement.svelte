@@ -1,5 +1,4 @@
 <script lang="ts">
-	import { currentStory, currentPageIndex } from '$lib/stores/storyStore';
 	import { supabase } from '$lib/supabase';
 	import { onMount } from 'svelte';
 
@@ -8,30 +7,22 @@
 	export let element: PageElement;
 
 	const getElement = async () => {
-		const { data } = supabase.storage.from('svg-assets').getPublicUrl(element.elementName);
-		return data;
+		const { data: url } = supabase.storage.from('svg-assets').getPublicUrl(element.elementName);
+		return url;
 	};
 
 	let image: { publicUrl: string };
 	let loading = true;
 
+	// $: console.log(image, element.elementName)
+
 	onMount(async () => {
 		image = await getElement();
+		
 
 		setTimeout(() => {
 			loading = false;
 		}, 1000);
-	});
-
-	let story: object;
-	let page: number;
-
-	currentStory.subscribe((value) => {
-		story = value;
-	});
-
-	currentPageIndex.subscribe((value) => {
-		page = value;
 	});
 
 	$: top = element.y;
@@ -63,7 +54,7 @@
 		}
 	};
 
-	const deleteElement = async (e: { preventDefault: () => void }, id: string | undefined) => {
+	const deleteElement = async (e: { preventDefault: () => void }, id: number | undefined) => {
 		e.preventDefault();
 		const { error } = await supabase.from('elements').delete().eq('id', id);
 
@@ -89,7 +80,7 @@
 	{#if loading}
 		<Loading />
 	{/if}
-	{#if image && !loading}
+	{#if image && !loading && image.publicUrl.split('/').pop() === element.elementName}
 		<img
 			src={image.publicUrl}
 			alt={element.elementName}

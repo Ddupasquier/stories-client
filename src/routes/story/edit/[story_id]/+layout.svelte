@@ -1,33 +1,25 @@
 <script lang="ts">
-	import { page } from '$app/stores';
-	export let data: PageProps;
+	
+
+	export let data: PagesLayoutProps;
 
 	import Toolbar from '$lib/components/Toolbar.svelte';
 	import Slider from '$lib/components/Slider.svelte';
-	import { currentPageIndex } from '$lib/stores/storyStore';
-
-	const changePageId = (id: number) => {
-		currentPageIndex.set(id);
-	};
-
-	changePageId(1);
 </script>
 
 <svelte:head>
-	<title>{data.pages[0].storyId.title}</title>
+	<title>{data.sortedPages[0].storyId.title}</title>
 	<meta name="description" content="View [this story]" />
 </svelte:head>
 
 <h2>
-	<h2>{data.pages[0].storyId.title} by {data.pages[0].storyId.profileId.username}</h2>
+	<h2>{data.sortedPages[0].storyId.title} by {data.sortedPages[0].storyId.profileId.username}</h2>
 </h2>
 <div class="story-container">
-	{#if $page.route.id?.includes('/edit')}
-		<Toolbar />
-	{/if}
-	<slot {data} />
+	<Toolbar />
+	<slot />
 	<Slider {data} />
-	</div>
+</div>
 
 <style lang="scss">
 	h2 {

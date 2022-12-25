@@ -1,58 +1,35 @@
 <script lang="ts">
 	import { supabase } from '$lib/supabase';
 	import { onMount } from 'svelte';
-	import { currentPageIndex, pageId } from '$lib/stores/storyStore';
-	import { page } from '$app/stores';
 	import { addPage } from '$lib/services/storyActions';
-	/** @type {import('./$types').PageData} */
-	export let data: PageProps;
-	// $: pages = data.pages;
 
-	const changePageId = (id: number) => {
-		currentPageIndex.set(id);
-	};
-
-	// onMount(async () => {
-	// 	supabase
-	// 		.channel('public:pages')
-	// 		.on('postgres_changes', { event: 'INSERT', schema: 'public' }, (payload) => {
-	// 			pages = [...pages, payload.new] as PageProps[];
-	// 		})
-	// 		.subscribe();
-	// });
+	export let data: PagesLayoutProps;
 </script>
 
 <div class="container">
-	{#each data.pages as page, i}
-		<div
+	{#each data.sortedPages as page, i}
+		<a
+			href="/story/edit/{page.storyId.id}/{page.id}"
 			style={`background: ${page.background}`}
 			class="page-selection"
-			on:click={() => {
-				changePageId(i + 1);
-				pageId.set(page.id);
-			}}
-			on:keydown={(e) => {
-				if (e.key === 'Enter') {
-					changePageId(i + 1);
-					pageId.set(page.id);
-				}
-			}}
-		/>
-	{/each}
-	{#if $page.route.id?.includes('/edit')}
-		<button
-			class="page-selection add-page"
-			title="Add Page"
-			on:click={() => addPage(data.pages[0].storyId.id, '#ffffff')}
-			on:keydown={(e) => {
-				if (e.key === 'Enter') {
-					addPage(data.pages[0].storyId.id, '#ffffff');
-				}
-			}}
 		>
-			+
-		</button>
-	{/if}
+			<div class="page-number">
+				{i + 1}
+			</div>
+		</a>
+	{/each}
+	<button
+		class="page-selection add-page"
+		title="Add Page"
+		on:click={() => addPage(data.sortedPages[0].storyId.id, '#ffffff')}
+		on:keydown={(e) => {
+			if (e.key === 'Enter') {
+				addPage(data.sortedPages[0].storyId.id, '#ffffff');
+			}
+		}}
+	>
+		+
+	</button>
 </div>
 
 <style lang="scss">
@@ -72,6 +49,24 @@
 	.page-selection {
 		height: 80%;
 		aspect-ratio: 16/9;
+		position: relative;
+	}
+
+	.page-number {
+		position: absolute;
+		bottom: 0.5rem;
+		right: 0.5rem;
+		width: 0.5rem;
+		height: 0.5rem;
+		padding: 0.5rem;
+		background-color: rgba(255, 255, 255, 0.493);
+		border-radius: 50%;
+		color: rgb(0, 0, 0);
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		font-size: 1rem;
+		font-weight: 600;
 	}
 
 	.add-page {

@@ -10,18 +10,39 @@
 	import DeleteModal from '$lib/components/modals/DeleteModal.svelte';
 
 	let session: AuthSession | null;
-	let stories: Story[] = [];
+
+	interface Story {
+		id: number;
+		title: string;
+		author: string;
+		pages: Page[] | null;
+		profileId: {
+			id: string;
+			username: string;
+			avatarUrl: string;
+		};
+	}
+
+	interface Page {
+		id: number;
+		background: string;
+		screenshot: string;
+	}
+
+	let stories: Story[] | undefined;
 
 	const getMyStories = async () => {
 		if ($id) {
 			const { data, error } = await supabase
 				.from('stories')
-				.select('id, title')
+				.select(
+					'id, title, author, profileId (id, username, avatarUrl), pages: pages (id, background, screenshot)'
+				)
 				.eq('profileId', $id);
 			if (error) {
 				throw new Error(error.message);
 			} else {
-				stories = data;
+				stories = data.sort((a, b) => b.id + a.id);
 			}
 		}
 	};
@@ -35,9 +56,7 @@
 			session = _session;
 		});
 
-		setTimeout(async () => {
-			await getMyStories();
-		}, 500);
+		getMyStories();
 	});
 </script>
 
@@ -52,8 +71,7 @@
 	{:else}
 		<Profile {session} />
 		<div class="stories">
-			
-			{#if stories.length > 0}
+			{#if stories !== undefined}
 				{#each stories as story}
 					<StoryCard {story} />
 				{/each}

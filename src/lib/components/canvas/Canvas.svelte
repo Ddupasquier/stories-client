@@ -1,58 +1,53 @@
 <script lang="ts">
 	import { supabase } from '$lib/supabase';
-	import { getElements } from '$lib/services/getImages';
 	import { onMount } from 'svelte';
+	import { page } from '$app/stores';
 	import { screenshotCanvas } from '$lib/utils';
-	import ImgElement from '$lib/components/editable-true/EditableImgElement.svelte';
-	import { currentPageIndex, pageId } from '$lib/stores/storyStore';
+	import ImgElement from '$lib/components/canvas/ImgElement.svelte';
 	import { uploadThumbnail } from '$lib/services/pageActions';
-	export let info: PageInfoProps;
+	
+	export let info: {
+		id: number;
+		pageNumber: number;
+		background: string;
+		elements: PageElement[];
+	};
 
-	let pageIndex: number;
+	// onMount(async () => {
+	// 	supabase
+	// 		.channel('public:elements')
+	// 		.on('postgres_changes', { event: 'INSERT', schema: 'public' }, (payload) => {
+	// 			elements = [...elements, payload.new] as PageElement[];
+	// 		})
+	// 		.subscribe();
 
-	currentPageIndex.subscribe((value) => {
-		pageIndex = value;
-	});
-
-	$: elements = [] as PageElement[];
-
-	onMount(async () => {
-		pageId.set(info.id);
-		elements = await getElements(info.id);
-
-		supabase
-			.channel('public:elements')
-			.on('postgres_changes', { event: 'INSERT', schema: 'public' }, (payload) => {
-				elements = [...elements, payload.new] as PageElement[];
-			})
-			.subscribe();
-
-		supabase
-			.channel('public:elements')
-			.on('postgres_changes', { event: 'DELETE', schema: 'public' }, (payload) => {
-				elements = elements.filter((element) => element.id !== payload.old.id);
-			})
-			.subscribe();
-	});
+	// 	supabase
+	// 		.channel('public:elements')
+	// 		.on('postgres_changes', { event: 'DELETE', schema: 'public' }, (payload) => {
+	// 			elements = elements.filter((element) => element.id !== payload.old.id);
+	// 		})
+	// 		.subscribe();
+	// });
 
 	const doScreenshot = async () => {
 		const file = await screenshotCanvas('.canvas');
-		uploadThumbnail(file, info.id);
+		file && uploadThumbnail(file, $page.params.page_id);
 	};
 </script>
 
-<div class="canvas">
-	{#if elements}
-		{#each elements as element}
-			{#if Number(element.pageId) === Number($pageId)}
+{#if info.background}
+	<div class="canvas" style="background: {info.background}">
+		{#if info.elements}
+			{#each info.elements as element}
 				<ImgElement {element} />
-			{/if}
-		{/each}
-	{/if}
-	<div class="page">
-		Page {pageIndex}
+			{/each}
+		{/if}
+		<div class="page">
+			Page {info.pageNumber}
+		</div>
 	</div>
-</div>
+{/if}
+
 <button class="save" on:click={() => doScreenshot()}> Save </button>
 
 <style lang="scss">

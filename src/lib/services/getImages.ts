@@ -1,6 +1,6 @@
 import { supabase } from '$lib/supabase';
 
-export const downloadAvatar = async (path: string,) => {
+export const downloadAvatar = async (path: string) => {
 	try {
 		const { data, error } = await supabase.storage.from('avatars').download(path);
 

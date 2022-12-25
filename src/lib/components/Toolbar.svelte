@@ -1,8 +1,8 @@
 <script lang="ts">
+	import { page } from '$app/stores';
 	import { onMount } from 'svelte';
 	import { supabase } from '$lib/supabase';
 	import { convToPublicUrl } from '$lib/utils';
-	import { pageId } from '$lib/stores/storyStore';
 	import Loading from './Loading.svelte';
 
 	const getAllImages = async () => {
@@ -19,7 +19,7 @@
 		const { error } = await supabase.from('elements').insert([
 			{
 				elementName: name,
-				pageId: $pageId,
+				pageId: $page.params.page_id,
 				x: 50,
 				y: 50,
 				zIndex: 0,

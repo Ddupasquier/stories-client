@@ -9,7 +9,14 @@
 <div class="app">
 	<Header />
 	{#if $user}
-		<button type="button" on:click={() => {supabase.auth.signOut(); signout()}} class="button logout">
+		<button
+			type="button"
+			on:click={() => {
+				supabase.auth.signOut();
+				signout();
+			}}
+			class="button logout"
+		>
 			Sign Out
 		</button>
 	{/if}
