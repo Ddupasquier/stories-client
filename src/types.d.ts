@@ -12,6 +12,7 @@ interface PagesProps {
 		sortedPages: {
 			id: number;
 			background: string;
+			pageNumber: number;
 			storyId: {
 				id: number;
 				title: string;

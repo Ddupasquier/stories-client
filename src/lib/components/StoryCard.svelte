@@ -1,13 +1,31 @@
 <script lang="ts">
-	import { page } from '$app/stores';
 	import { onMount } from 'svelte';
 	import { supabase } from '$lib/supabase';
 	import { storyToDelete, deleteIsOpen } from '$lib/stores/modalStore';
+	import {truncate} from '$lib/utils';
 
-	export let story: Story;
+	interface StoryCardProps {
+		id: number;
+		title: string;
+		author: string;
+		pages?: Page[];
+		profileId: {
+			id: string;
+			username: string;
+			avatarUrl: string;
+		};
+	}
+
+	interface Page {
+		id: number;
+		background: string;
+		screenshot?: string;
+	}
+
+	export let story: StoryCardProps | unknown | undefined;
 
 	export const getPageThumbnail = async () => {
-		if (story) {
+		if (story.pages && story.pages[0].screenshot) {
 			const { data: url } = supabase.storage
 				.from('page-screenshots')
 				.getPublicUrl(story.pages[0].screenshot);
@@ -25,35 +43,39 @@
 	});
 </script>
 
-<div class="container">
-	<a href="/story/{story.id}/view">
-		<div class="story" style="background-image: url('{url}')">
-			<h1>
-				{story.title}
-			</h1>
-		</div>
-	</a>
-	<div class="controls">
-		<a href="/story/edit/{story.id}/{story.pages[0].id}">Edit</a> |
-		<span
-			class="delete"
-			on:click={() => {
-				storyToDelete.set(story);
-				deleteIsOpen.set(true);
-			}}
-			on:keydown={(e) => {
-				if (e.key === 'Enter') {
+{#if story}
+	<div class="container">
+		<a href="/story/{story.id}/view">
+			<div class="story" style="background-image: url('{url}')">
+				<h1>
+					{truncate(story.title, 15)}
+				</h1>
+			</div>
+		</a>
+		<div class="controls">
+			{#if story.pages[0]}
+				<a href="/story/edit/{story.id}/{story.pages[0].id}">Edit</a> |
+			{/if}
+			<span
+				class="delete"
+				on:click={() => {
 					storyToDelete.set(story);
 					deleteIsOpen.set(true);
-				}
-			}}>Delete</span
-		>
+				}}
+				on:keydown={(e) => {
+					if (e.key === 'Enter') {
+						storyToDelete.set(story);
+						deleteIsOpen.set(true);
+					}
+				}}>Delete</span
+			>
+		</div>
 	</div>
-</div>
+{/if}
 
 <style lang="scss">
 	.container {
-		box-shadow: 0 -21px 25px 0 #5a5a5a4b
+		box-shadow: 0 -21px 25px 0 #5a5a5a4b;
 	}
 
 	.story {
@@ -69,7 +91,7 @@
 
 	.controls {
 		text-align: center;
-		background: rgb(237,240,248);
+		background: rgb(237, 240, 248);
 		padding: 0.5rem;
 		border-radius: 0.5rem;
 	}

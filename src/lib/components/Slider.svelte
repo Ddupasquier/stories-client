@@ -4,6 +4,7 @@
 	import { addPage } from '$lib/services/storyActions';
 
 	export let data: PagesLayoutProps;
+	console.log(data.sortedPages[data.sortedPages.length - 1].pageNumber)
 </script>
 
 <div class="container">
@@ -21,10 +22,10 @@
 	<button
 		class="page-selection add-page"
 		title="Add Page"
-		on:click={() => addPage(data.sortedPages[0].storyId.id, '#ffffff')}
+		on:click={() => addPage(data.sortedPages[0].storyId.id, '#ffffff', data.sortedPages[data.sortedPages.length - 1].pageNumber)}
 		on:keydown={(e) => {
 			if (e.key === 'Enter') {
-				addPage(data.sortedPages[0].storyId.id, '#ffffff');
+				addPage(data.sortedPages[0].storyId.id, '#ffffff', data.sortedPages[data.sortedPages.length - 1].pageNumber);
 			}
 		}}
 	>

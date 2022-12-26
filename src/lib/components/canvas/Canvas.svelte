@@ -30,13 +30,13 @@
 	// });
 
 	const doScreenshot = async () => {
-		const file = await screenshotCanvas('.canvas');
+		const file = await screenshotCanvas('#canvas');
 		file && uploadThumbnail(file, $page.params.page_id);
 	};
 </script>
 
 {#if info.background}
-	<div class="canvas" style="background: {info.background}">
+	<div id="canvas" style="background: {info.background}">
 		{#if info.elements}
 			{#each info.elements as element}
 				<ImgElement {element} />
@@ -51,7 +51,7 @@
 <button class="save" on:click={() => doScreenshot()}> Save </button>
 
 <style lang="scss">
-	.canvas {
+	#canvas {
 		position: relative;
 		width: 100%;
 		height: 100%;

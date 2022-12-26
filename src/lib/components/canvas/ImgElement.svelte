@@ -1,24 +1,17 @@
 <script lang="ts">
 	import { supabase } from '$lib/supabase';
 	import { onMount } from 'svelte';
-
+	import { deleteElement, savePosition, getElement } from '$lib/services/elementActions';
 	import Loading from '$lib/components/Loading.svelte';
+	import ContextMenu from '../ContextMenu.svelte';
 
 	export let element: PageElement;
-
-	const getElement = async () => {
-		const { data: url } = supabase.storage.from('svg-assets').getPublicUrl(element.elementName);
-		return url;
-	};
 
 	let image: { publicUrl: string };
 	let loading = true;
 
-	// $: console.log(image, element.elementName)
-
 	onMount(async () => {
-		image = await getElement();
-		
+		image = await getElement(element.elementName);
 
 		setTimeout(() => {
 			loading = false;
@@ -36,60 +29,64 @@
 		moving = true;
 	};
 
-	const move = (e: { movementX: number; movementY: number }) => {
+	export const move = (e: { movementX: number; movementY: number }) => {
 		if (moving) {
 			left += e.movementX / 16;
 			top += e.movementY / 7;
 		}
 	};
 
-	const savePosition = async (top: number, left: number) => {
-		const { error } = await supabase
-			.from('elements')
-			.update({ x: left, y: top })
-			.eq('id', element.id);
-
-		if (error) {
-			throw new Error(error.message);
-		}
-	};
-
-	const deleteElement = async (e: { preventDefault: () => void }, id: number | undefined) => {
+	let mouseLocation = { x: 0, y: 0 };
+	$: isOpen = false;
+	const contextMenu = (e: {
+		clientY: number;
+		clientX: number;
+		preventDefault(): unknown;
+		movementX: number;
+		movementY: number;
+	}) => {
 		e.preventDefault();
-		const { error } = await supabase.from('elements').delete().eq('id', id);
-
-		if (error) {
-			throw new Error(error.message);
-		}
+		mouseLocation = { x: e.clientX - 73, y: e.clientY - 200 };
 	};
+
+	let scope: HTMLElement | null = document.getElementById('canvas');
+	scope?.addEventListener('click', (e) => {
+		if (e.target === scope) {
+			isOpen = false;
+		}
+	});
 </script>
 
 <svelte:window
 	on:mousemove={move}
 	on:mouseup={() => {
 		moving = false;
-		savePosition(top, left);
+		savePosition(top, left, element.id);
 	}}
 />
 
 <div
 	class="canvas-element"
 	style="display: flex; justify-content: center; align-items: center; position: absolute; top: {top +
-		'%'}; left: {left + '%'}; z-index: {element.zIndex}; height: {element.size + '%'};"
+		'%'}; left: {left + '%'}; z-index: {zIndex}; height: {height + '%'};"
 >
 	{#if loading}
 		<Loading />
 	{/if}
-	{#if image && !loading && image.publicUrl.split('/').pop() === element.elementName}
+	{#if image && !loading}
 		<img
 			src={image.publicUrl}
 			alt={element.elementName}
 			on:mousedown={startMoving}
 			draggable="false"
-			on:contextmenu={(e) => deleteElement(e, element.id)}
+			on:contextmenu={(e) => {
+				contextMenu(e);
+				isOpen = true;
+			}}
 		/>
 	{/if}
 </div>
+<ContextMenu top={mouseLocation.y} left={mouseLocation.x} {element} open={isOpen} />
 
 <style lang="scss">
 	.canvas-element {

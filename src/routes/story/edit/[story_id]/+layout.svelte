@@ -1,10 +1,9 @@
 <script lang="ts">
-	
-
 	export let data: PagesLayoutProps;
 
 	import Toolbar from '$lib/components/Toolbar.svelte';
 	import Slider from '$lib/components/Slider.svelte';
+	import ContextMenu from '$lib/components/ContextMenu.svelte';
 </script>
 
 <svelte:head>
@@ -20,6 +19,7 @@
 	<slot />
 	<Slider {data} />
 </div>
+<ContextMenu />
 
 <style lang="scss">
 	h2 {

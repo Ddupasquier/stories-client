@@ -23,3 +23,12 @@ export const screenshotCanvas = async (element: string): Promise<File | null> =>
 	}
 	return null;
 };
+
+export const generateUuid = () => {
+	const uuid = Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
+	return uuid;
+}
+
+export const truncate = (str: string, n: number) => {
+	return str.length > n ? str.substr(0, n - 1) + '...' : str;
+}

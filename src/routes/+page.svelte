@@ -8,8 +8,11 @@
 	import Auth from '$lib/components/auth/Auth.svelte';
 	import StoryCard from '$lib/components/StoryCard.svelte';
 	import DeleteModal from '$lib/components/modals/DeleteModal.svelte';
+	import { fix_and_destroy_block } from 'svelte/internal';
+	import { newStory } from '$lib/services/storyActions';
 
 	let session: AuthSession | null;
+	// $: console.log(session);
 
 	interface Story {
 		id: number;
@@ -29,7 +32,7 @@
 		screenshot: string;
 	}
 
-	let stories: Story[] | undefined;
+	let stories: Story[] | ArrayLike<unknown>;
 
 	const getMyStories = async () => {
 		if ($id) {
@@ -70,6 +73,9 @@
 		<Auth />
 	{:else}
 		<Profile {session} />
+		{#if session}
+		<button class="button" on:click={() => newStory(session.user.id, $user)}>New Story</button>
+		{/if}
 		<div class="stories">
 			{#if stories !== undefined}
 				{#each stories as story}
