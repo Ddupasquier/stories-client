@@ -4,7 +4,7 @@
 	import type { AuthSession } from '@supabase/supabase-js';
 	import { supabase } from '$lib/supabase';
 
-	import Avatar from './Avatar.svelte'
+	import Avatar from './Avatar.svelte';
 
 	export let session: AuthSession;
 
@@ -82,7 +82,7 @@
 </script>
 
 <form on:submit|preventDefault={updateProfile}>
-	 <Avatar bind:url="{avatarUrl}" size="{200}" on:upload="{updateProfile}" />
+	<Avatar bind:url={avatarUrl} size={200} on:upload={updateProfile} />
 	<div><b>Email: {session.user.email}</b></div>
 	<div>
 		<label for="username">Username</label>

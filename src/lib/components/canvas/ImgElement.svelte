@@ -1,11 +1,11 @@
 <script lang="ts">
-	import { supabase } from '$lib/supabase';
 	import { onMount } from 'svelte';
-	import { deleteElement, savePosition, getElement } from '$lib/services/elementActions';
+	import { savePosition, getElement } from '$lib/services/elementActions';
 	import Loading from '$lib/components/Loading.svelte';
 	import ContextMenu from '../ContextMenu.svelte';
 
 	export let element: PageElement;
+	export let scope: HTMLElement;
 
 	let image: { publicUrl: string };
 	let loading = true;
@@ -49,7 +49,6 @@
 		mouseLocation = { x: e.clientX - 73, y: e.clientY - 200 };
 	};
 
-	let scope: HTMLElement | null = document.getElementById('canvas');
 	scope?.addEventListener('click', (e) => {
 		if (e.target === scope) {
 			isOpen = false;

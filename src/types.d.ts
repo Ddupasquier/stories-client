@@ -3,6 +3,24 @@
 // // and what to do when importing types
 declare namespace App {}
 
+interface Story {
+	id: number;
+	title: string;
+	author: string;
+	pages: Page[] | null;
+	profileId: {
+		id: string;
+		username: string;
+		avatarUrl: string;
+	};
+}
+
+interface Page {
+	id: number;
+	background: string;
+	screenshot: string;
+}
+
 interface PagesLayoutProps {
 	sortedPages: PagesProps['data']['sortedPages'];
 }

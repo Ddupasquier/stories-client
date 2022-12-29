@@ -5,8 +5,7 @@ export const getElement = async (element: string) => {
 	return url;
 };
 
-export const deleteElement = async (e: { preventDefault: () => void }, id: number | undefined) => {
-	e.preventDefault();
+export const deleteElement = async (id: number | undefined) => {
 	const { error } = await supabase.from('elements').delete().eq('id', id);
 
 	if (error) {

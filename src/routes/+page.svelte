@@ -8,29 +8,9 @@
 	import Auth from '$lib/components/auth/Auth.svelte';
 	import StoryCard from '$lib/components/StoryCard.svelte';
 	import DeleteModal from '$lib/components/modals/DeleteModal.svelte';
-	import { fix_and_destroy_block } from 'svelte/internal';
 	import { newStory } from '$lib/services/storyActions';
 
 	let session: AuthSession | null;
-	// $: console.log(session);
-
-	interface Story {
-		id: number;
-		title: string;
-		author: string;
-		pages: Page[] | null;
-		profileId: {
-			id: string;
-			username: string;
-			avatarUrl: string;
-		};
-	}
-
-	interface Page {
-		id: number;
-		background: string;
-		screenshot: string;
-	}
 
 	let stories: Story[] | ArrayLike<unknown>;
 

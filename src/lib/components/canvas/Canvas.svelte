@@ -33,13 +33,15 @@
 		const file = await screenshotCanvas('#canvas');
 		file && uploadThumbnail(file, $page.params.page_id);
 	};
+
+	let canvas: HTMLDivElement;
 </script>
 
 {#if info.background}
-	<div id="canvas" style="background: {info.background}">
+	<div id="canvas" style="background: {info.background}" bind:this={canvas}>
 		{#if info.elements}
 			{#each info.elements as element}
-				<ImgElement {element} />
+				<ImgElement {element} scope={canvas}/>
 			{/each}
 		{/if}
 		<div class="page">

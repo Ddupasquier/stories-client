@@ -4,21 +4,25 @@
 	export let top: number;
 	export let element: PageElement;
 
-      $: console.log(open)
-
+	import { deleteElement } from '$lib/services/elementActions';
 </script>
 
 {#if open}
-	<div
-		id="context-menu"
-		style="position: absolute; top: {top + 'px'}; left: {left + 'px'}"
-	>
+	<div id="context-menu" style="position: absolute; top: {top + 'px'}; left: {left + 'px'}">
 		<ul>
 			<b>
 				{element.elementName}
 			</b>
 			<li>Resize</li>
-			<li>Delete</li>
+			<!-- svelte-ignore a11y-click-events-have-key-events -->
+			<li
+				on:click={() => {
+					deleteElement(element.id);
+					open = false;
+				}}
+			>
+				Delete
+			</li>
 			<li>Forward</li>
 			<li>Backward</li>
 			<li>Bring to Front</li>
