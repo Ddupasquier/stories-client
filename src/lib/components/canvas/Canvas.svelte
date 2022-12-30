@@ -24,7 +24,6 @@
 		supabase
 			.channel('public:elements')
 			.on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'elements' }, (payload) => {
-				console.log('INSERT', payload.new);
 				info.elements = [...info.elements, payload.new] as PageElement[];
 			})
 			.on('postgres_changes', { event: 'DELETE', schema: 'public', table: 'elements' }, (payload) => {
