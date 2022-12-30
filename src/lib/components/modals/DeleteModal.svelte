@@ -14,7 +14,7 @@
 		{:else}
 			<h1>
 				Are you sure you want to delete <span>
-					{$storyToDelete.title}
+					{$storyToDelete?.title}
 				</span>?
 			</h1>
 		{/if}
@@ -22,7 +22,7 @@
 			class="agree"
 			on:click={() => {
 				loading = true;
-				deleteStory($storyToDelete.id);
+				deleteStory($storyToDelete?.id);
 				setTimeout(() => {
 					loading = false;
 					deleteIsOpen.set(false);

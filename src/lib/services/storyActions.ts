@@ -13,7 +13,7 @@ export const addPage = async (storyId: number, background: string, lastPage: num
 	}
 };
 
-export const newStory = async (id: string, user: string | null) => {
+export const newStory = async (id: string | undefined, user: string | null) => {
 	const { data, error } = await supabase
 		.from('stories')
 		.insert([

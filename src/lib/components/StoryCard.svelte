@@ -2,12 +2,12 @@
 	import { onMount } from 'svelte';
 	import { supabase } from '$lib/supabase';
 	import { storyToDelete, deleteIsOpen } from '$lib/stores/modalStore';
-	import {truncate} from '$lib/utils';
+	import { truncate } from '$lib/utils';
 
-	export let story: Story;
+	export let story: Story | null;
 
 	export const getPageThumbnail = async () => {
-		if (story.pages && story.pages[0].screenshot) {
+		if (story?.pages && story.pages[0].screenshot) {
 			const { data: url } = supabase.storage
 				.from('page-screenshots')
 				.getPublicUrl(story.pages[0].screenshot);
@@ -28,15 +28,15 @@
 {#if story}
 	<div class="container">
 		<a href="/story/{story.id}/view">
-			<div class="story" >
+			<div class="story">
 				<h1>
 					{truncate(story.title, 15)}
 				</h1>
-				<img src={url} alt="avatar" class="thumbnail"/>
+				<img src={url} alt="avatar" class="thumbnail" />
 			</div>
 		</a>
 		<div class="controls">
-			{#if story.pages[0]}
+			{#if story?.pages}
 				<a href="/story/edit/{story.id}/{story.pages[0].id}">Edit</a> |
 			{/if}
 			<span

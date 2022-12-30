@@ -13,19 +13,27 @@
 	let session: AuthSession | null = null;
 	let stories: Story[] = [];
 
+	let profileId: string | null;
+
+	id.subscribe((value) => {
+		if (value) profileId = value;
+	});
+
 	const getMyStories = async () => {
+		if (profileId) {
 			const { data, error } = await supabase
 				.from('stories')
 				.select(
 					'id, title, author, updatedAt, profileId (id, username, avatarUrl), pages: pages (id, background, screenshot)'
 				)
-				.eq('profileId', $id)
-				.order('updatedAt', { ascending: false })
+				.eq('profileId', profileId)
+				.order('updatedAt', { ascending: false });
 			if (error) {
 				throw new Error(error.message);
 			}
 
 			stories = data;
+		}
 	};
 
 	onMount(() => {
@@ -51,8 +59,8 @@
 		<Auth />
 	{:else}
 		<Profile {session} />
-		{#if session}
-			<button class="button" on:click={() => newStory(session.user.id, $user)}>New Story</button>
+		{#if session.user.id}
+			<button class="button" on:click={() => newStory(session?.user.id, $user)}>New Story</button>
 		{/if}
 		<div class="stories">
 			{#if stories.length > 0}

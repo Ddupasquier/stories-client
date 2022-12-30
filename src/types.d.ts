@@ -7,7 +7,7 @@ interface Story {
 	id: number;
 	title: string;
 	author: string;
-	pages: Page[] | null;
+	pages: Page[];
 	profileId: {
 		id: string;
 		username: string;
@@ -16,14 +16,24 @@ interface Story {
 }
 
 interface Page {
+	pageNumber: number;
+	storyId: StoryId;
 	id: number;
 	background: string;
-	screenshot: string;
+	screenshot?: string;
 }
 
 interface PagesLayoutProps {
-	pages: any;
-	sortedPages: PagesProps['data']['sortedPages'];
+	pages: Page[];
+}
+
+interface StoryId {
+	id: number;
+	title: string;
+	profileId: {
+		id: string;
+		username: string;
+	};
 }
 
 interface PagesProps {
@@ -72,4 +82,12 @@ interface PageElement {
 	elementName: string;
 	size: number;
 	pageId: number;
+}
+
+interface ImgUrl {
+	created_at: string;
+	id: string;
+	last_accessed_at: string;
+	name: string;
+	updated_at: string;
 }

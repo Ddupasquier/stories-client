@@ -33,7 +33,8 @@
 		}
 	};
 
-	let images: ImgURL[] = [];
+	let images: ImgUrl[] = [];
+	$: console.log(images)
 	let loading = true;
 
 	onMount(async () => {
