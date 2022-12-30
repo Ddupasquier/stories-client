@@ -4,44 +4,51 @@
 	import { page } from '$app/stores';
 	import { screenshotCanvas } from '$lib/utils';
 	import ImgElement from '$lib/components/canvas/ImgElement.svelte';
-	import { uploadThumbnail } from '$lib/services/pageActions';
-	
+	import { uploadThumbnail, saveBgColor } from '$lib/services/pageActions';
+	import ColorPicker from '../ColorPicker.svelte';
+
 	export let info: {
 		id: number;
 		pageNumber: number;
 		background: string;
 		elements: PageElement[];
 	};
+	
+	$: background = '';
 
-	// onMount(async () => {
-	// 	supabase
-	// 		.channel('public:elements')
-	// 		.on('postgres_changes', { event: 'INSERT', schema: 'public' }, (payload) => {
-	// 			elements = [...elements, payload.new] as PageElement[];
-	// 		})
-	// 		.subscribe();
+	const setColor = (color: string) => {
+		background = color;
+	};
 
-	// 	supabase
-	// 		.channel('public:elements')
-	// 		.on('postgres_changes', { event: 'DELETE', schema: 'public' }, (payload) => {
-	// 			elements = elements.filter((element) => element.id !== payload.old.id);
-	// 		})
-	// 		.subscribe();
-	// });
+	onMount(async () => {
+		background = info.background;
+
+		supabase
+			.channel('public:elements')
+			.on('postgres_changes', { event: 'INSERT', schema: 'public' }, (payload) => {
+				info.elements = [...info.elements, payload.new] as PageElement[];
+			})
+			.subscribe();
+
+		supabase
+			.channel('public:elements')
+			.on('postgres_changes', { event: 'DELETE', schema: 'public' }, (payload) => {
+				info.elements = info.elements.filter((element) => element.id !== payload.old.id);
+			})
+			.subscribe();
+	});
 
 	const doScreenshot = async () => {
 		const file = await screenshotCanvas('#canvas');
 		file && uploadThumbnail(file, $page.params.page_id);
 	};
-
-	let canvas: HTMLDivElement;
 </script>
 
 {#if info.background}
-	<div id="canvas" style="background: {info.background}" bind:this={canvas}>
+	<div id="canvas" style="background: {background}">
 		{#if info.elements}
 			{#each info.elements as element}
-				<ImgElement {element} scope={canvas}/>
+				<ImgElement {element} />
 			{/each}
 		{/if}
 		<div class="page">
@@ -50,7 +57,18 @@
 	</div>
 {/if}
 
-<button class="save" on:click={() => doScreenshot()}> Save </button>
+<div class="controls">
+	<ColorPicker color={background} {setColor} />
+	<button
+		class="save"
+		on:click={() => {
+			doScreenshot();
+			saveBgColor(info.id, background);
+		}}
+	>
+		Save
+	</button>
+</div>
 
 <style lang="scss">
 	#canvas {
@@ -76,16 +94,23 @@
 		font-size: 1rem;
 		font-weight: 600;
 	}
-	.save {
+
+	.controls {
 		position: absolute;
-		bottom: 1rem;
-		left: 1rem;
+		top: 6.5rem;
+		right: 5rem;
+		display: flex;
+		flex-direction: row;
+		align-items: center;
+		gap: 0.5rem;
+	}
+	.save {
 		width: fit-content;
 		aspect-ratio: 1/1;
 		padding: 0.5rem;
 		background-color: rgba(255, 255, 255, 0.493);
 		border-radius: 50%;
-		border: 2px black solid;
+		border: none;
 		color: rgb(0, 0, 0);
 		display: flex;
 		justify-content: center;
@@ -95,7 +120,7 @@
 		transition: all 2s;
 		&:hover {
 			cursor: pointer;
-			box-shadow: black 0 0 5px 2px inset;
+			box-shadow: var(--orange) 0 0 5px 2px inset;
 		}
 	}
 </style>

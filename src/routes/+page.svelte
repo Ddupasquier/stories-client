@@ -10,24 +10,22 @@
 	import DeleteModal from '$lib/components/modals/DeleteModal.svelte';
 	import { newStory } from '$lib/services/storyActions';
 
-	let session: AuthSession | null;
-
-	let stories: Story[] | ArrayLike<unknown>;
+	let session: AuthSession | null = null;
+	let stories: Story[] = [];
 
 	const getMyStories = async () => {
-		if ($id) {
 			const { data, error } = await supabase
 				.from('stories')
 				.select(
-					'id, title, author, profileId (id, username, avatarUrl), pages: pages (id, background, screenshot)'
+					'id, title, author, updatedAt, profileId (id, username, avatarUrl), pages: pages (id, background, screenshot)'
 				)
-				.eq('profileId', $id);
+				.eq('profileId', $id)
+				.order('updatedAt', { ascending: false })
 			if (error) {
 				throw new Error(error.message);
-			} else {
-				stories = data.sort((a, b) => b.id + a.id);
 			}
-		}
+
+			stories = data;
 	};
 
 	onMount(() => {
@@ -54,10 +52,10 @@
 	{:else}
 		<Profile {session} />
 		{#if session}
-		<button class="button" on:click={() => newStory(session.user.id, $user)}>New Story</button>
+			<button class="button" on:click={() => newStory(session.user.id, $user)}>New Story</button>
 		{/if}
 		<div class="stories">
-			{#if stories !== undefined}
+			{#if stories.length > 0}
 				{#each stories as story}
 					<StoryCard {story} />
 				{/each}

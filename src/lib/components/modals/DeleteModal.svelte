@@ -53,7 +53,6 @@
 		background-color: #fff;
 		padding: 2rem 1rem;
 		border-radius: 0.5rem;
-		width: 100%;
 		max-width: 400px;
 		text-align: center;
 	}

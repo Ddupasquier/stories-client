@@ -1,11 +1,10 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
-	import { savePosition, getElement, saveZindex, saveSize } from '$lib/services/elementActions';
+	import { savePosition, getElement } from '$lib/services/elementActions';
 	import Loading from '$lib/components/Loading.svelte';
 	import ContextMenu from '../ContextMenu.svelte';
 
 	export let element: PageElement;
-	export let scope: HTMLElement;
 
 	$: top = element.y;
 	$: left = element.x;
@@ -21,7 +20,6 @@
 			loading = false;
 		}, 1000);
 	});
-
 
 	let moving = false;
 
@@ -44,6 +42,10 @@
 		}
 	};
 
+	const closeContextMenu = () => {
+		isOpen = false;
+	};
+
 	let mouseLocation = { x: 0, y: 0 };
 	$: isOpen = false;
 
@@ -57,17 +59,6 @@
 		e.preventDefault();
 		mouseLocation = { x: e.clientX - 73, y: e.clientY - 200 };
 	};
-
-	// If the click event target is the scope element, and the element has an id, set isOpen to false and save the size and z index of the element.
-
-scope?.addEventListener('click', (e) => {
-		if (e.target === scope && element.id) {
-			isOpen = false;
-			if (height !== element.size) saveSize(element.id, height);
-			if (zIndex !== element.zIndex) saveZindex(element.id, zIndex);
-			return;
-		}
-	});
 </script>
 
 <svelte:window
@@ -100,16 +91,18 @@ scope?.addEventListener('click', (e) => {
 	{/if}
 </div>
 
-<ContextMenu
-	top={mouseLocation.y}
-	left={mouseLocation.x}
-	open={isOpen}
-	{element}
-	{height}
-	{zIndex}
-	{resize}
-	{changeZindex}
-/>
+{#if isOpen}
+	<ContextMenu
+		top={mouseLocation.y}
+		left={mouseLocation.x}
+		{element}
+		{height}
+		{zIndex}
+		{resize}
+		{changeZindex}
+		{closeContextMenu}
+	/>
+{/if}
 
 <style lang="scss">
 	.canvas-element {

@@ -1,31 +1,76 @@
 <script lang="ts">
+	import { onMount } from 'svelte';
+	import { changeTitle } from '$lib/services/storyActions';
 	export let data: PagesLayoutProps;
 
 	import Toolbar from '$lib/components/Toolbar.svelte';
 	import Slider from '$lib/components/Slider.svelte';
-	import ContextMenu from '$lib/components/ContextMenu.svelte';
+
+	let titleInput: HTMLInputElement;
+
+	// set width of titleInput to the width of the title
+	const resizeTitleInput = () => {
+		titleInput.style.width = `${titleInput.value.length * 0.9}rem`;
+	};
+	onMount(() => {
+		resizeTitleInput();
+	});
 </script>
 
 <svelte:head>
-	<title>{data.sortedPages[0].storyId.title}</title>
+	<title>{data.pages[0].storyId.title}</title>
 	<meta name="description" content="View [this story]" />
 </svelte:head>
 
 <h2>
-	<h2>{data.sortedPages[0].storyId.title} by {data.sortedPages[0].storyId.profileId.username}</h2>
+	<form
+		on:submit|preventDefault={() => changeTitle(data.pages[0].storyId.id, titleInput.value)}
+	>
+		<input
+			class="input title-input"
+			value={data.pages[0].storyId.title}
+			bind:this={titleInput}
+			on:change={resizeTitleInput}
+		/>
+	</form>
+	by {data.pages[0].storyId.profileId.username}
 </h2>
+
+<br />
 <div class="story-container">
 	<Toolbar />
 	<slot />
 	<Slider {data} />
 </div>
-<ContextMenu />
 
 <style lang="scss">
 	h2 {
+		display: flex;
+		flex-direction: row;
+		justify-content: space-between;
+		align-items: center;
 		font-size: 1.5rem;
 		margin: 0;
 		font-weight: 800;
+	}
+
+	form {
+		margin: 0;
+		padding: 0;
+	}
+
+	.title-input {
+		font-size: 1.5rem;
+		margin: 0;
+		font-weight: 800;
+		border: none;
+		background: none;
+		color: var(--color-text);
+		&:hover {
+			border: none;
+			background: rgb(255, 255, 255, 0.4);
+			box-shadow: none;
+		}
 	}
 
 	.story-container {

@@ -22,6 +22,7 @@ interface Page {
 }
 
 interface PagesLayoutProps {
+	pages: any;
 	sortedPages: PagesProps['data']['sortedPages'];
 }
 

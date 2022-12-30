@@ -1,13 +1,11 @@
 <script lang="ts">
-	import { supabase } from '$lib/supabase';
-	import { onMount } from 'svelte';
 	import { addPage } from '$lib/services/storyActions';
 
 	export let data: PagesLayoutProps;
 </script>
 
 <div class="container">
-	{#each data.sortedPages as page, i}
+	{#each data.pages as page, i}
 		<a
 			href="/story/edit/{page.storyId.id}/{page.id}"
 			style={`background: ${page.background}`}
@@ -21,10 +19,10 @@
 	<button
 		class="page-selection add-page"
 		title="Add Page"
-		on:click={() => addPage(data.sortedPages[0].storyId.id, '#ffffff', data.sortedPages[data.sortedPages.length - 1].pageNumber)}
+		on:click={() => addPage(data.pages[0].storyId.id, '#ffffff', data.pages[data.pages.length - 1].pageNumber)}
 		on:keydown={(e) => {
 			if (e.key === 'Enter') {
-				addPage(data.sortedPages[0].storyId.id, '#ffffff', data.sortedPages[data.sortedPages.length - 1].pageNumber);
+				addPage(data.pages[0].storyId.id, '#ffffff', data.pages[data.pages.length - 1].pageNumber);
 			}
 		}}
 	>
