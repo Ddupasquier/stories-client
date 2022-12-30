@@ -4,7 +4,6 @@
 	import { addPage } from '$lib/services/storyActions';
 
 	export let data: PagesLayoutProps;
-	console.log(data.sortedPages[data.sortedPages.length - 1].pageNumber)
 </script>
 
 <div class="container">

@@ -20,3 +20,19 @@ export const savePosition = async (top: number, left: number, id: number) => {
 		throw new Error(error.message);
 	}
 };
+
+export const saveZindex = async (id: number, zIndex: number) => {
+	const { error } = await supabase.from('elements').update({ zIndex: zIndex }).eq('id', id);
+
+	if (error) {
+		throw new Error(error.message);
+	}
+};
+
+export const saveSize = async (id: number, size: number) => {
+	const { error } = await supabase.from('elements').update({ size }).eq('id', id);
+
+	if (error) {
+		throw new Error(error.message);
+	}
+};

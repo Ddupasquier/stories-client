@@ -1,8 +1,13 @@
 <script lang="ts">
-	export let open: boolean = false;
+	export let open: boolean;
 	export let left: number;
 	export let top: number;
+	export let height: number;
+	export let zIndex: number;
 	export let element: PageElement;
+
+	export let resize: (value: number) => void;
+	export let changeZindex: (value: number) => void;
 
 	import { deleteElement } from '$lib/services/elementActions';
 </script>
@@ -13,7 +18,32 @@
 			<b>
 				{element.elementName}
 			</b>
-			<li>Resize</li>
+			<li>
+				Size: <input
+					type="number"
+					value={height}
+					class="input context-input"
+					min="0"
+					on:change={(e) => {
+						if (e.target instanceof HTMLInputElement) {
+							resize(Number(e.target.value));
+						}
+					}}
+				/>
+			</li>
+			<li>
+				Z-Index: <input
+					type="number"
+					value={zIndex}
+					class="input context-input"
+					min="0"
+					on:change={(e) => {
+						if (e.target instanceof HTMLInputElement) {
+							changeZindex(Number(e.target.value));
+						}
+					}}
+				/>
+			</li>
 			<!-- svelte-ignore a11y-click-events-have-key-events -->
 			<li
 				on:click={() => {
@@ -23,10 +53,6 @@
 			>
 				Delete
 			</li>
-			<li>Forward</li>
-			<li>Backward</li>
-			<li>Bring to Front</li>
-			<li>Send to Back</li>
 		</ul>
 	</div>
 {/if}
@@ -35,6 +61,11 @@
 	#context-menu {
 		z-index: 1000;
 	}
+
+	.context-input {
+		width: 40px;
+	}
+
 	ul {
 		list-style: none;
 		padding: 0;
@@ -50,6 +81,9 @@
 			font-weight: bold;
 		}
 		li {
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
 			padding: 0.5rem;
 			cursor: pointer;
 			transition: 0.5s;

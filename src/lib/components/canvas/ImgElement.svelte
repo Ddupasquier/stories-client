@@ -1,12 +1,16 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
-	import { savePosition, getElement } from '$lib/services/elementActions';
+	import { savePosition, getElement, saveZindex, saveSize } from '$lib/services/elementActions';
 	import Loading from '$lib/components/Loading.svelte';
 	import ContextMenu from '../ContextMenu.svelte';
 
 	export let element: PageElement;
 	export let scope: HTMLElement;
 
+	$: top = element.y;
+	$: left = element.x;
+	$: zIndex = element.zIndex;
+	$: height = element.size;
 	let image: { publicUrl: string };
 	let loading = true;
 
@@ -18,15 +22,19 @@
 		}, 1000);
 	});
 
-	$: top = element.y;
-	$: left = element.x;
-	$: zIndex = element.zIndex;
-	$: height = element.size;
 
 	let moving = false;
 
 	const startMoving = () => {
 		moving = true;
+	};
+
+	const resize = (value: number) => {
+		height = value;
+	};
+
+	const changeZindex = (value: number) => {
+		zIndex = value;
 	};
 
 	export const move = (e: { movementX: number; movementY: number }) => {
@@ -38,6 +46,7 @@
 
 	let mouseLocation = { x: 0, y: 0 };
 	$: isOpen = false;
+
 	const contextMenu = (e: {
 		clientY: number;
 		clientX: number;
@@ -49,9 +58,14 @@
 		mouseLocation = { x: e.clientX - 73, y: e.clientY - 200 };
 	};
 
-	scope?.addEventListener('click', (e) => {
-		if (e.target === scope) {
+	// If the click event target is the scope element, and the element has an id, set isOpen to false and save the size and z index of the element.
+
+scope?.addEventListener('click', (e) => {
+		if (e.target === scope && element.id) {
 			isOpen = false;
+			if (height !== element.size) saveSize(element.id, height);
+			if (zIndex !== element.zIndex) saveZindex(element.id, zIndex);
+			return;
 		}
 	});
 </script>
@@ -60,7 +74,7 @@
 	on:mousemove={move}
 	on:mouseup={() => {
 		moving = false;
-		savePosition(top, left, element.id);
+		if (top !== element.y || left !== element.x) savePosition(top, left, element.id);
 	}}
 />
 
@@ -85,7 +99,17 @@
 		/>
 	{/if}
 </div>
-<ContextMenu top={mouseLocation.y} left={mouseLocation.x} {element} open={isOpen} />
+
+<ContextMenu
+	top={mouseLocation.y}
+	left={mouseLocation.x}
+	open={isOpen}
+	{element}
+	{height}
+	{zIndex}
+	{resize}
+	{changeZindex}
+/>
 
 <style lang="scss">
 	.canvas-element {
