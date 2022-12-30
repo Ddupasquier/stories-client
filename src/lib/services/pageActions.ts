@@ -13,12 +13,13 @@ export const uploadThumbnail = async (file: File, id: string) => {
 		.from('page-screenshots')
 		.upload(`thumbnail-${id}.webp`, file, {
 			upsert: true,
-			contentType: 'image/webp'
-		})
+			contentType: 'image/webp',
+			cacheControl: '60',
+		});
 
 	if (error) {
 		throw new Error(error.message);
-	} 
+	}
 	
 	else {
 		updateScreenshotColumn(id, data.path);

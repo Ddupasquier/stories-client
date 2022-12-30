@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { user, id } from '$lib/stores/userStore';
 	import { deleteIsOpen } from '$lib/stores/modalStore';
-	import { onMount } from 'svelte';
+	import { afterUpdate, beforeUpdate, onMount } from 'svelte';
 	import { supabase } from '$lib/supabase';
 	import type { AuthSession } from '@supabase/supabase-js';
 	import Profile from '$lib/components/profile/Profile.svelte';
@@ -24,7 +24,7 @@
 			const { data, error } = await supabase
 				.from('stories')
 				.select(
-					'id, title, author, updatedAt, profileId (id, username, avatarUrl), pages: pages (id, background, screenshot)'
+					'id, title, author, updatedAt, profileId (id, username, avatarUrl), pages: pages (id, background, screenshot, createdAt)'
 				)
 				.eq('profileId', profileId)
 				.order('updatedAt', { ascending: false });
@@ -33,6 +33,7 @@
 			}
 
 			stories = data;
+			return;
 		}
 	};
 
@@ -45,7 +46,9 @@
 			session = _session;
 		});
 
-		getMyStories();
+		setTimeout(() => {
+			getMyStories();
+		}, 500);
 	});
 </script>
 

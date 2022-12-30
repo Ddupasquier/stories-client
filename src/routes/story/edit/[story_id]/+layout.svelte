@@ -8,10 +8,10 @@
 
 	let titleInput: HTMLInputElement;
 
-	// set width of titleInput to the width of the title
 	const resizeTitleInput = () => {
 		titleInput.style.width = `${titleInput.value.length * 0.9}rem`;
 	};
+	
 	onMount(() => {
 		resizeTitleInput();
 	});

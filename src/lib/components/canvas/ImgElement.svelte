@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { onMount } from 'svelte';
+	import { beforeUpdate, onMount } from 'svelte';
 	import { savePosition, getElement } from '$lib/services/elementActions';
 	import Loading from '$lib/components/Loading.svelte';
 	import ContextMenu from '../ContextMenu.svelte';
@@ -13,12 +13,14 @@
 	let image: { publicUrl: string };
 	let loading = true;
 
-	onMount(async () => {
-		image = await getElement(element.elementName);
+	beforeUpdate(() => {
+		image = getElement(element.elementName);
+	});
 
-		setTimeout(() => {
+	onMount(() => {
+		if (element) {
 			loading = false;
-		}, 1000);
+		}
 	});
 
 	let moving = false;

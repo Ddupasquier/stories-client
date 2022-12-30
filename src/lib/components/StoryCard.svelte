@@ -7,7 +7,7 @@
 	export let story: Story | null;
 
 	export const getPageThumbnail = async () => {
-		if (story?.pages && story.pages[0].screenshot) {
+		if (story?.pages[0].screenshot) {
 			const { data: url } = supabase.storage
 				.from('page-screenshots')
 				.getPublicUrl(story.pages[0].screenshot);
@@ -22,6 +22,15 @@
 		setTimeout(async () => {
 			background = await getPageThumbnail();
 		}, 10);
+
+		supabase
+			.channel('public:pages')
+			.on('postgres_changes', { event: 'UPDATE', schema: 'public', table: 'pages' }, async (payload) => {
+				if (payload.new.story_id === story?.id) {
+					background = await getPageThumbnail();
+				}
+			})
+			.subscribe();	
 	});
 </script>
 
@@ -32,7 +41,7 @@
 				<h1>
 					{truncate(story.title, 15)}
 				</h1>
-				<img src={url} alt="avatar" class="thumbnail" />
+				<img src="{url}" alt="avatar" class="thumbnail" />
 			</div>
 		</a>
 		<div class="controls">
@@ -73,7 +82,6 @@
 	.thumbnail {
 		width: 100%;
 		height: 100%;
-		object-fit: cover;
 	}
 
 	.controls {

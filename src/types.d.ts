@@ -16,6 +16,7 @@ interface Story {
 }
 
 interface Page {
+	createdAt: any;
 	pageNumber: number;
 	storyId: StoryId;
 	id: number;

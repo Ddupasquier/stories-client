@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { supabase } from '$lib/supabase';
-	import { onMount } from 'svelte';
+	import { afterUpdate, beforeUpdate, onMount } from 'svelte';
 	import { page } from '$app/stores';
 	import { screenshotCanvas } from '$lib/utils';
 	import ImgElement from '$lib/components/canvas/ImgElement.svelte';
@@ -13,26 +13,21 @@
 		background: string;
 		elements: PageElement[];
 	};
-	
-	$: background = '';
+
+	$: background = info.background;
 
 	const setColor = (color: string) => {
 		background = color;
 	};
 
-	onMount(async () => {
-		background = info.background;
-
+	onMount(() => {
 		supabase
 			.channel('public:elements')
-			.on('postgres_changes', { event: 'INSERT', schema: 'public' }, (payload) => {
+			.on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'elements' }, (payload) => {
+				console.log('INSERT', payload.new);
 				info.elements = [...info.elements, payload.new] as PageElement[];
 			})
-			.subscribe();
-
-		supabase
-			.channel('public:elements')
-			.on('postgres_changes', { event: 'DELETE', schema: 'public' }, (payload) => {
+			.on('postgres_changes', { event: 'DELETE', schema: 'public', table: 'elements' }, (payload) => {
 				info.elements = info.elements.filter((element) => element.id !== payload.old.id);
 			})
 			.subscribe();

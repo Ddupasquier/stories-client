@@ -1,7 +1,10 @@
 <script lang="ts">
+	import { onMount } from 'svelte';
 	import { addPage } from '$lib/services/storyActions';
 
 	export let data: PagesLayoutProps;
+
+	
 </script>
 
 <div class="container">
@@ -19,7 +22,8 @@
 	<button
 		class="page-selection add-page"
 		title="Add Page"
-		on:click={() => addPage(data.pages[0].storyId.id, '#ffffff', data.pages[data.pages.length - 1].pageNumber)}
+		on:click={() =>
+			addPage(data.pages[0].storyId.id, '#ffffff', data.pages[data.pages.length - 1].pageNumber)}
 		on:keydown={(e) => {
 			if (e.key === 'Enter') {
 				addPage(data.pages[0].storyId.id, '#ffffff', data.pages[data.pages.length - 1].pageNumber);
@@ -42,6 +46,7 @@
 		background: #222;
 		color: white;
 		overflow-x: auto;
+		overflow-y: hidden;
 	}
 
 	.page-selection {
