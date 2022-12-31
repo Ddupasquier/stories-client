@@ -45,9 +45,6 @@
 				<ImgElement {element} />
 			{/each}
 		{/if}
-		<!-- <div class="page">
-			Page {info.pageNumber}
-		</div> -->
 	</div>
 {/if}
 
@@ -68,35 +65,18 @@
 	#canvas {
 		position: relative;
 		width: 100%;
-		height: 100%;
+		aspect-ratio: 16/7;
 		overflow: hidden;
 	}
-
-	// .page {
-	// 	position: absolute;
-	// 	bottom: 1rem;
-	// 	right: 1rem;
-	// 	width: fit-content;
-	// 	aspect-ratio: 1/1;
-	// 	padding: 0.5rem;
-	// 	background-color: rgba(255, 255, 255, 0.493);
-	// 	border-radius: 50%;
-	// 	color: rgb(0, 0, 0);
-	// 	display: flex;
-	// 	justify-content: center;
-	// 	align-items: center;
-	// 	font-size: 1rem;
-	// 	font-weight: 600;
-	// }
 
 	.controls {
 		position: absolute;
 		top: 6.5rem;
-		right: 5rem;
+		right: 12rem;
 		display: flex;
 		flex-direction: row;
 		align-items: center;
-		gap: 0.5rem;
+		gap: 1rem;
 	}
 	.save {
 		width: fit-content;

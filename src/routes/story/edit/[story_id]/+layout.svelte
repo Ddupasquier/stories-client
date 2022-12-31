@@ -77,8 +77,8 @@
 		display: flex;
 		flex-direction: column;
 		border: black solid;
-		aspect-ratio: 16/9;
-		width: 90vw;
+		width: 75vw;
+		max-width: 2000px;
 		user-select: none;
 	}
 </style>

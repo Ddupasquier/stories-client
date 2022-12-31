@@ -68,5 +68,8 @@
 		justify-content: center;
 		align-items: center;
 		cursor: pointer;
+		&:active {
+			transform: scale(0.95);
+		}
 	}
 </style>

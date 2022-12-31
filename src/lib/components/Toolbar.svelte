@@ -79,7 +79,7 @@
 		padding: 0 1rem;
 		background: #222;
 		color: white;
-		height: 7em;
+		height: 8rem;
 	}
 
 	.toolbar-item {
@@ -93,6 +93,9 @@
 		}
 		img {
 			height: 100%;
+			&:active {
+				transform: scale(0.9);
+			}
 		}
 	}
 

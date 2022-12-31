@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
-	import {supabase} from '$lib/supabase';
+	import { supabase } from '$lib/supabase';
 	import { getPageThumbnail } from '$lib/services/getImages';
 
 	export let page: SliderPageProps['page'];
@@ -24,7 +24,7 @@
 <a href="/story/edit/{page.storyId.id}/{page.id}" class="page-selection">
 	{#if image}
 		<img src={image?.publicUrl} alt="page" class="thumbnail" />
-            <div class="page-number">{page.pageNumber}</div>
+		<div class="page-number">{page.pageNumber}</div>
 	{/if}
 </a>
 
@@ -39,6 +39,9 @@
 		aspect-ratio: 16/9;
 		position: relative;
 		background: white;
+		&:active {
+			transform: scale(0.95);
+		}
 	}
 
 	.page-number {
