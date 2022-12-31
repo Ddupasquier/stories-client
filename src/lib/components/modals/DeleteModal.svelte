@@ -8,29 +8,31 @@
 
 <div class="modal-overlay">
 	<div class="modal">
-		<button class="close" on:click={() => deleteIsOpen.set(false)}> X </button>
 		{#if loading}
 			<LoadSpinner />
 		{:else}
-			<h1>
+			<button class="close" on:click={() => deleteIsOpen.set(false)}> X </button>
+			<br />
+			<h2>
 				Are you sure you want to delete <span>
 					{$storyToDelete?.title}
 				</span>?
-			</h1>
+			</h2>
+			<br />
+			<button
+				class="agree"
+				on:click={() => {
+					loading = true;
+					deleteStory($storyToDelete?.id);
+					setTimeout(() => {
+						loading = false;
+						deleteIsOpen.set(false);
+					}, 1000);
+				}}
+			>
+				Yes
+			</button>
 		{/if}
-		<button
-			class="agree"
-			on:click={() => {
-				loading = true;
-				deleteStory($storyToDelete?.id);
-				setTimeout(() => {
-					loading = false;
-					deleteIsOpen.set(false);
-				}, 1000);
-			}}
-		>
-			Yes
-		</button>
 	</div>
 </div>
 

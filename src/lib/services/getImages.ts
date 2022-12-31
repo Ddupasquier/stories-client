@@ -35,3 +35,12 @@ export const getPageThumbnail = async (data: string | undefined) => {
 		return url;
 	}
 };
+
+export const getThumbnailAvatar = async (data: string | undefined) => {
+	if (data) {
+		const { data: url } = supabase.storage
+			.from('avatars')
+			.getPublicUrl(data);
+		return url;
+	}
+}

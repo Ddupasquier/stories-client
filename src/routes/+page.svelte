@@ -35,6 +35,26 @@
 			stories = data;
 			return;
 		}
+
+		supabase
+			.channel('public:stories')
+			.on(
+				'postgres_changes',
+				{ event: 'INSERT', schema: 'public', table: 'stories' },
+				(payload) => {
+					const { new: newStory } = payload;
+					stories = [newStory, ...stories];
+				}
+			)
+			.on(
+				'postgres_changes',
+				{ event: 'DELETE', schema: 'public', table: 'stories' },
+				(payload) => {
+					const { old: oldStory } = payload;
+					stories = stories.filter((story) => story.id !== oldStory.id);
+				}
+			)
+			.subscribe();
 	};
 
 	onMount(() => {

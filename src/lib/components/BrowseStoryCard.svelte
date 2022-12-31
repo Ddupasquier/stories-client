@@ -2,45 +2,61 @@
 	import { onMount } from 'svelte';
 	import { supabase } from '$lib/supabase';
 	import { truncate } from '$lib/utils';
+	import { getPageThumbnail, getThumbnailAvatar } from '$lib/services/getImages';
+	import { createLoadObserver } from '$lib/utils';
+	import Loading from '$lib/components/Loading.svelte';
 
 	export let story: Story | null;
 
-	export const getPageThumbnail = async () => {
-		if (story?.pages[0].screenshot) {
-			const { data: url } = supabase.storage
-				.from('page-screenshots')
-				.getPublicUrl(story.pages[0].screenshot);
-			return url;
-		}
-	};
-
+	let avatar: { publicUrl: string } | undefined;
 	let background: { publicUrl: string } | undefined;
-	$: url = background?.publicUrl;
+	$: bgUrl = background?.publicUrl;
+	$: avatarUrl = avatar?.publicUrl;
 
-	onMount(() => {
-		setTimeout(async () => {
-			background = await getPageThumbnail();
-		}, 10);
+	let loading = true;
+	const onLoad = createLoadObserver(() => {
+		loading = false;
+	});
+
+	onMount(async () => {
+		background = await getPageThumbnail(story?.pages[0].screenshot);
+		avatar = await getThumbnailAvatar(story?.profileId.avatarUrl);
 
 		supabase
 			.channel('public:pages')
-			.on('postgres_changes', { event: 'UPDATE', schema: 'public', table: 'pages' }, async (payload) => {
-				if (payload.new.story_id === story?.id) {
-					background = await getPageThumbnail();
+			.on(
+				'postgres_changes',
+				{ event: 'UPDATE', schema: 'public', table: 'pages' },
+				async (payload) => {
+					if (payload.new.story_id === story?.id) {
+						background = await getPageThumbnail(story?.pages[0].screenshot);
+					}
 				}
-			})
-			.subscribe();	
+			)
+			.subscribe();
 	});
 </script>
 
 {#if story}
 	<div class="container">
-			<a href="/story/view/{story.id}/{story.pages[0].id}">
+		<a href="/story/view/{story.id}/{story.pages[0].id}">
 			<div class="story">
-				<h1>
-					{truncate(story.title, 15)}
-				</h1>
-				<img src="{url}" alt="avatar" class="thumbnail" />
+				<img use:onLoad src={avatarUrl} alt={story.title} class="avatar" />
+				{#if loading}
+					<div class="avatar">
+						<Loading />
+					</div>
+				{/if}
+
+				<div class="banner">
+					<h2>
+						{truncate(story.title, 15)}
+					</h2>
+					<h3>
+						{truncate(story.author, 30)}
+					</h3>
+				</div>
+				<img src={bgUrl} alt="avatar" class="thumbnail" />
 			</div>
 		</a>
 	</div>
@@ -65,11 +81,26 @@
 		height: 100%;
 	}
 
-	h1 {
+	.avatar {
 		position: absolute;
-		top: -2.5rem;
-		left: -1rem;
+		top: -1.9rem;
+		left: -2.5rem;
+		width: 5rem;
+		height: 5rem;
+		border-radius: 50%;
+		z-index: 1;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		background: rgb(139, 139, 139);
+	}
+
+	.banner {
+		position: absolute;
+		top: -1.1rem;
+		left: 1.9rem;
+		height: fit-content;
 		background: purple;
-		padding: 0 1rem;
+		padding: 0.25rem 1rem;
 	}
 </style>

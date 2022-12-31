@@ -1,6 +1,6 @@
 import html2canvas from 'html2canvas';
 
-export const convToPublicUrl = (img: ImgURL) => {
+export const convToPublicUrl = (img: ImgUrl) => {
 	const publicUrl = `https://latdcbfvbassfihdwpwi.supabase.co/storage/v1/object/public/svg-assets/${img.name}`;
 	return publicUrl;
 };
@@ -21,10 +21,27 @@ export const screenshotCanvas = async (element: string): Promise<File | null> =>
 };
 
 export const generateUuid = () => {
-	const uuid = Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
+	const uuid =
+		Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
 	return uuid;
-}
+};
 
 export const truncate = (str: string, n: number) => {
 	return str.length > n ? str.substr(0, n - 1) + '...' : str;
-}
+};
+
+export const createLoadObserver = (handler: () => void) => {
+	let waiting = 0;
+
+	const onload = (el: { addEventListener: (arg0: string, arg1: () => void) => void; }) => {
+		waiting++;
+		el.addEventListener('load', () => {
+			waiting--;
+			if (waiting === 0) {
+				handler();
+			}
+		});
+	};
+
+	return onload;
+};

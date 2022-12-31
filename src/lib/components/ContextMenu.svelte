@@ -78,7 +78,7 @@
 
 <style lang="scss">
 	#context-menu {
-		z-index: 1000;
+		// z-index: 1000;
 	}
 
 	.context-input {

@@ -1,6 +1,5 @@
 <script lang="ts">
 	export let data: Stories;
-	console.log(data)
 
 	interface Stories {
 		stories: Story[];

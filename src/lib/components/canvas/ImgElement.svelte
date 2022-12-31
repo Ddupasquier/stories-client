@@ -59,7 +59,7 @@
 		movementY: number;
 	}) => {
 		e.preventDefault();
-		mouseLocation = { x: e.clientX - 73, y: e.clientY - 200 };
+		mouseLocation = { x: e.clientX - 250, y: e.clientY - 300 };
 	};
 </script>
 
@@ -109,7 +109,8 @@
 <style lang="scss">
 	.canvas-element {
 		width: fit-content;
-		aspect-ratio: 1.1;
+		aspect-ratio: 1 / 1;
+		
 		img {
 			user-select: none;
 		}
