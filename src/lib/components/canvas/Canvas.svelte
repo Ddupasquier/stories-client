@@ -57,7 +57,7 @@
 			saveBgColor(info.id, background);
 		}}
 	>
-		Save
+		Save save save
 	</button>
 </div>
 
@@ -97,5 +97,4 @@
 			box-shadow: var(--orange) 0 0 5px 2px inset;
 		}
 	}
-	
 </style>
