@@ -53,18 +53,17 @@
 				<Loading />
 			{:else}
 				<!-- svelte-ignore a11y-click-events-have-key-events -->
-				<img
-					src={convToPublicUrl(image)}
-					alt={image.name}
-					title={image.name}
-					class="toolbar-item"
-					on:click={() => {
-						addElementToPage(image.name);
-						// setTimeout(() => {
-						// 	window.location.reload();
-						// }, 100);
-					}}
-				/>
+				<div class="toolbar-item">
+					<img
+						src={convToPublicUrl(image)}
+						alt={image.name}
+						title={image.name}
+						on:click={() => {
+							addElementToPage(image.name);
+						}}
+					/>
+					<div class="add-icon">+</div>
+				</div>
 			{/if}
 		{/if}
 	{/each}
@@ -80,10 +79,41 @@
 		padding: 0 1rem;
 		background: #222;
 		color: white;
-		height: 6em;
+		height: 7em;
 	}
 
 	.toolbar-item {
+		position: relative;
 		height: 80%;
+		cursor: pointer;
+		filter: grayscale(100%);
+		transition: filter 0.2s ease-in-out;
+		&:hover {
+			filter: grayscale(0%);
+		}
+		img {
+			height: 100%;
+		}
+	}
+
+	.toolbar-item:hover .add-icon {
+		opacity: 1;
+	}
+
+	.add-icon {
+		position: absolute;
+		top: 0;
+		right: 0;
+		width: 1.2rem;
+		height: 1.2rem;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		font-size: 2rem;
+		color: rgb(0, 0, 0);
+		opacity: 0;
+		transition: opacity 0.2s ease-in-out;
+		background: rgb(255, 255, 255, .5);
+		border-radius: 50%;
 	}
 </style>
