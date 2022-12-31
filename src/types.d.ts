@@ -16,7 +16,7 @@ interface Story {
 }
 
 interface Page {
-	createdAt: any;
+	createdAt: string;
 	pageNumber: number;
 	storyId: StoryId;
 	id: number;
@@ -26,6 +26,10 @@ interface Page {
 
 interface PagesLayoutProps {
 	pages: Page[];
+}
+
+interface SliderPageProps {
+	page: Page;
 }
 
 interface StoryId {

@@ -45,9 +45,9 @@
 				<ImgElement {element} />
 			{/each}
 		{/if}
-		<div class="page">
+		<!-- <div class="page">
 			Page {info.pageNumber}
-		</div>
+		</div> -->
 	</div>
 {/if}
 
@@ -72,22 +72,22 @@
 		overflow: hidden;
 	}
 
-	.page {
-		position: absolute;
-		bottom: 1rem;
-		right: 1rem;
-		width: fit-content;
-		aspect-ratio: 1/1;
-		padding: 0.5rem;
-		background-color: rgba(255, 255, 255, 0.493);
-		border-radius: 50%;
-		color: rgb(0, 0, 0);
-		display: flex;
-		justify-content: center;
-		align-items: center;
-		font-size: 1rem;
-		font-weight: 600;
-	}
+	// .page {
+	// 	position: absolute;
+	// 	bottom: 1rem;
+	// 	right: 1rem;
+	// 	width: fit-content;
+	// 	aspect-ratio: 1/1;
+	// 	padding: 0.5rem;
+	// 	background-color: rgba(255, 255, 255, 0.493);
+	// 	border-radius: 50%;
+	// 	color: rgb(0, 0, 0);
+	// 	display: flex;
+	// 	justify-content: center;
+	// 	align-items: center;
+	// 	font-size: 1rem;
+	// 	font-weight: 600;
+	// }
 
 	.controls {
 		position: absolute;

@@ -6,7 +6,7 @@
 	import type { AuthSession } from '@supabase/supabase-js';
 	import Profile from '$lib/components/profile/Profile.svelte';
 	import Auth from '$lib/components/auth/Auth.svelte';
-	import StoryCard from '$lib/components/StoryCard.svelte';
+	import StoryCard from '$lib/components/ProfileStoryCard.svelte';
 	import DeleteModal from '$lib/components/modals/DeleteModal.svelte';
 	import { newStory } from '$lib/services/storyActions';
 

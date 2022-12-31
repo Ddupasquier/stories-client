@@ -1,23 +1,28 @@
 <script lang="ts">
+	import { supabase } from '$lib/supabase';
 	import { onMount } from 'svelte';
 	import { addPage } from '$lib/services/storyActions';
+	import SliderPage from './SliderPage.svelte';
 
 	export let data: PagesLayoutProps;
 
-	
+	onMount(() => {
+		supabase
+			.channel('public:elements')
+			.on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'pages' }, (payload) => {
+				console.log('insert');
+				data.pages = [...data.pages, payload.new] as Page[];
+			})
+			.on('postgres_changes', { event: 'DELETE', schema: 'public', table: 'pages' }, (payload) => {
+				data.pages = data.pages.filter((page) => page.id !== payload.old.id);
+			})
+			.subscribe();
+	});
 </script>
 
 <div class="container">
-	{#each data.pages as page, i}
-		<a
-			href="/story/edit/{page.storyId.id}/{page.id}"
-			style={`background: ${page.background}`}
-			class="page-selection"
-		>
-			<div class="page-number">
-				{i + 1}
-			</div>
-		</a>
+	{#each data.pages as page}
+		<SliderPage {page} />
 	{/each}
 	<button
 		class="page-selection add-page"
@@ -53,23 +58,6 @@
 		height: 80%;
 		aspect-ratio: 16/9;
 		position: relative;
-	}
-
-	.page-number {
-		position: absolute;
-		bottom: 0.5rem;
-		right: 0.5rem;
-		width: 0.5rem;
-		height: 0.5rem;
-		padding: 0.5rem;
-		background-color: rgba(255, 255, 255, 0.493);
-		border-radius: 50%;
-		color: rgb(0, 0, 0);
-		display: flex;
-		justify-content: center;
-		align-items: center;
-		font-size: 1rem;
-		font-weight: 600;
 	}
 
 	.add-page {

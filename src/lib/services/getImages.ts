@@ -26,3 +26,12 @@ export const getElements = async (pageId: number) => {
 		return data;
 	}
 };
+
+export const getPageThumbnail = async (data: string | undefined) => {
+	if (data) {
+		const { data: url } = supabase.storage
+			.from('page-screenshots')
+			.getPublicUrl(data);
+		return url;
+	}
+};

@@ -5,10 +5,6 @@ export const convToPublicUrl = (img: ImgURL) => {
 	return publicUrl;
 };
 
-export const restart = (variable: object) => {
-	variable = {};
-};
-
 export const screenshotCanvas = async (element: string): Promise<File | null> => {
 	const el: HTMLElement | null = document.querySelector(element);
 	if (el) {

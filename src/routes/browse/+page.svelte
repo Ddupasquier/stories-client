@@ -1,11 +1,12 @@
 <script lang="ts">
 	export let data: Stories;
+	console.log(data)
 
 	interface Stories {
 		stories: Story[];
 	}
 
-	import StoryCard from '$lib/components/StoryCard.svelte';
+	import StoryCard from '$lib/components/BrowseStoryCard.svelte';
 </script>
 
 <div class="stories">

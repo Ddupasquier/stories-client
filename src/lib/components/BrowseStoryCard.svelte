@@ -1,7 +1,6 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
 	import { supabase } from '$lib/supabase';
-	import { storyToDelete, deleteIsOpen } from '$lib/stores/modalStore';
 	import { truncate } from '$lib/utils';
 
 	export let story: Story | null;
@@ -36,7 +35,7 @@
 
 {#if story}
 	<div class="container">
-		<a href="/story/{story.id}/view">
+			<a href="/story/view/{story.id}/{story.pages[0].id}">
 			<div class="story">
 				<h1>
 					{truncate(story.title, 15)}
@@ -44,24 +43,6 @@
 				<img src="{url}" alt="avatar" class="thumbnail" />
 			</div>
 		</a>
-		<div class="controls">
-			{#if story?.pages}
-				<a href="/story/edit/{story.id}/{story.pages[0].id}">Edit</a> |
-			{/if}
-			<span
-				class="delete"
-				on:click={() => {
-					storyToDelete.set(story);
-					deleteIsOpen.set(true);
-				}}
-				on:keydown={(e) => {
-					if (e.key === 'Enter') {
-						storyToDelete.set(story);
-						deleteIsOpen.set(true);
-					}
-				}}>Delete</span
-			>
-		</div>
 	</div>
 {/if}
 
@@ -82,21 +63,6 @@
 	.thumbnail {
 		width: 100%;
 		height: 100%;
-	}
-
-	.controls {
-		text-align: center;
-		background: rgb(237, 240, 248);
-		padding: 0.5rem;
-		border-radius: 0.5rem;
-	}
-
-	.delete {
-		cursor: pointer;
-		color: black;
-		&:hover {
-			text-decoration: underline;
-		}
 	}
 
 	h1 {
