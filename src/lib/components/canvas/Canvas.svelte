@@ -57,7 +57,7 @@
 			saveBgColor(info.id, background);
 		}}
 	>
-		Save save save
+		Save
 	</button>
 </div>
 
