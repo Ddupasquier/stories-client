@@ -1,11 +1,13 @@
 <script lang="ts">
 	import { supabase } from '$lib/supabase';
-	import { afterUpdate, beforeUpdate, onMount } from 'svelte';
+	import { onMount } from 'svelte';
 	import { page } from '$app/stores';
 	import { screenshotCanvas } from '$lib/utils';
 	import ImgElement from '$lib/components/canvas/ImgElement.svelte';
 	import { uploadThumbnail, saveBgColor } from '$lib/services/pageActions';
 	import ColorPicker from '../ColorPicker.svelte';
+	import HowToModal from '../modals/HowToModal.svelte';
+	import {howToIsOpen} from '$lib/stores/modalStore';
 
 	export let info: {
 		id: number;
@@ -45,6 +47,9 @@
 				<ImgElement {element} />
 			{/each}
 		{/if}
+		{#if $howToIsOpen}
+			<HowToModal />
+		{/if}
 	</div>
 {/if}
 
@@ -60,6 +65,8 @@
 		Save
 	</button>
 </div>
+
+
 
 <style lang="scss">
 	#canvas {

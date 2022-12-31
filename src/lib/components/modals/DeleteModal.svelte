@@ -2,12 +2,13 @@
 	import { storyToDelete, deleteIsOpen } from '$lib/stores/modalStore';
 	import { deleteStory } from '$lib/services/delete';
 	import LoadSpinner from '../Loading.svelte';
+	import { fade, scale } from 'svelte/transition';
 
 	let loading: boolean = false;
 </script>
 
-<div class="modal-overlay">
-	<div class="modal">
+<div class="modal-overlay" transition:fade>
+	<div class="modal" transition:scale>
 		{#if loading}
 			<LoadSpinner />
 		{:else}
@@ -57,18 +58,6 @@
 		border-radius: 0.5rem;
 		max-width: 400px;
 		text-align: center;
-	}
-
-	.close {
-		position: absolute;
-		top: 0;
-		right: 0;
-		padding: 1rem;
-		background-color: transparent;
-		color: black;
-		border: none;
-		cursor: pointer;
-		font-size: 1.5rem;
 	}
 
 	.agree {

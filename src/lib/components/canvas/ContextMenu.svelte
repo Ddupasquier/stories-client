@@ -31,7 +31,7 @@
 
 <div
 	id="context-menu"
-	style="position: absolute; top: {top + 'px'}; left: {left + 'px'}"
+	style="position: fixed; top: {top + 'px'}; left: {left + 'px'}"
 	bind:this={contextRef}
 >
 	<ul>
@@ -78,7 +78,7 @@
 
 <style lang="scss">
 	#context-menu {
-		// z-index: 1000;
+		z-index: 1000;
 	}
 
 	.context-input {

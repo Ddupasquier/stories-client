@@ -59,7 +59,7 @@
 		movementY: number;
 	}) => {
 		e.preventDefault();
-		mouseLocation = { x: e.clientX - 250, y: e.clientY - 300 };
+		mouseLocation = { x: e.clientX, y: e.clientY };
 	};
 </script>
 
