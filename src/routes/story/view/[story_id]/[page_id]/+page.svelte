@@ -1,5 +1,5 @@
 <script lang="ts">
-	import Canvas from '$lib/components/canvas/Canvas.svelte';
+	import Canvas from '$lib/components/canvas/CanvasNoEdit.svelte';
 
 	export let data: EditPageProps;
 </script>

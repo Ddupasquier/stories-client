@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { supabase } from '$lib/supabase';
+	import { page } from '$app/stores';
 	import { onMount } from 'svelte';
 	import { addPage } from '$lib/services/storyActions';
 	import SliderPage from './SliderPage.svelte';
@@ -10,7 +11,6 @@
 		supabase
 			.channel('public:elements')
 			.on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'pages' }, (payload) => {
-				console.log('insert');
 				data.pages = [...data.pages, payload.new] as Page[];
 			})
 			.on('postgres_changes', { event: 'DELETE', schema: 'public', table: 'pages' }, (payload) => {
@@ -21,22 +21,28 @@
 </script>
 
 <div class="container">
-	{#each data.pages as page}
-		<SliderPage {page} />
+	{#each data.pages as pageData}
+		<SliderPage {pageData} />
 	{/each}
-	<button
-		class="page-selection add-page"
-		title="Add Page"
-		on:click={() =>
-			addPage(data.pages[0].storyId.id, '#ffffff', data.pages[data.pages.length - 1].pageNumber)}
-		on:keydown={(e) => {
-			if (e.key === 'Enter') {
-				addPage(data.pages[0].storyId.id, '#ffffff', data.pages[data.pages.length - 1].pageNumber);
-			}
-		}}
-	>
-		+
-	</button>
+	{#if $page.route.id?.includes('edit')}
+		<button
+			class="page-selection add-page"
+			title="Add Page"
+			on:click={() =>
+				addPage(data.pages[0].storyId.id, '#ffffff', data.pages[data.pages.length - 1].pageNumber)}
+			on:keydown={(e) => {
+				if (e.key === 'Enter') {
+					addPage(
+						data.pages[0].storyId.id,
+						'#ffffff',
+						data.pages[data.pages.length - 1].pageNumber
+					);
+				}
+			}}
+		>
+			+
+		</button>
+	{/if}
 </div>
 
 <style lang="scss">

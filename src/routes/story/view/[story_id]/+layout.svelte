@@ -30,31 +30,12 @@
 		font-weight: 800;
 	}
 
-	form {
-		margin: 0;
-		padding: 0;
-	}
-
-	.title-input {
-		font-size: 1.5rem;
-		margin: 0;
-		font-weight: 800;
-		border: none;
-		background: none;
-		color: var(--color-text);
-		&:hover {
-			border: none;
-			background: rgb(255, 255, 255, 0.4);
-			box-shadow: none;
-		}
-	}
-
 	.story-container {
 		display: flex;
 		flex-direction: column;
 		border: black solid;
-		aspect-ratio: 16/9;
-		width: 90vw;
+		width: 75vw;
+		max-width: 2000px;
 		user-select: none;
 	}
 </style>

@@ -22,7 +22,8 @@
 
 <div class="login" aria-live="polite">
 	<form class="form-widget" on:submit|preventDefault={handleLogin}>
-		<p class="description">Sign in via magic link with your email below</p>
+		<p class="description">Sign in with your email.</p>
+		<p class="sub-description">NO PASSWORD REQUIRED!</p>
 		<div>
 			<label for="email">Email</label>
 			<input id="email" class="input" type="email" placeholder="Your email" bind:value={email} />
@@ -63,8 +64,15 @@
 	}
 
 	.description {
-		font-size: 1.3rem;
+		font-size: 1.6rem;
 		color: #f44336;
-		margin-bottom: 1rem;
+		margin: 0;
+	}
+
+	.sub-description {
+		font-size: 0.8rem;
+		color: #000000;
+		margin: 0;
+		margin-bottom: 1.3rem;
 	}
 </style>

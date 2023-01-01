@@ -6,6 +6,7 @@
 	import Header from './Header.svelte';
 	import './styles.scss';
 	import { signout, getProfile } from '$lib/services/auth';
+	import Footer from './Footer.svelte';
 
 	export let data: { session: AuthSession | null };
 	
@@ -33,7 +34,7 @@
 		<slot session={data.session}/>
 	</main>
 
-	<footer>Dylan and Ramiro are pretty cool</footer>
+	<Footer />
 </div>
 
 <style>
@@ -49,14 +50,6 @@
 		flex-direction: column;
 		align-items: center;
 		padding: 1rem 4rem;
-	}
-
-	footer {
-		display: flex;
-		flex-direction: column;
-		justify-content: center;
-		align-items: center;
-		padding: 12px;
 	}
 
 	.logout {

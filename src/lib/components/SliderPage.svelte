@@ -1,19 +1,21 @@
 <script lang="ts">
+	import { page } from '$app/stores';
 	import { onMount } from 'svelte';
 	import { supabase } from '$lib/supabase';
 	import { getPageThumbnail } from '$lib/services/getImages';
 
-	export let page: SliderPageProps['page'];
+	export let pageData: SliderPageProps['page'];
 
 	let image: { publicUrl: string } | undefined;
+	$: console.log(pageData.screenshot)
 
 	onMount(async () => {
-		image = await getPageThumbnail(page.screenshot);
+		image = await getPageThumbnail(pageData.screenshot);
 
 		supabase
 			.channel('public:pages')
 			.on('postgres_changes', { event: 'UPDATE', schema: 'public', table: 'pages' }, (payload) => {
-				if (payload.new.id === page.id) {
+				if (payload.new.id === pageData.id) {
 					image = payload.new.screenshot;
 				}
 			})
@@ -21,10 +23,10 @@
 	});
 </script>
 
-<a href="/story/edit/{page.storyId.id}/{page.id}" class="page-selection">
+<a href="/story/{$page.route.id?.includes('edit') ? 'edit' : 'view'}/{pageData.storyId.id}/{pageData.id}" class="page-selection">
 	{#if image}
 		<img src={image?.publicUrl} alt="page" class="thumbnail" />
-		<div class="page-number">{page.pageNumber}</div>
+		<div class="page-number">{pageData.pageNumber}</div>
 	{/if}
 </a>
 
