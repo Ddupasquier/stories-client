@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { user, id } from '$lib/stores/userStore';
 	import { deleteIsOpen } from '$lib/stores/modalStore';
-	import { afterUpdate, beforeUpdate, onMount } from 'svelte';
+	import { onMount } from 'svelte';
 	import { supabase } from '$lib/supabase';
 	import type { AuthSession } from '@supabase/supabase-js';
 	import Profile from '$lib/components/profile/Profile.svelte';
@@ -12,6 +12,9 @@
 
 	let session: AuthSession | null = null;
 	let stories: Story[] = [];
+
+	export let data;
+	$: console.log(data)
 
 	let profileId: string | null;
 
