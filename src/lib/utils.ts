@@ -22,7 +22,7 @@ export const screenshotCanvas = async (element: string): Promise<File | null> =>
 
 export const generateUuid = () => {
 	const uuid =
-		Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
+		Math.random().toString(20).substring(2, 15) + Math.random().toString(36).substring(2, 15);
 	return uuid;
 };
 
@@ -33,7 +33,7 @@ export const truncate = (str: string, n: number) => {
 export const createLoadObserver = (handler: () => void) => {
 	let waiting = 0;
 
-	const onload = (el: { addEventListener: (arg0: string, arg1: () => void) => void; }) => {
+	const onload = (el: { addEventListener: (arg0: string, arg1: () => void) => void }) => {
 		waiting++;
 		el.addEventListener('load', () => {
 			waiting--;

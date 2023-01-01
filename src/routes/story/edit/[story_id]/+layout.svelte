@@ -5,6 +5,7 @@
 
 	import Toolbar from '$lib/components/Toolbar.svelte';
 	import Slider from '$lib/components/Slider.svelte';
+	import { truncate } from '$lib/utils';
 
 	let titleInput: HTMLInputElement;
 
@@ -28,7 +29,7 @@
 	>
 		<input
 			class="input title-input"
-			value={data.pages[0].storyId.title}
+			value={truncate(data.pages[0].storyId.title, 25)}
 			bind:this={titleInput}
 			on:change={resizeTitleInput}
 		/>
