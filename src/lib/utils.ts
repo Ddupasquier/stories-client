@@ -7,10 +7,26 @@ export const convToPublicUrl = (img: ImgUrl) => {
 
 export const screenshotCanvas = async (element: string): Promise<File | null> => {
 	const el: HTMLElement | null = document.querySelector(element);
+	const svgAssets = document.querySelectorAll('img');
 	if (el) {
-		const canvas = await html2canvas(el);
-
-		// draw SVGs on canvas
+		const canvas = await html2canvas(el, {
+			allowTaint: true,
+			useCORS: true,
+			logging: true,
+			imageTimeout: 0,
+			proxy: 'https://cors-anywhere.herokuapp.com/',
+			onclone: (doc) => {
+				svgAssets.forEach((asset) => {
+					console.log('assets', asset, asset.width, asset.height)
+					const img = doc.createElement('img');
+					img.src = asset.src;
+					img.width = asset.width;
+					img.height = asset.height;
+					doc.body.appendChild(img);
+					console.log('img', img, img.width, img.height)
+				});
+			}
+		});
 
 		const blob = await new Promise((resolve) => canvas.toBlob(resolve));
 		// TODO handle error if blob is null somehow

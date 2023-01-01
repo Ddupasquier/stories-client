@@ -7,7 +7,6 @@
 	export let pageData: SliderPageProps['page'];
 
 	let image: { publicUrl: string } | undefined;
-	$: console.log(pageData.screenshot)
 
 	onMount(async () => {
 		image = await getPageThumbnail(pageData.screenshot);

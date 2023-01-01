@@ -71,27 +71,29 @@
 	}}
 />
 
-<div
-	class="canvas-element"
-	style="display: flex; justify-content: center; align-items: center; position: absolute; top: {top +
-		'%'}; left: {left + '%'}; z-index: {zIndex}; height: {height + '%'};"
->
-	{#if loading}
+{#if loading}
+	<div
+		class="loading"
+		style="display: flex; justify-content: center; align-items: center; position: absolute; top: {top +
+			'%'}; left: {left + '%'}; z-index: {zIndex}; height: {height + '%'};"
+	>
 		<Loading />
-	{/if}
-	{#if image && !loading}
-		<img
-			src={image.publicUrl}
-			alt={element.elementName}
-			on:mousedown={startMoving}
-			draggable="false"
-			on:contextmenu={(e) => {
-				contextMenu(e);
-				isOpen = true;
-			}}
-		/>
-	{/if}
-</div>
+	</div>
+{/if}
+{#if image && !loading}
+	<img
+		src={image.publicUrl}
+		alt={element.elementName}
+		on:mousedown={startMoving}
+		draggable="false"
+		on:contextmenu={(e) => {
+			contextMenu(e);
+			isOpen = true;
+		}}
+		style="display: flex; justify-content: center; align-items: center; position: absolute; top: {top +
+			'%'}; left: {left + '%'}; z-index: {zIndex}; height: {height + '%'}; border: 1px solid black;"
+	/>
+{/if}
 
 {#if isOpen}
 	<ContextMenu
@@ -107,12 +109,7 @@
 {/if}
 
 <style lang="scss">
-	.canvas-element {
-		width: fit-content;
-		aspect-ratio: 1 / 1;
-		
 		img {
 			user-select: none;
 		}
-	}
 </style>
