@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { user, id } from '$lib/stores/userStore';
+	import { username, userId } from '$lib/stores/userStore';
 	import { deleteIsOpen } from '$lib/stores/modalStore';
 	import { onMount } from 'svelte';
 	import { supabase } from '$lib/supabase';
@@ -10,32 +10,24 @@
 	import DeleteModal from '$lib/components/modals/DeleteModal.svelte';
 	import { newStory } from '$lib/services/storyActions';
 
-	let session: AuthSession | null = null;
 	let stories: Story[] = [];
 
-	export let data;
-	$: console.log(data)
-
-	let profileId: string | null;
-
-	id.subscribe((value) => {
-		if (value) profileId = value;
-	});
+	export let data: AuthSession | null = null;
 
 	const getMyStories = async () => {
-		if (profileId) {
-			const { data, error } = await supabase
+		if (data?.session) {
+			const { data: theseStories, error } = await supabase
 				.from('stories')
 				.select(
 					'id, title, author, updatedAt, profileId (id, username, avatarUrl), pages: pages (id, background, screenshot, createdAt)'
 				)
-				.eq('profileId', profileId)
+				.eq('profileId', data.session.user.id)
 				.order('updatedAt', { ascending: false });
 			if (error) {
 				throw new Error(error.message);
 			}
 
-			stories = data;
+			stories = theseStories;
 			return;
 		}
 
@@ -61,14 +53,6 @@
 	};
 
 	onMount(() => {
-		supabase.auth.getSession().then(({ data }) => {
-			session = data.session;
-		});
-
-		supabase.auth.onAuthStateChange((_event, _session) => {
-			session = _session;
-		});
-
 		setTimeout(() => {
 			getMyStories();
 		}, 500);
@@ -76,18 +60,18 @@
 </script>
 
 <svelte:head>
-	<title>{$user ? `${$user}'s Stories` : 'Your stories'}</title>
+	<title>{$username ? `${$username}'s Stories` : 'Stories We Tell'}</title>
 	<meta name="description" content="Svelte demo app" />
 </svelte:head>
 
 <div class="container">
-	{#if !session}
+	{#if !data?.session}
 		<Auth />
 	{:else}
-		<Profile {session} />
-		{#if session.user.id}
-			<button class="button" on:click={() => newStory(session?.user.id, $user)}>New Story</button>
-		{/if}
+		<Profile session={data?.session} />
+		<button class="button" on:click={() => newStory(data?.session.user.id, $username)}
+			>New Story</button
+		>
 		<div class="stories">
 			{#if stories.length > 0}
 				{#each stories as story}

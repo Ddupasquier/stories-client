@@ -1,14 +1,22 @@
 <script lang="ts">
+	import {onMount} from 'svelte';
 	import { supabase } from '$lib/supabase';
-	import { user } from '$lib/stores/userStore';
+	import type { AuthSession } from '@supabase/supabase-js';
+	import { username, userId, fullname, avatar } from '$lib/stores/userStore';
 	import Header from './Header.svelte';
 	import './styles.scss';
-	import { signout } from '$lib/services/auth';
+	import { signout, getProfile } from '$lib/services/auth';
+
+	export let data: { session: AuthSession | null };
+	
+	onMount(() => {
+		getProfile(data.session?.user.id)
+	})
 </script>
 
 <div class="app">
-	<Header />
-	{#if $user}
+	<Header session={data.session}/>
+	{#if data.session}
 		<button
 			type="button"
 			on:click={() => {
@@ -22,7 +30,7 @@
 	{/if}
 
 	<main>
-		<slot />
+		<slot session={data.session}/>
 	</main>
 
 	<footer>Dylan and Ramiro are pretty cool</footer>

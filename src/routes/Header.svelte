@@ -1,13 +1,15 @@
-<script>
+<script lang="ts">
+	import type { AuthSession } from '@supabase/supabase-js';
 	import { page } from '$app/stores';
-	import { user } from '$lib/stores/userStore';
+	import { username } from '$lib/stores/userStore';
+	export let session: AuthSession | null;
 </script>
 
 <header>
 	<nav>
 		<ul>
 			<li aria-current={$page.url.pathname === '/' ? 'page' : undefined}>
-				<a href="/">{$user ? $user : 'Profile'}</a>
+				<a href="/">{session ? $username : 'Login'}</a>
 			</li>
 			<li aria-current={$page.url.pathname === '/browse' ? 'page' : undefined}>
 				<a href="/browse">Browse</a>

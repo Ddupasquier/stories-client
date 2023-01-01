@@ -1,57 +1,34 @@
 <script lang="ts">
-	import { onMount } from 'svelte';
-	import { user, name, avatar, id } from '$lib/stores/userStore';
+	import { beforeUpdate, onMount } from 'svelte';
+	import { username, fullname, avatar, userId } from '$lib/stores/userStore';
 	import type { AuthSession } from '@supabase/supabase-js';
 	import { supabase } from '$lib/supabase';
 
 	import Avatar from './Avatar.svelte';
+	import { getProfile } from '$lib/services/auth';
 
 	export let session: AuthSession;
 
 	let profileLoading = false;
-	let username: string | null = null;
-	let fullName: string | null = null;
-	let avatarUrl: string | null = null;
+	$: userName = $username;
+	$: fullName = $fullname;
+	$: avatarUrl = $avatar;
 
-	const updateUserStore = (a: string, b: string, c: string, d: string) => {
-		user.set(a);
-		name.set(b);
+	const updateUserStore = (
+		a: string | null,
+		b: string | null,
+		c: string | null,
+		d: string | null
+	) => {
+		username.set(a);
+		fullname.set(b);
 		avatar.set(c);
-		id.set(d);
+		userId.set(d);
 	};
 
-	onMount(() => {
-		getProfile();
-	});
-
-	const getProfile = async () => {
-		try {
-			profileLoading = true;
-
-			const { user } = session;
-
-			const { data, error, status } = await supabase
-				.from('profiles')
-				.select('username, fullName, avatarUrl')
-				.eq('id', user.id)
-				.single();
-
-			if (error && status !== 406) throw error;
-
-			if (data) {
-				username = data.username;
-				fullName = data.fullName;
-				avatarUrl = data.avatarUrl;
-				updateUserStore(data.username, data.fullName, data.avatarUrl, user.id);
-			}
-		} catch (error) {
-			if (error instanceof Error) {
-				alert(error.message);
-			}
-		} finally {
-			profileLoading = false;
-		}
-	};
+	beforeUpdate(() => {
+		getProfile(session?.user.id);
+	})
 
 	const updateProfile = async () => {
 		try {
@@ -60,7 +37,7 @@
 
 			const updates = {
 				id: user.id,
-				username,
+				username: userName,
 				fullName,
 				avatarUrl,
 				updatedAt: new Date().toISOString()
@@ -77,20 +54,23 @@
 			}
 		} finally {
 			profileLoading = false;
+			updateUserStore(userName, fullName, avatarUrl, session.user.id);
 		}
 	};
 </script>
 
 <form on:submit|preventDefault={updateProfile}>
 	<Avatar bind:url={avatarUrl} size={200} on:upload={updateProfile} />
+	{#if session}
 	<div><b>Email: {session.user.email}</b></div>
+	{/if}
 	<div>
 		<label for="username">Username</label>
 		<input
 			id="username"
 			type="text"
-			placeholder={username}
-			bind:value={username}
+			placeholder={userName}
+			bind:value={userName}
 			class="input"
 			required
 		/>
