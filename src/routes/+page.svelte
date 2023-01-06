@@ -35,19 +35,24 @@
 			.channel('public:stories')
 			.on(
 				'postgres_changes',
-				{ event: 'INSERT', schema: 'public', table: 'stories' },
+				{ event: '*', schema: 'public', table: 'stories' },
 				(payload) => {
-					const { new: newStory } = payload;
-					stories = [newStory, ...stories];
+					if (payload.eventType === 'INSERT') {
+						stories = [payload.new, ...stories];
+					}
+					if (payload.eventType === 'DELETE') {
+						stories = stories.filter((story) => story.id !== payload.old.id);
+					}
+					if (payload.eventType === 'UPDATE') {
+						stories = stories.map((story) => {
+							if (story.id === payload.new.id) {
+								return payload.new;
+							}
+							return story;
+						});
+					}
 				}
-			)
-			.on(
-				'postgres_changes',
-				{ event: 'DELETE', schema: 'public', table: 'stories' },
-				(payload) => {
-					const { old: oldStory } = payload;
-					stories = stories.filter((story) => story.id !== oldStory.id);
-				}
+				
 			)
 			.subscribe();
 	};

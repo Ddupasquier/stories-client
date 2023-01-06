@@ -1,14 +1,17 @@
 import { supabase } from '$lib/supabase';
 import { generateUuid } from '$lib/utils';
+import { goto } from '$app/navigation';
 
 export const addPage = async (storyId: number, background: string, lastPage: number) => {
 	const { data, error } = await supabase
 		.from('pages')
-		.insert([{ storyId, background, pageNumber: lastPage + 1 }]);
+		.insert([{ storyId, background, pageNumber: lastPage + 1 }])
+		.select();
 
 	if (error) {
 		throw new Error(error.message);
 	} else {
+		console.log(data);
 		return data;
 	}
 };
@@ -29,7 +32,16 @@ export const newStory = async (id: string | undefined, user: string | null) => {
 	if (error) {
 		throw new Error(error.message);
 	} else {
-		if (data !== null) addPage(data[0].id, '#000000', 0);
+		console.log(data);
+		let page;
+		let pageId: number;
+		if (data !== null) {
+			page = await addPage(data[0].id, '#000000', 0);
+			pageId = await page[0].id;
+		}
+		setTimeout(() => {
+			goto(`/story/edit/${data[0].id}/${pageId}`);
+		}, 10);
 	}
 };
 
