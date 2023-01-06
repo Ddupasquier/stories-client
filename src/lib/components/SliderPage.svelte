@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { page } from '$app/stores';
+	console.log($page)
 	import { onMount } from 'svelte';
 	import { supabase } from '$lib/supabase';
 	import { getPageThumbnail } from '$lib/services/getImages';
@@ -29,8 +30,7 @@
 </script>
 
 <a
-	href="/story/{$page.route.id?.includes('edit') ? 'edit' : 'view'}/{pageData.storyId
-		.id}/{pageData.id}"
+	href="/story/{$page.route.id?.includes('edit') ? 'edit' : 'view'}/{$page.params.story_id}/{pageData.id}"
 	class="page-selection"
 >
 	{#if image}

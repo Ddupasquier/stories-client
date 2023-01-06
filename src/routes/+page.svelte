@@ -10,7 +10,7 @@
 	import DeleteModal from '$lib/components/modals/DeleteModal.svelte';
 	import { newStory } from '$lib/services/storyActions';
 
-	let stories: Story[] = [];
+	let stories: Story[] | null | undefined = [];
 
 	export let data: AuthSession | null = null;
 
@@ -38,13 +38,13 @@
 				{ event: '*', schema: 'public', table: 'stories' },
 				(payload) => {
 					if (payload.eventType === 'INSERT') {
-						stories = [payload.new, ...stories];
+						stories = stories?.unshift(payload.new);
 					}
 					if (payload.eventType === 'DELETE') {
-						stories = stories.filter((story) => story.id !== payload.old.id);
+						stories = stories?.filter((story) => story.id !== payload.old.id);
 					}
 					if (payload.eventType === 'UPDATE') {
-						stories = stories.map((story) => {
+						stories = stories?.map((story) => {
 							if (story.id === payload.new.id) {
 								return payload.new;
 							}
@@ -78,7 +78,7 @@
 			>New Story</button
 		>
 		<div class="stories">
-			{#if stories.length > 0}
+			{#if stories}
 				{#each stories as story}
 					<StoryCard {story} />
 				{/each}

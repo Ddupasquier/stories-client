@@ -7,16 +7,26 @@
 
 	export let data: PagesLayoutProps;
 
-	let lastPage = data.pages[data.pages.length - 1].pageNumber
+	let lastPage = data.pages[data.pages.length - 1].pageNumber;
 
-	beforeUpdate(async() => {
-		await supabase
-			.channel('public:elements')
-			.on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'pages' }, (payload) => {
-				data.pages = [...data.pages, payload.new] as Page[];
-			})
-			.on('postgres_changes', { event: 'DELETE', schema: 'public', table: 'pages' }, (payload) => {
-				data.pages = data.pages.filter((page) => page.id !== payload.old.id);
+	beforeUpdate(async () => {
+		supabase
+			.channel('public:pages')
+			.on('postgres_changes', { event: '*', schema: 'public', table: 'pages' }, (payload) => {
+				if (payload.eventType === 'INSERT') {
+					data.pages = [...data.pages, payload.new] as Page[];
+				}
+				if (payload.eventType === 'DELETE') {
+					data.pages = data.pages.filter((page) => page.id !== payload.old.id);
+				}
+				if (payload.eventType === 'UPDATE') {
+					data.pages = data.pages.map((page) => {
+						if (page.id === payload.new.id) {
+							return payload.new;
+						}
+						return page;
+					});
+				}
 			})
 			.subscribe();
 	});
@@ -31,11 +41,13 @@
 			class="page-selection add-page"
 			title="Add Page"
 			on:click={() => {
-				addPage(data.pages[0].storyId.id, '#ffffff', lastPage);
-				lastPage++;
+				if (lastPage) {
+					addPage(data.pages[0].storyId.id, '#ffffff', lastPage);
+					lastPage++;
+				}
 			}}
 			on:keydown={(e) => {
-				if (e.key === 'Enter') {
+				if (e.key === 'Enter' && lastPage) {
 					addPage(data.pages[0].storyId.id, '#ffffff', lastPage);
 					lastPage++;
 				}

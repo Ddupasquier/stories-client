@@ -17,11 +17,12 @@ interface Story {
 
 interface Page {
 	createdAt: string;
-	pageNumber: number;
+	pageNumber?: number;
 	storyId: StoryId;
 	id: number;
 	background: string;
 	screenshot?: string;
+	[key: string]: any; 
 }
 
 interface PagesLayoutProps {
