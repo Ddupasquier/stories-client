@@ -1,14 +1,16 @@
 <script lang="ts">
 	import { supabase } from '$lib/supabase';
 	import { page } from '$app/stores';
-	import { onMount } from 'svelte';
+	import { beforeUpdate, onMount } from 'svelte';
 	import { addPage } from '$lib/services/storyActions';
 	import SliderPage from './SliderPage.svelte';
 
 	export let data: PagesLayoutProps;
 
-	onMount(() => {
-		supabase
+	let lastPage = data.pages[data.pages.length - 1].pageNumber
+
+	beforeUpdate(async() => {
+		await supabase
 			.channel('public:elements')
 			.on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'pages' }, (payload) => {
 				data.pages = [...data.pages, payload.new] as Page[];
@@ -28,15 +30,14 @@
 		<button
 			class="page-selection add-page"
 			title="Add Page"
-			on:click={() =>
-				addPage(data.pages[0].storyId.id, '#ffffff', data.pages[data.pages.length - 1].pageNumber)}
+			on:click={() => {
+				addPage(data.pages[0].storyId.id, '#ffffff', lastPage);
+				lastPage++;
+			}}
 			on:keydown={(e) => {
 				if (e.key === 'Enter') {
-					addPage(
-						data.pages[0].storyId.id,
-						'#ffffff',
-						data.pages[data.pages.length - 1].pageNumber
-					);
+					addPage(data.pages[0].storyId.id, '#ffffff', lastPage);
+					lastPage++;
 				}
 			}}
 		>
@@ -53,7 +54,7 @@
 		align-items: center;
 		gap: 1rem;
 		width: 100%;
-		height: 8em;
+		height: 6em;
 		background: #222;
 		color: white;
 		overflow-x: auto;

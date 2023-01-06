@@ -3,6 +3,7 @@
 	import { onMount } from 'svelte';
 	import { supabase } from '$lib/supabase';
 	import { getPageThumbnail } from '$lib/services/getImages';
+	import { deletePage } from '$lib/services/pageActions';
 
 	export let pageData: SliderPageProps['page'];
 
@@ -18,14 +19,34 @@
 					image = payload.new.screenshot;
 				}
 			})
+			.on('postgres_changes', { event: 'DELETE', schema: 'public', table: 'pages' }, (payload) => {
+				if (payload.old.id === pageData.id) {
+					image = undefined;
+				}
+			})
 			.subscribe();
 	});
 </script>
 
-<a href="/story/{$page.route.id?.includes('edit') ? 'edit' : 'view'}/{pageData.storyId.id}/{pageData.id}" class="page-selection">
+<a
+	href="/story/{$page.route.id?.includes('edit') ? 'edit' : 'view'}/{pageData.storyId
+		.id}/{pageData.id}"
+	class="page-selection"
+>
 	{#if image}
-		<img src={image?.publicUrl} alt="page" class="thumbnail" />
+		<img src={image?.publicUrl + '?'} alt="page" class="thumbnail" />
 		<div class="page-number">{pageData.pageNumber}</div>
+		{#if $page.route.id?.includes('edit')}
+			<button
+				class="delete-page"
+				title="Delete Page"
+				on:click={() => {
+					deletePage(pageData.id);
+				}}
+			>
+				×
+			</button>
+		{/if}
 	{/if}
 </a>
 
@@ -44,21 +65,42 @@
 			transform: scale(0.95);
 		}
 	}
+	.page-selection:hover .delete-page {
+		opacity: 1;
+	}
 
-	.page-number {
+	@mixin floats {
 		position: absolute;
-		bottom: 0.5rem;
-		right: 0.5rem;
 		width: 0.5rem;
 		height: 0.5rem;
 		padding: 0.5rem;
-		background-color: rgba(255, 255, 255, 0.493);
 		border-radius: 50%;
-		color: rgb(0, 0, 0);
 		display: flex;
 		justify-content: center;
 		align-items: center;
 		font-size: 1rem;
 		font-weight: 600;
+	}
+
+	.page-number {
+		@include floats;
+		bottom: 0.5rem;
+		right: 0.5rem;
+		background-color: rgba(255, 255, 255, 0.493);
+		color: rgb(0, 0, 0);
+	}
+
+	.delete-page {
+		@include floats;
+		top: 0.5rem;
+		right: 0.5rem;
+		color: rgba(0, 0, 0);
+		border: none;
+		background: red;
+		opacity: 0;
+		transition: all 0.2s ease-in-out;
+		&:hover {
+			transform: scale(1.1);
+		}
 	}
 </style>

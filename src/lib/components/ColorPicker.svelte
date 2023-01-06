@@ -12,7 +12,7 @@
 </script>
 
 <div class="color-picker-container">
-	<label for="color-picker">BG Color:</label>
+	<label for="color-picker">Color</label>
 	<input
 		type="color"
 		bind:this={colorPickerRef}
@@ -29,6 +29,7 @@
       .color-picker-container {
             display: flex;
             align-items: center;
+		flex-direction: column;
       }
 	input[type='color'] {
 		-webkit-appearance: none;

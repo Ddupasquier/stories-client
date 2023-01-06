@@ -104,7 +104,7 @@
 		padding-right: 1rem;
 		background: #222;
 		color: white;
-		height: 8rem;
+		height: 7rem;
 	}
 
 	.toolbar-item {

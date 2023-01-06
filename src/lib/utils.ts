@@ -7,30 +7,22 @@ export const convToPublicUrl = (img: ImgUrl) => {
 
 export const screenshotCanvas = async (element: string): Promise<File | null> => {
 	const el: HTMLElement | null = document.querySelector(element);
-	const svgAssets = document.querySelectorAll('img');
+	const ignore: HTMLElement | null = document.querySelector('#controls');
+
 	if (el) {
 		const canvas = await html2canvas(el, {
 			allowTaint: true,
 			useCORS: true,
-			logging: true,
-			imageTimeout: 0,
-			proxy: 'https://cors-anywhere.herokuapp.com/',
-			onclone: (doc) => {
-				svgAssets.forEach((asset) => {
-					console.log('assets', asset, asset.width, asset.height)
-					const img = doc.createElement('img');
-					img.src = asset.src;
-					img.width = asset.width;
-					img.height = asset.height;
-					doc.body.appendChild(img);
-					console.log('img', img, img.width, img.height)
-				});
-			}
+			ignoreElements: (el) => {
+				return el === ignore;
+			},
+
 		});
 
-		const blob = await new Promise((resolve) => canvas.toBlob(resolve));
-		// TODO handle error if blob is null somehow
-		const file = new File([blob], 'thumbnail.webp', { type: 'image/webp' });
+		const dataUrl = canvas.toDataURL('image/png');
+		const blob = await fetch(dataUrl).then((r) => r.blob());
+		const file = new File([blob], 'screenshot.webp', { type: 'image/webp' });
+		// console.log(dataUrl)
 		return file;
 	}
 	return null;

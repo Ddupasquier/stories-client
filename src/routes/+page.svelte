@@ -19,7 +19,7 @@
 			const { data: theseStories, error } = await supabase
 				.from('stories')
 				.select(
-					'id, title, author, updatedAt, profileId (id, username, avatarUrl), pages: pages (id, background, screenshot, createdAt)'
+					'id, title, author, updatedAt, profileId (id, username, avatarUrl), pages: pages (id, background, screenshot, createdAt, pageNumber)'
 				)
 				.eq('profileId', data.session.user.id)
 				.order('updatedAt', { ascending: false });

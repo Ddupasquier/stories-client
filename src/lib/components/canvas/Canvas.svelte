@@ -7,7 +7,7 @@
 	import { uploadThumbnail, saveBgColor } from '$lib/services/pageActions';
 	import ColorPicker from '../ColorPicker.svelte';
 	import HowToModal from '../modals/HowToModal.svelte';
-	import {howToIsOpen} from '$lib/stores/modalStore';
+	import { howToIsOpen } from '$lib/stores/modalStore';
 
 	export let info: {
 		id: number;
@@ -25,12 +25,20 @@
 	onMount(() => {
 		supabase
 			.channel('public:elements')
-			.on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'elements' }, (payload) => {
-				info.elements = [...info.elements, payload.new] as PageElement[];
-			})
-			.on('postgres_changes', { event: 'DELETE', schema: 'public', table: 'elements' }, (payload) => {
-				info.elements = info.elements.filter((element) => element.id !== payload.old.id);
-			})
+			.on(
+				'postgres_changes',
+				{ event: 'INSERT', schema: 'public', table: 'elements' },
+				(payload) => {
+					info.elements = [...info.elements, payload.new] as PageElement[];
+				}
+			)
+			.on(
+				'postgres_changes',
+				{ event: 'DELETE', schema: 'public', table: 'elements' },
+				(payload) => {
+					info.elements = info.elements.filter((element) => element.id !== payload.old.id);
+				}
+			)
 			.subscribe();
 	});
 
@@ -50,23 +58,20 @@
 		{#if $howToIsOpen}
 			<HowToModal />
 		{/if}
+		<div id="controls">
+			<ColorPicker color={background} {setColor} />
+			<button
+				class="save"
+				on:click={() => {
+					doScreenshot();
+					saveBgColor(info.id, background);
+				}}
+			>
+				Save
+			</button>
+		</div>
 	</div>
 {/if}
-
-<div class="controls">
-	<ColorPicker color={background} {setColor} />
-	<button
-		class="save"
-		on:click={() => {
-			doScreenshot();
-			saveBgColor(info.id, background);
-		}}
-	>
-		Save
-	</button>
-</div>
-
-
 
 <style lang="scss">
 	#canvas {
@@ -76,12 +81,12 @@
 		overflow: hidden;
 	}
 
-	.controls {
+	#controls {
 		position: absolute;
-		top: 6.5rem;
-		right: 12rem;
+		bottom: 1rem;
+		right: 1rem;
 		display: flex;
-		flex-direction: row;
+		flex-direction: column;
 		align-items: center;
 		gap: 1rem;
 	}

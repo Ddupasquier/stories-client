@@ -12,7 +12,7 @@
 	const resizeTitleInput = () => {
 		titleInput.style.width = `${titleInput.value.length * 0.9}rem`;
 	};
-	
+
 	onMount(() => {
 		resizeTitleInput();
 	});
@@ -24,14 +24,13 @@
 </svelte:head>
 
 <h2>
-	<form
-		on:submit|preventDefault={() => changeTitle(data.pages[0].storyId.id, titleInput.value)}
-	>
+	<form on:submit|preventDefault={() => changeTitle(data.pages[0].storyId.id, titleInput.value)}>
 		<input
 			class="input title-input"
 			value={truncate(data.pages[0].storyId.title, 25)}
 			bind:this={titleInput}
 			on:change={resizeTitleInput}
+			on:focus={(event) => event.target instanceof HTMLInputElement && event.target.select()}
 		/>
 	</form>
 	by {data.pages[0].storyId.profileId.username}

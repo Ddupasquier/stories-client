@@ -1,44 +1,51 @@
 <script lang="ts">
-	import { onMount } from 'svelte';
-	import { supabase } from '$lib/supabase';
+	import { onMount, beforeUpdate } from 'svelte';
 	import { storyToDelete, deleteIsOpen } from '$lib/stores/modalStore';
 	import { truncate } from '$lib/utils';
 	import { getPageThumbnail } from '$lib/services/getImages';
 
 	export let story: Story | null;
+	let sortedDesc: Page[] | undefined = undefined;
 
 	let background: { publicUrl: string } | undefined;
 	$: url = background?.publicUrl;
 
+	beforeUpdate(() => {
+		const compare = (a: { pageNumber: number }, b: { pageNumber: number }) => {
+			if (a.pageNumber > b.pageNumber) {
+				return 1;
+			}
+			if (a.pageNumber < b.pageNumber) {
+				return -1;
+			}
+			return 0;
+		};
+		const pages = story?.pages;
+		sortedDesc = pages?.sort(compare);
+	});
+
 	onMount(() => {
 		setTimeout(async () => {
-			background = await getPageThumbnail(story?.pages[0].screenshot);
+			if (sortedDesc) {
+				background = await getPageThumbnail(sortedDesc[0].screenshot);
+			}
 		}, 10);
-
-		supabase
-			.channel('public:pages')
-			.on('postgres_changes', { event: 'UPDATE', schema: 'public', table: 'pages' }, async (payload) => {
-				if (payload.new.story_id === story?.id) {
-					background = await getPageThumbnail(story?.pages[0].screenshot);
-				}
-			})
-			.subscribe();	
 	});
 </script>
 
-{#if story}
+{#if story && sortedDesc}
 	<div class="container">
-		<a href="/story/view/edit/{story.id}/{story.pages[0].id}">
+		<a href="/story/view/edit/{story.id}/{sortedDesc[0].id}">
 			<div class="story">
 				<h1>
 					{truncate(story.title, 15)}
 				</h1>
-				<img src="{url}" alt="avatar" class="thumbnail" />
+				<img src={url} alt="avatar" class="thumbnail" />
 			</div>
 		</a>
 		<div class="controls">
 			{#if story?.pages}
-				<a href="/story/edit/{story.id}/{story.pages[0].id}">Edit</a> |
+				<a href="/story/edit/{story.id}/{sortedDesc[0].id}">Edit</a> |
 			{/if}
 			<span
 				class="delete"

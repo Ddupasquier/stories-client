@@ -1,8 +1,9 @@
 <script lang="ts">
-	import { beforeUpdate, onMount } from 'svelte';
+	import { beforeUpdate, onMount, afterUpdate } from 'svelte';
 	import { savePosition, getElement } from '$lib/services/elementActions';
 	import Loading from '$lib/components/Loading.svelte';
 	import ContextMenu from './ContextMenu.svelte';
+	import D from '$lib/assets/D.png';
 
 	export let element: PageElement;
 
@@ -15,6 +16,15 @@
 
 	beforeUpdate(() => {
 		image = getElement(element.elementName);
+	});
+
+	let container: HTMLDivElement;
+	$: containerWidth = container?.clientWidth;
+	$: containerHeight = container?.clientHeight;
+
+	afterUpdate(() => {
+		containerHeight = container.clientHeight;
+		containerWidth = container.clientWidth;
 	});
 
 	onMount(() => {
@@ -71,29 +81,28 @@
 	}}
 />
 
-{#if loading}
-	<div
-		class="loading"
-		style="display: flex; justify-content: center; align-items: center; position: absolute; top: {top +
-			'%'}; left: {left + '%'}; z-index: {zIndex}; height: {height + '%'};"
-	>
+<div
+	class="canvas-element"
+	style="display: flex; justify-content: center; align-items: center; position: absolute; top: {top +
+		'%'}; left: {left + '%'}; z-index: {zIndex}; height: {height + '%'};"
+	bind:this={container}
+>
+	{#if loading}
 		<Loading />
-	</div>
-{/if}
-{#if image && !loading}
-	<img
-		src={image.publicUrl}
-		alt={element.elementName}
-		on:mousedown={startMoving}
-		draggable="false"
-		on:contextmenu={(e) => {
-			contextMenu(e);
-			isOpen = true;
-		}}
-		style="display: flex; justify-content: center; align-items: center; position: absolute; top: {top +
-			'%'}; left: {left + '%'}; z-index: {zIndex}; height: {height + '%'}; border: 1px solid black;"
-	/>
-{/if}
+	{/if}
+	{#if image && !loading}
+		<img
+			src={image.publicUrl}
+			alt={element.elementName}
+			on:mousedown={startMoving}
+			draggable="false"
+			on:contextmenu={(e) => {
+				contextMenu(e);
+				isOpen = true;
+			}}
+		/>
+	{/if}
+</div>
 
 {#if isOpen}
 	<ContextMenu
@@ -109,7 +118,11 @@
 {/if}
 
 <style lang="scss">
+	.canvas-element {
+		aspect-ratio: 1/1;
 		img {
 			user-select: none;
+			height: 100%;
 		}
+	}
 </style>
