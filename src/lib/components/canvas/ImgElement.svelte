@@ -3,7 +3,6 @@
 	import { savePosition, getElement } from '$lib/services/elementActions';
 	import Loading from '$lib/components/Loading.svelte';
 	import ContextMenu from './ContextMenu.svelte';
-	import D from '$lib/assets/D.png';
 
 	export let element: PageElement;
 
