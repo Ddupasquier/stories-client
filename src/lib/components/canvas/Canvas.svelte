@@ -5,8 +5,8 @@
 	import { screenshotCanvas } from '$lib/utils';
 	import ImgElement from '$lib/components/canvas/ImgElement.svelte';
 	import { uploadThumbnail, saveBgColor } from '$lib/services/pageActions';
-	import ColorPicker from '../ColorPicker.svelte';
-	import HowToModal from '../modals/HowToModal.svelte';
+	import ColorPicker from '$lib/components/ColorPicker.svelte';
+	import HowToModal from '$lib/components/modals/HowToModal.svelte';
 	import { howToIsOpen } from '$lib/stores/modalStore';
 
 	export let info: {
@@ -27,17 +27,24 @@
 			.channel('public:elements')
 			.on(
 				'postgres_changes',
-				{ event: 'INSERT', schema: 'public', table: 'elements' },
+				{ event: '*', schema: 'public', table: 'elements' },
 				(payload) => {
-					info.elements = [...info.elements, payload.new] as PageElement[];
+					if (payload.eventType === 'INSERT') {
+						info.elements = [...info.elements, payload.new] as PageElement[];
+					}
+					if (payload.eventType === 'DELETE') {
+						info.elements = info.elements.filter((element) => element.id !== payload.old.id);
+					}
+					if (payload.eventType === 'UPDATE') {
+						info.elements = info.elements.map((element) => {
+							if (element.id === payload.new.id) {
+								return payload.new;
+							}
+							return element;
+						});
+					}
 				}
-			)
-			.on(
-				'postgres_changes',
-				{ event: 'DELETE', schema: 'public', table: 'elements' },
-				(payload) => {
-					info.elements = info.elements.filter((element) => element.id !== payload.old.id);
-				}
+				
 			)
 			.subscribe();
 	});
