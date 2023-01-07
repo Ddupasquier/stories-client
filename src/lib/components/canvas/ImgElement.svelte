@@ -83,7 +83,9 @@
 <div
 	class="canvas-element"
 	style="display: flex; justify-content: center; align-items: center; position: absolute; top: {top +
-		'%'}; left: {left + '%'}; z-index: {zIndex}; height: {height + '%'};"
+		'%'}; left: {left + '%'}; z-index: {zIndex}; height: {element.type === 'backgrounds'
+		? null
+		: height + '%'}; width: {element.type === 'backgrounds' ? height + '%' : null};"
 	bind:this={container}
 >
 	{#if loading}
@@ -121,6 +123,7 @@
 		aspect-ratio: 1/1;
 		img {
 			user-select: none;
+			width: 100%;
 			height: 100%;
 		}
 	}

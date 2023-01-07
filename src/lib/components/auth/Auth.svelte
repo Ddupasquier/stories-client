@@ -9,7 +9,6 @@
 			let local;
 			if (window.location.hostname === 'localhost') local = 'http://localhost:5173';
 			else local = 'https://stories-client.vercel.app/';
-			console.log(local, 'local?');
 			return local;
 		};
 
