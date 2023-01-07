@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { beforeUpdate, onMount, afterUpdate } from 'svelte';
-	import { savePosition, getElement } from '$lib/services/elementActions';
+	import { savePosition, getElementFromFolder } from '$lib/services/elementActions';
 	import Loading from '$lib/components/Loading.svelte';
 	import ContextMenu from './ContextMenu.svelte';
 
@@ -14,7 +14,7 @@
 	let loading = true;
 
 	beforeUpdate(() => {
-		image = getElement(element.elementName);
+		image = getElementFromFolder(element.type, element.elementName);
 	});
 
 	let container: HTMLDivElement;

@@ -5,6 +5,11 @@ export const convToPublicUrl = (img: ImgUrl) => {
 	return publicUrl;
 };
 
+export const convToPublicUrlFromFolder = (folder:string, img: ImgUrl) => {
+	const publicUrl = `https://latdcbfvbassfihdwpwi.supabase.co/storage/v1/object/public/svg-assets/${folder}/${img.name}`;
+	return publicUrl;
+};
+
 export const screenshotCanvas = async (element: string): Promise<File | null> => {
 	const el: HTMLElement | null = document.querySelector(element);
 	const ignore: HTMLElement | null = document.querySelector('#controls');
@@ -22,7 +27,6 @@ export const screenshotCanvas = async (element: string): Promise<File | null> =>
 		const dataUrl = canvas.toDataURL('image/png');
 		const blob = await fetch(dataUrl).then((r) => r.blob());
 		const file = new File([blob], 'screenshot.webp', { type: 'image/webp' });
-		// console.log(dataUrl)
 		return file;
 	}
 	return null;

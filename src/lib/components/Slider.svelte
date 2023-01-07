@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { supabase } from '$lib/supabase';
 	import { page } from '$app/stores';
-	import { beforeUpdate, onMount } from 'svelte';
+	import { beforeUpdate } from 'svelte';
 	import { addPage } from '$lib/services/storyActions';
 	import SliderPage from './SliderPage.svelte';
 

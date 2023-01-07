@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { username, userId } from '$lib/stores/userStore';
+	import { username } from '$lib/stores/userStore';
 	import { deleteIsOpen } from '$lib/stores/modalStore';
 	import { onMount } from 'svelte';
 	import { supabase } from '$lib/supabase';

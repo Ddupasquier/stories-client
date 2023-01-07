@@ -1,6 +1,5 @@
 <script lang="ts">
 	import { page } from '$app/stores';
-	console.log($page)
 	import { onMount } from 'svelte';
 	import { supabase } from '$lib/supabase';
 	import { getPageThumbnail } from '$lib/services/getImages';
@@ -34,7 +33,7 @@
 	class="page-selection"
 >
 	{#if image}
-		<img src={image?.publicUrl + '?'} alt="page" class="thumbnail" />
+		<img src={image?.publicUrl} alt="page" class="thumbnail" />
 		<div class="page-number">{pageData.pageNumber}</div>
 		{#if $page.route.id?.includes('edit')}
 			<button

@@ -1,8 +1,7 @@
 import { supabase } from '$lib/supabase';
 
-export const getElement = (element: string) => {
-	const { data: url } = supabase.storage.from('svg-assets').getPublicUrl(element);
-
+export const getElementFromFolder = (folder: string | undefined, element: string) => {
+	const { data: url } = supabase.storage.from('svg-assets').getPublicUrl(`${folder}/${element}`);
 	return url;
 };
 

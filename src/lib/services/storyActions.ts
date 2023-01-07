@@ -11,7 +11,6 @@ export const addPage = async (storyId: number, background: string, lastPage: num
 	if (error) {
 		throw new Error(error.message);
 	} else {
-		console.log(data);
 		return data;
 	}
 };
@@ -32,7 +31,6 @@ export const newStory = async (id: string | undefined, user: string | null) => {
 	if (error) {
 		throw new Error(error.message);
 	} else {
-		console.log(data);
 		let page;
 		let pageId: number;
 		if (data !== null) {
