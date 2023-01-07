@@ -7,7 +7,8 @@
 	const handleLogin = async () => {
 		const isLocalhost = () => {
 			let local;
-			if (window) local = window.location.hostname === 'localhost';
+			if (window.location.hostname === 'localhost') local = 'http://localhost:5173';
+			else local = 'https://stories-client.vercel.app/';
 			console.log(local, 'local?');
 			return local;
 		};
@@ -17,9 +18,7 @@
 			const { error } = await supabase.auth.signInWithOtp({
 				email,
 				options: {
-					emailRedirectTo: isLocalhost()
-						? 'http://localhost:5173'
-						: 'https://stories-client.vercel.app/'
+					emailRedirectTo: isLocalhost(),
 				}
 			});
 
