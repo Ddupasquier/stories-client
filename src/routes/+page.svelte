@@ -14,6 +14,8 @@
 
 	export let data: AuthSession | null = null;
 
+	
+
 	const getMyStories = async () => {
 		if (data?.session) {
 			const { data: theseStories, error } = await supabase
@@ -33,27 +35,22 @@
 
 		supabase
 			.channel('public:stories')
-			.on(
-				'postgres_changes',
-				{ event: '*', schema: 'public', table: 'stories' },
-				(payload) => {
-					if (payload.eventType === 'INSERT') {
-						stories = stories?.unshift(payload.new);
-					}
-					if (payload.eventType === 'DELETE') {
-						stories = stories?.filter((story) => story.id !== payload.old.id);
-					}
-					if (payload.eventType === 'UPDATE') {
-						stories = stories?.map((story) => {
-							if (story.id === payload.new.id) {
-								return payload.new;
-							}
-							return story;
-						});
-					}
+			.on('postgres_changes', { event: '*', schema: 'public', table: 'stories' }, (payload) => {
+				if (payload.eventType === 'INSERT') {
+					stories = stories?.unshift(payload.new);
 				}
-				
-			)
+				if (payload.eventType === 'DELETE') {
+					stories = stories?.filter((story) => story.id !== payload.old.id);
+				}
+				if (payload.eventType === 'UPDATE') {
+					stories = stories?.map((story) => {
+						if (story.id === payload.new.id) {
+							return payload.new;
+						}
+						return story;
+					});
+				}
+			})
 			.subscribe();
 	};
 

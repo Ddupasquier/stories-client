@@ -111,10 +111,12 @@
 		align-items: center;
 		font-size: 1rem;
 		font-weight: 600;
-		transition: all 2s;
+		transition: all .5s;
 		&:hover {
-			cursor: pointer;
-			box-shadow: var(--orange) 0 0 5px 2px inset;
+			transform: scale(1.1);
+		}
+		&:active {
+			transform: scale(0.9);
 		}
 	}
 </style>

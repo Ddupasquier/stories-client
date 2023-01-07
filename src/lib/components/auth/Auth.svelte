@@ -5,9 +5,24 @@
 	let email = '';
 
 	const handleLogin = async () => {
+		const isLocalhost = () => {
+			let local;
+			if (window) local = window.location.hostname === 'localhost';
+			console.log(local, 'local?');
+			return local;
+		};
+
 		try {
 			loading = true;
-			const { error } = await supabase.auth.signInWithOtp({ email });
+			const { error } = await supabase.auth.signInWithOtp({
+				email,
+				options: {
+					emailRedirectTo: isLocalhost()
+						? 'http://localhost:5173'
+						: 'https://stories-client.vercel.app/'
+				}
+			});
+
 			if (error) throw error;
 			alert('Check your email for login link!');
 		} catch (error) {
