@@ -1,20 +1,17 @@
 <script lang="ts">
-	
+	import {charsIcon, fishIcon, miscIcon, plantsIcon, rankIcon, rpgIcon, backgroundIcon} from '$lib/assets';
 	import type { FileObject } from '@supabase/storage-js';
 	import { howToIsOpen } from '$lib/stores/modalStore';
 	import { onMount } from 'svelte';
 	import { supabase } from '$lib/supabase';
-	import { convToPublicUrlFromFolder } from '$lib/utils';
-	import Loading from '../Loading.svelte';
 	import Folder from './Folder.svelte';
 
 	let backgrounds: FileObject[];
-	let characters;
-	let nautical;
-	let plants;
-	let rpg;
-	let char_icon;
-	let rank;
+	let nautical: FileObject[];
+	let plants: FileObject[];
+	let rpg: FileObject[];
+	let char_icon: FileObject[];
+	let rank: FileObject[];
 	let svg: FileObject[];
 
 	const getFolder = async (folder: string) => {
@@ -28,9 +25,6 @@
 			switch (folder) {
 				case 'backgrounds':
 					backgrounds = data;
-					break;
-				case 'characters':
-					characters = data;
 					break;
 				case 'nautical':
 					nautical = data;
@@ -109,10 +103,25 @@
 	</button>
 
 	{#if svg}
-		<Folder folder={svg} folderText="Misc" folderName="svg" />
+		<Folder folder={svg} folderIcon={miscIcon} folderName="svg" />
 	{/if}
 	{#if backgrounds}
-		<Folder folder={backgrounds} folderText="Backgrounds" folderName="backgrounds" />
+		<Folder folder={backgrounds} folderIcon={backgroundIcon} folderName="backgrounds" />
+	{/if}
+	{#if nautical}
+		<Folder folder={nautical} folderIcon={fishIcon} folderName="nautical" />
+	{/if}
+	{#if plants}
+		<Folder folder={plants} folderIcon={plantsIcon} folderName="plants" />
+	{/if}
+	{#if rpg}
+		<Folder folder={rpg} folderIcon={rpgIcon} folderName="rpg" />
+	{/if}
+	{#if char_icon}
+		<Folder folder={char_icon} folderIcon={charsIcon} folderName="char_icon" />
+	{/if}
+	{#if rank}
+		<Folder folder={rank} folderIcon={rankIcon} folderName="rank" />
 	{/if}
 </div>
 
@@ -128,13 +137,9 @@
 		padding-right: 1rem;
 		background: #222;
 		color: white;
-		height: 7rem;
+		height: 5rem;
 		overflow-x: auto;
 	}
-
-	
-
-	
 
 	.info {
 		height: 100%;

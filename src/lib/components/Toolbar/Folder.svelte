@@ -1,11 +1,18 @@
 <script lang="ts">
 	import { supabase } from '$lib/supabase';
 	import { page } from '$app/stores';
-	import { convToPublicUrlFromFolder } from '$lib/utils';
+	import { convToPublicUrlFromFolder, createLoadObserver } from '$lib/utils';
 	import type { FileObject } from '@supabase/storage-js';
+	import Loading from '$lib/components/Loading.svelte';
+
 	export let folder: FileObject[];
-	export let folderText: string;
+	export let folderIcon: string;
 	export let folderName: string;
+
+	let loading = true;
+	const onLoad = createLoadObserver(() => {
+		loading = false;
+	});
 
 	let open = false;
 
@@ -29,30 +36,13 @@
 </script>
 
 <button class="folder-icon" on:click={() => (open = !open)}>
-	<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
-		<path
-			d="M19 3h-14c-1.103 0-2 .897-2 2v14c0 1.103.897 2 2 2h14c1.103 0 2-.897 2-2v-14c0-1.103-.897-2-2-2zm-1 16h-12v-12h12v12z"
-		/>
-	</svg>
-	<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
-		<text
-			x="50%"
-			y="50%"
-			dominant-baseline="middle"
-			text-anchor="middle"
-			fill="white"
-			font-size="12px"
-			font-family="sans-serif"
-		>
-			{folderText}
-		</text>
-	</svg>
+	<img src={folderIcon} alt={folderName} />
 </button>
 
 {#if open}
 	<div class="folder-contents">
 		<div class="modal-header">
-			<h2>{folderText}</h2>
+			<!-- <h2>{folderText}</h2> -->
 			<button class="close" on:click={() => (open = false)}> X </button>
 		</div>
 		<div class="modal-body">
@@ -60,15 +50,23 @@
 				{#if image.name !== '.emptyFolderPlaceholder'}
 					<!-- svelte-ignore a11y-click-events-have-key-events -->
 					<div class="toolbar-item">
-						<img
-							src={convToPublicUrlFromFolder(folderName, image)}
-							alt={image.name}
-							title={image.name}
-							on:click={() => {
-								addElementToPage(folderName, image.name);
-							}}
-						/>
-						<div class="add-icon">+</div>
+						<!-- {#if loading}
+							<div class="avatar">
+								<Loading />
+							</div>
+						{/if} -->
+						<!-- {#if !loading} -->
+							<img
+								src={convToPublicUrlFromFolder(folderName, image)}
+								alt={image.name}
+								title={image.name}
+								on:click={() => {
+									addElementToPage(folderName, image.name);
+								}}
+								use:onLoad
+							/>
+							<div class="add-icon">+</div>
+						<!-- {/if} -->
 					</div>
 				{/if}
 			{/each}
@@ -78,12 +76,25 @@
 
 <style lang="scss">
 	.folder-icon {
-		background-color: #2c3e50;
+		background: none;
 		border: none;
 		border-radius: 5px;
-		padding: 10px;
-		margin: 10px;
 		cursor: pointer;
+		height: 70%;
+		aspect-ratio: 1/1;
+		transition: all .5s;
+		&:hover {
+			background-color: var(--orange);
+		}
+		img {
+			height: 70%;
+			aspect-ratio: 1/1;
+			transition: all 0.3s ease-in-out;
+			color: white;
+			&:active {
+				transform: scale(0.9);
+			}
+		}
 	}
 
 	.folder-contents {
@@ -102,6 +113,7 @@
 		max-height: 60vh;
 		max-width: 75vw;
 		overflow-y: auto;
+		overflow-x: hidden;
 		padding: 10px;
 		z-index: 1002;
 	}
@@ -163,14 +175,5 @@
 		gap: 1rem;
 		background-color: #2c3e50;
 		border-radius: 0 0 5px 5px;
-	}
-
-	.close-button {
-		background-color: rgba(255, 255, 255, 0.856);
-		border: none;
-		border-radius: 50%;
-		padding: 10px;
-		margin: 10px;
-		cursor: pointer;
 	}
 </style>

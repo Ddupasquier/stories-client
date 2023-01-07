@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { beforeUpdate, onMount } from 'svelte';
-	import { getElement } from '$lib/services/elementActions';
+	import { getElementFromFolder } from '$lib/services/elementActions';
 	import Loading from '$lib/components/Loading.svelte';
 
 	export let element: PageElement;
@@ -13,7 +13,7 @@
 	let loading = true;
 
 	beforeUpdate(() => {
-		image = getElement(element.elementName);
+		image = getElementFromFolder(element.type, element.elementName);
 	});
 
 	onMount(() => {
@@ -32,7 +32,7 @@
 		<Loading />
 	{/if}
 	{#if image && !loading}
-		<img src={image.publicUrl} alt={element.elementName} draggable="false"/>
+		<img src={image.publicUrl} alt={element.elementName} draggable="false" />
 	{/if}
 </div>
 

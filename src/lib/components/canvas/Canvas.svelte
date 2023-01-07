@@ -96,6 +96,7 @@
 		flex-direction: column;
 		align-items: center;
 		gap: 1rem;
+		z-index: 1000;
 	}
 	.save {
 		width: fit-content;
