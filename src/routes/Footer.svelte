@@ -1,5 +1,13 @@
+<script lang="ts">
+	import {githubIcon} from '$lib/assets';
+</script>
+
 <footer>
-	<div class="left"/>
+	<div class="left">
+		<a href="https://github.com/Ddupasquier/stories-client" target="_blank" rel="noopener noreferrer">
+			<img src={githubIcon} alt="github" />
+		</a>
+	</div>
 	<div class="center">
 		Stories We Tell - &copy; {new Date().getFullYear()}
 	</div>
@@ -28,6 +36,9 @@
 	.left {
 		text-align: left;
 		padding-left: 1rem;
+		img {
+			width: 2rem;
+		}
 	}
 
 	.center {

@@ -5,3 +5,4 @@ export { default as plantsIcon } from './plantsIcon.svg';
 export { default as rankIcon } from './rankIcon.svg';
 export { default as rpgIcon } from './rpgIcon.svg';
 export { default as backgroundIcon } from './backgroundIcon.svg';
+export {default as githubIcon} from './github.svg';
