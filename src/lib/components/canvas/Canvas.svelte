@@ -82,7 +82,7 @@
 			<HowToModal />
 		{/if}
 		<div id="controls">
-			<button class="public" on:click={() => {updateIsPublic(storyId)}}>
+			<button class="public" on:click={() => {updateIsPublic(storyId)}} title="Make Public?">
 				<svg
 					xmlns="http://www.w3.org/2000/svg"
 					width="24"
