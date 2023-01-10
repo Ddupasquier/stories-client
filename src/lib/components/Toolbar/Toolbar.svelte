@@ -114,9 +114,9 @@
 	{#if plants}
 		<Folder folder={plants} folderIcon={plantsIcon} folderName="plants" />
 	{/if}
-	{#if rpg}
+	<!-- {#if rpg}
 		<Folder folder={rpg} folderIcon={rpgIcon} folderName="rpg" />
-	{/if}
+	{/if} -->
 	{#if char_icon}
 		<Folder folder={char_icon} folderIcon={charsIcon} folderName="char_icon" />
 	{/if}

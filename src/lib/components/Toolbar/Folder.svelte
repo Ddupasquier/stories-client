@@ -15,6 +15,7 @@
 	});
 
 	let open = false;
+	$: console.log(open)
 
 	const addElementToPage = async (folder: string, name: string) => {
 		const { error } = await supabase.from('elements').insert([
@@ -33,14 +34,28 @@
 			throw new Error(error.message);
 		}
 	};
+
+	let folderRef: HTMLElement
+	let folderButtonRef: HTMLElement
 </script>
 
-<button class="folder-icon" on:click={() => (open = !open)}>
+<svelte:window
+	on:click={(e) => {
+		if (e.target instanceof HTMLElement) {
+			console.log(e.target)
+			if (open === true && folderRef !== e.target && folderButtonRef !== e.target) {
+				open = false;
+			}
+		}
+	}}
+/>
+
+<button class="folder-icon" on:click={() => (open = !open)} bind:this={folderButtonRef}>
 	<img src={folderIcon} alt={folderName} />
 </button>
 
 {#if open}
-	<div class="folder-contents">
+	<div class="folder-contents" bind:this={folderRef}>
 		<div class="modal-header">
 			<button class="close" on:click={() => (open = false)}> X </button>
 		</div>
@@ -90,6 +105,7 @@
 			aspect-ratio: 1/1;
 			transition: all 0.3s ease-in-out;
 			color: white;
+			pointer-events: none;
 			&:active {
 				transform: scale(0.9);
 			}
