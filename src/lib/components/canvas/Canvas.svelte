@@ -16,6 +16,9 @@
 		elements: PageElement[];
 	};
 
+	export let isPublic: boolean;
+	export let storyId: number;
+
 	$: background = info.background;
 
 	const setColor = (color: string) => {
@@ -53,6 +56,19 @@
 		const file = await screenshotCanvas('#canvas');
 		file && uploadThumbnail(file, $page.params.page_id);
 	};
+
+	const updateIsPublic = async (id: number) => {
+		const { data, error } = await supabase
+			.from('stories')
+			.update({ isPublic: !isPublic })
+			.match({ id: id })
+			.select('isPublic')
+		if (error) {
+			throw new Error(error.message);
+		} else {
+			isPublic = data[0].isPublic;
+		}
+	};
 </script>
 
 {#if info.background}
@@ -66,6 +82,22 @@
 			<HowToModal />
 		{/if}
 		<div id="controls">
+			<button class="public" on:click={() => {updateIsPublic(storyId)}}>
+				<svg
+					xmlns="http://www.w3.org/2000/svg"
+					width="24"
+					height="24"
+					viewBox="0 0 24 24"
+					fill={isPublic ? 'yellow' : 'rgba(255, 255, 255, 0.5)'}
+					stroke="currentColor"
+					stroke-width="2"
+					stroke-linecap="round"
+					stroke-linejoin="round"
+					class="feather feather-star"
+				>
+					<path d="M12 2L15.54 8.46 22 9.74 17.27 14.27 18.55 21 12 18.18 5.45 21 6.73 14.27 2 9.74 8.46 8.46 12 2z"></path>
+				</svg>
+			</button>
 			<ColorPicker color={background} {setColor} />
 			<button
 				class="save"
@@ -97,6 +129,17 @@
 		align-items: center;
 		gap: 1rem;
 		z-index: 1000;
+		.public {
+			width: fit-content;
+			aspect-ratio: 1/1;
+			border: none;
+			background: none;
+			cursor: pointer;
+			svg {
+				pointer-events: none;
+
+			}
+		}
 	}
 	.save {
 		width: fit-content;
@@ -109,7 +152,7 @@
 		display: flex;
 		justify-content: center;
 		align-items: center;
-		font-size: 1rem;
+		font-size: .8rem;
 		font-weight: 600;
 		transition: all .5s;
 		&:hover {

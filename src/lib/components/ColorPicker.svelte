@@ -24,7 +24,8 @@
 
 <style lang="scss">
       label {
-            font-weight: bold;
+            font-weight: 600;
+		font-size: .8rem;
       }
       .color-picker-container {
             display: flex;

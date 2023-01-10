@@ -105,13 +105,12 @@
 	form {
 		display: flex;
 		flex-flow: column nowrap;
-		justify-content: center;
 		align-items: center;
-		align-self: center;
+		margin: auto;
 		gap: 1rem;
-		width: 100%;
-		max-width: 400px;
-		padding: 5rem;
+		width: fit-content;
+		padding: 0 3rem;
+		background: rgb
 		div {
 			display: flex;
 			flex-flow: column nowrap;

@@ -9,6 +9,7 @@
 
 	let background: { publicUrl: string } | undefined;
 	$: url = background?.publicUrl;
+	$: isPublic = story?.isPublic;
 
 	beforeUpdate(() => {
 		if (story?.pages) {
@@ -43,6 +44,20 @@
 				<h1>
 					{truncate(story.title, 15)}
 				</h1>
+				<svg
+					xmlns="http://www.w3.org/2000/svg"
+					width="40"
+					height="40"
+					viewBox="0 0 24 24"
+					fill={isPublic ? 'yellow' : 'rgba(255, 255, 255, 0.5)'}
+					stroke="currentColor"
+					stroke-width="1"
+					stroke-linecap="round"
+					stroke-linejoin="round"
+					class="star"
+				>
+					<path d="M12 2L15.54 8.46 22 9.74 17.27 14.27 18.55 21 12 18.18 5.45 21 6.73 14.27 2 9.74 8.46 8.46 12 2z"></path>
+				</svg>
 				<img src={url} alt="avatar" class="thumbnail" />
 			</div>
 		</a>
@@ -107,5 +122,12 @@
 		left: -1rem;
 		background: purple;
 		padding: 0 1rem;
+	}
+
+	.star {
+		position: absolute;
+		top: -.8rem;
+		left: -2.18rem;
+		pointer-events: none;
 	}
 </style>

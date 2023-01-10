@@ -23,7 +23,7 @@
 		display: flex;
 		justify-content: space-between;
 		width: 100%;
-		margin-bottom: 3rem;
+		/* margin-bottom: 3rem; */
 	}
 
 	nav {

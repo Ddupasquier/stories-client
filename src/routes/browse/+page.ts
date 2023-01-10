@@ -4,9 +4,10 @@ export async function load() {
 	const { data: stories, error } = await supabase
 		.from('stories')
 		.select(
-			'id, title, author, updatedAt, profileId (id, username, avatarUrl), pages: pages (id, background, screenshot, createdAt)'
+			'id, title, author, updatedAt, isPublic, profileId (id, username, avatarUrl), pages: pages (id, background, screenshot, pageNumber, createdAt)'
 		)
-		.order('updatedAt', { ascending: false });
+		.eq('isPublic', true)
+		.order('createdAt', { ascending: false });
 
 	if (error) {
 		throw new Error(error.message);

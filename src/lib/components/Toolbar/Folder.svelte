@@ -15,7 +15,6 @@
 	});
 
 	let open = false;
-	$: console.log(open)
 
 	const addElementToPage = async (folder: string, name: string) => {
 		const { error } = await supabase.from('elements').insert([
@@ -42,8 +41,7 @@
 <svelte:window
 	on:click={(e) => {
 		if (e.target instanceof HTMLElement) {
-			console.log(e.target)
-			if (open === true && folderRef !== e.target && folderButtonRef !== e.target) {
+			if (open === true && folderRef !== e.target && !folderRef.contains(e.target) && folderButtonRef !== e.target) {
 				open = false;
 			}
 		}

@@ -8,6 +8,7 @@ interface Story {
 	id: number;
 	title: string;
 	author: string;
+	isPublic: boolean;
 	pages: Page[];
 	profileId: {
 		id: string;
@@ -70,6 +71,7 @@ interface EditPageStoryId {
 }
 
 interface EditPageProps {
+	pages: any;
 	page: {
 		id: number;
 		pageNumber: number;

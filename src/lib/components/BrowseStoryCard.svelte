@@ -1,12 +1,12 @@
 <script lang="ts">
-	import { onMount } from 'svelte';
-	import { supabase } from '$lib/supabase';
+	import { beforeUpdate, onMount } from 'svelte';
 	import { truncate } from '$lib/utils';
 	import { getPageThumbnail, getThumbnailAvatar } from '$lib/services/getImages';
 	import { createLoadObserver } from '$lib/utils';
 	import Loading from '$lib/components/Loading.svelte';
 
 	export let story: Story | null;
+	let sortedDesc: Page[] | undefined = undefined;
 
 	let avatar: { publicUrl: string } | undefined;
 	let background: { publicUrl: string } | undefined;
@@ -18,22 +18,28 @@
 		loading = false;
 	});
 
-	onMount(async () => {
-		background = await getPageThumbnail(story?.pages[0].screenshot);
-		avatar = await getThumbnailAvatar(story?.profileId.avatarUrl);
-
-		supabase
-			.channel('public:pages')
-			.on(
-				'postgres_changes',
-				{ event: 'UPDATE', schema: 'public', table: 'pages' },
-				async (payload) => {
-					if (payload.new.story_id === story?.id) {
-						background = await getPageThumbnail(story?.pages[0].screenshot);
+	beforeUpdate(() => {
+		if (story?.pages) {
+			sortedDesc = story.pages.sort((a, b) => {
+				if (a.pageNumber && b.pageNumber) {
+					if (a.pageNumber > b.pageNumber) {
+						return 1;
 					}
+					if (a.pageNumber < b.pageNumber) {
+						return -1;
+					}
+					return 0;
 				}
-			)
-			.subscribe();
+				return 0;
+			});
+		}
+	});
+
+	onMount(async () => {
+		if (sortedDesc) {
+			background = await getPageThumbnail(sortedDesc[0].screenshot);
+		}
+		avatar = await getThumbnailAvatar(story?.profileId.avatarUrl);
 	});
 </script>
 

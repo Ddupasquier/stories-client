@@ -14,14 +14,12 @@
 
 	export let data: AuthSession | null = null;
 
-	
-
 	const getMyStories = async () => {
 		if (data?.session) {
 			const { data: theseStories, error } = await supabase
 				.from('stories')
 				.select(
-					'id, title, author, updatedAt, profileId (id, username, avatarUrl), pages: pages (id, background, screenshot, createdAt, pageNumber)'
+					'id, title, author, updatedAt, isPublic, profileId (id, username, avatarUrl), pages: pages (id, background, screenshot, createdAt, pageNumber)'
 				)
 				.eq('profileId', data.session.user.id)
 				.order('updatedAt', { ascending: false });
@@ -70,18 +68,27 @@
 	{#if !data?.session}
 		<Auth />
 	{:else}
-		<Profile session={data?.session} />
-		<button class="button" on:click={() => newStory(data?.session.user.id, $username)}
-			>New Story</button
-		>
-		<div class="stories">
-			{#if stories}
-				{#each stories as story}
-					<StoryCard {story} />
-				{/each}
-			{:else}
-				<p>You have no stories yet.</p>
-			{/if}
+		<div class="responsive-grid">
+			<div class="left">
+				<Profile session={data?.session} />
+			</div>
+			<div class="right">
+				<div class="buttons-head">
+					<button class="button" on:click={() => newStory(data?.session.user.id, $username)}
+						>New Story</button
+					>
+				</div>
+
+				<div class="stories">
+					{#if stories}
+						{#each stories as story}
+							<StoryCard {story} />
+						{/each}
+					{:else}
+						<p>You have no stories yet.</p>
+					{/if}
+				</div>
+			</div>
 		</div>
 	{/if}
 </div>
@@ -93,12 +100,56 @@
 <style lang="scss">
 	.container {
 		display: flex;
-		flex-flow: column wrap;
+		flex-flow: row wrap;
 		justify-content: center;
 		align-items: center;
 		align-self: center;
-		gap: 2rem;
+		gap: 5rem;
+	}
+
+	.buttons-head {
+		display: flex;
+		flex-flow: row wrap;
+		justify-content: center;
+		align-items: center;
+		align-self: center;
+		gap: 1rem;
 		width: 100%;
+		margin-bottom: 2rem;
+	}
+
+	.responsive-grid {
+		display: grid;
+		grid-template-columns: 20rem auto;
+		grid-gap: 1rem;
+	}
+
+	.left {
+		grid-column: 1 / 2;
+		grid-row: 1 / 2;
+	}
+
+	.right {
+		grid-column: 2 / 3;
+		grid-row: 1 / 2;
+	}
+
+	// media query 840px wide right appears underneath left
+	@media screen and (max-width: 840px) {
+		.responsive-grid {
+			grid-template-columns: auto;
+			grid-template-rows: auto auto;
+		}
+
+		.left {
+			grid-column: 1 / 2;
+			grid-row: 1 / 2;
+		}
+
+		.right {
+			grid-column: 1 / 2;
+			grid-row: 2 / 3;
+		}
 	}
 
 	.stories {
@@ -107,7 +158,7 @@
 		justify-content: center;
 		align-items: center;
 		align-self: center;
-		gap: 5rem;
+		gap: 3rem;
 		width: 100%;
 	}
 </style>
