@@ -107,6 +107,7 @@
 		flex-flow: column nowrap;
 		align-items: center;
 		margin: auto;
+		margin-top: 3.5rem;
 		gap: 1rem;
 		width: fit-content;
 		padding: 0 3rem;
