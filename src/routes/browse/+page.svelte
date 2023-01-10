@@ -20,10 +20,10 @@
 	.stories {
 		display: flex;
 		flex-flow: row wrap;
-		justify-content: center;
+		justify-content:center;
 		align-items: center;
 		align-self: center;
-		gap: 5rem;
+		gap: 4rem;
 		width: 100%;
 	}
 </style>

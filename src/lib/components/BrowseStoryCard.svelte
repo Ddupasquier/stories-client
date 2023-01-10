@@ -70,7 +70,12 @@
 
 <style lang="scss">
 	.container {
-		box-shadow: 0 -21px 25px 0 #5a5a5a4b;
+		box-shadow: 0 -21px 25px 0 #5a5a5a75;
+		transition: all 0.2s ease-in-out;
+		&:hover {
+			transform: scale(1.02);
+			box-shadow: 0 -17px 25px 0 #5a5a5a3f;
+		}
 	}
 
 	.story {
@@ -78,13 +83,18 @@
 		border-image: linear-gradient(45deg, purple, orange) 1;
 		border-style: solid;
 		border-width: 0.5rem 0;
-		height: 200px;
+		height: 160px;
 		aspect-ratio: 16/7.4;
 	}
 
 	.thumbnail {
 		width: 100%;
 		height: 100%;
+		filter: grayscale(100%);
+		transition: all 0.4s ease-in-out;
+		&:hover {
+			filter: grayscale(0%);
+		}
 	}
 
 	.avatar {
@@ -94,7 +104,7 @@
 		width: 5rem;
 		height: 5rem;
 		border-radius: 50%;
-		z-index: 1;
+		z-index: 2;
 		display: flex;
 		justify-content: center;
 		align-items: center;
@@ -108,5 +118,6 @@
 		height: fit-content;
 		background: purple;
 		padding: 0.25rem 1rem;
+		z-index: 1;
 	}
 </style>
