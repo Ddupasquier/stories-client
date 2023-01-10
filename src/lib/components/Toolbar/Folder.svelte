@@ -42,7 +42,6 @@
 {#if open}
 	<div class="folder-contents">
 		<div class="modal-header">
-			<!-- <h2>{folderText}</h2> -->
 			<button class="close" on:click={() => (open = false)}> X </button>
 		</div>
 		<div class="modal-body">
@@ -56,16 +55,16 @@
 							</div>
 						{/if} -->
 						<!-- {#if !loading} -->
-							<img
-								src={convToPublicUrlFromFolder(folderName, image)}
-								alt={image.name}
-								title={image.name}
-								on:click={() => {
-									addElementToPage(folderName, image.name);
-								}}
-								use:onLoad
-							/>
-							<div class="add-icon">+</div>
+						<img
+							src={convToPublicUrlFromFolder(folderName, image)}
+							alt={image.name}
+							title={image.name}
+							on:click={() => {
+								addElementToPage(folderName, image.name);
+							}}
+							use:onLoad
+						/>
+						<div class="add-icon">+</div>
 						<!-- {/if} -->
 					</div>
 				{/if}
@@ -82,7 +81,7 @@
 		cursor: pointer;
 		height: 70%;
 		aspect-ratio: 1/1;
-		transition: all .5s;
+		transition: all 0.5s;
 		&:hover {
 			background-color: var(--orange);
 		}

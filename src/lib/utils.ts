@@ -1,11 +1,6 @@
 import html2canvas from 'html2canvas';
 
-export const convToPublicUrl = (img: ImgUrl) => {
-	const publicUrl = `https://latdcbfvbassfihdwpwi.supabase.co/storage/v1/object/public/svg-assets/${img.name}`;
-	return publicUrl;
-};
-
-export const convToPublicUrlFromFolder = (folder:string, img: ImgUrl) => {
+export const convToPublicUrlFromFolder = (folder: string, img: ImgUrl) => {
 	const publicUrl = `https://latdcbfvbassfihdwpwi.supabase.co/storage/v1/object/public/svg-assets/${folder}/${img.name}`;
 	return publicUrl;
 };
@@ -20,8 +15,7 @@ export const screenshotCanvas = async (element: string): Promise<File | null> =>
 			useCORS: true,
 			ignoreElements: (el) => {
 				return el === ignore;
-			},
-
+			}
 		});
 
 		const dataUrl = canvas.toDataURL('image/png');

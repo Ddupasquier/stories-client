@@ -11,17 +11,20 @@
 	$: url = background?.publicUrl;
 
 	beforeUpdate(() => {
-		const compare = (a: { pageNumber: number }, b: { pageNumber: number }) => {
-			if (a.pageNumber > b.pageNumber) {
-				return 1;
-			}
-			if (a.pageNumber < b.pageNumber) {
-				return -1;
-			}
-			return 0;
-		};
-		const pages = story?.pages;
-		sortedDesc = pages?.sort(compare);
+		if (story?.pages) {
+			sortedDesc = story.pages.sort((a, b) => {
+				if (a.pageNumber && b.pageNumber) {
+					if (a.pageNumber > b.pageNumber) {
+						return 1;
+					}
+					if (a.pageNumber < b.pageNumber) {
+						return -1;
+					}
+					return 0;
+				}
+				return 0;
+			});
+		}
 	});
 
 	onMount(() => {
@@ -35,7 +38,7 @@
 
 {#if story && sortedDesc}
 	<div class="container">
-		<a href="/story/view/edit/{story.id}/{sortedDesc[0].id}">
+		<a href="/story/view/{story.id}/{sortedDesc[0].id}">
 			<div class="story">
 				<h1>
 					{truncate(story.title, 15)}

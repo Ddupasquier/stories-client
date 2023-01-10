@@ -1,25 +1,13 @@
 <script lang="ts">
-	import ImgElement from '$lib/components/canvas/ImgElementNoEdit.svelte';
-
-	export let info: {
-		id: number;
-		pageNumber: number;
-		background: string;
-		elements: PageElement[];
-	};
-
-	$: background = info.background;
+	export let screenshot: string | undefined;
+	$: img = screenshot;
 </script>
 
-{#if info.background}
-	<div id="canvas" style="background: {background}">
-		{#if info.elements}
-			{#each info.elements as element}
-				<ImgElement {element} />
-			{/each}
-		{/if}
-	</div>
-{/if}
+<div id="canvas">
+	{#if img}
+		<img src={img} alt="Page" />
+	{/if}
+</div>
 
 <style lang="scss">
 	#canvas {
@@ -27,5 +15,10 @@
 		width: 100%;
 		aspect-ratio: 16/7;
 		overflow: hidden;
+		img {
+			height: 100%;
+			width: 100%;
+			object-fit: cover;
+		}
 	}
 </style>

@@ -23,7 +23,7 @@ interface Page {
 	id: number;
 	background: string;
 	screenshot?: string;
-	[key: string]: any; 
+	[key: string]: any;
 }
 
 interface PagesLayoutProps {
@@ -77,6 +77,14 @@ interface EditPageProps {
 		elements: PageElement[];
 	}[];
 }
+
+interface ViewPageProps {
+		page: {
+			id: number;
+			pageNumber: number;
+			screenshot: string;
+		}[];
+	};
 
 interface PageElement {
 	id: number;

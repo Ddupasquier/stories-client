@@ -4,7 +4,7 @@ export async function load({ params }: { params: { page_id: number } }) {
 	const { data: page, error } = await supabase
 		.from('pages')
 		.select(
-			'id, pageNumber, background, elements: elements (id, elementName, x, y, zIndex, size, type, color, text, pageId)'
+			'id, pageNumber, screenshot'
 		)
 		.eq('id', params.page_id);
 
