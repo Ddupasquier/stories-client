@@ -7,14 +7,14 @@ export const convToPublicUrlFromFolder = (folder: string, img: ImgUrl) => {
 
 export const screenshotCanvas = async (element: string): Promise<File | null> => {
 	const el: HTMLElement | null = document.querySelector(element);
-	const ignore: HTMLElement | null = document.querySelector('#controls');
+	const ignore = [document.querySelector('#actions'), document.querySelector('#tools')];
 
 	if (el) {
 		const canvas = await html2canvas(el, {
 			allowTaint: true,
 			useCORS: true,
 			ignoreElements: (el) => {
-				return el === ignore;
+				return ignore.includes(el);
 			}
 		});
 

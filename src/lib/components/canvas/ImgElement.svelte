@@ -10,6 +10,8 @@
 	$: left = element.x;
 	$: zIndex = element.zIndex;
 	$: height = element.size;
+	$: rotation = element.rotate;
+
 	let image: { publicUrl: string };
 	let loading = true;
 
@@ -44,6 +46,10 @@
 
 	const changeZindex = (value: number) => {
 		zIndex = value;
+	};
+
+	const rotate = (value: number) => {
+		rotation = value;
 	};
 
 	export const move = (e: { movementX: number; movementY: number }) => {
@@ -85,7 +91,7 @@
 	style="display: flex; justify-content: center; align-items: center; position: absolute; top: {top +
 		'%'}; left: {left + '%'}; z-index: {zIndex}; height: {element.type === 'backgrounds'
 		? null
-		: height + '%'}; width: {element.type === 'backgrounds' ? height + '%' : null};"
+		: height + '%'}; width: {element.type === 'backgrounds' ? height + '%' : null}; transform: rotate({rotation + 'deg'});"
 	bind:this={container}
 >
 	{#if loading}
@@ -112,8 +118,10 @@
 		{element}
 		{height}
 		{zIndex}
+		{rotation}
 		{resize}
 		{changeZindex}
+		{rotate}
 		{closeContextMenu}
 	/>
 {/if}

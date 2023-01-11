@@ -53,3 +53,14 @@ export const saveSize = async (id: number, size: number) => {
 		toast.push('Element size saved', { duration: 1000, pausable: true });
 	}
 };
+
+export const saveRotation = async (id: number, rotate: number) => {
+	const { error } = await supabase.from('elements').update({ rotate }).eq('id', id);
+
+	if (error) {
+		toast.push(`Couldn't save this element's rotation! ${error.message}`, { duration: 5000, pausable: true })
+		throw new Error(error.message);
+	} else {
+		toast.push('Element rotation saved', { duration: 1000, pausable: true });
+	}
+}

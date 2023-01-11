@@ -3,7 +3,16 @@
 	import { page } from '$app/stores';
 	import { username } from '$lib/stores/userStore';
 	export let session: AuthSession | null;
+
+	import { SvelteToast } from '@zerodevx/svelte-toast';
+
+	const options = {
+		position: 'top-right',
+		duration: 3000,
+	};
 </script>
+
+<!-- <SvelteToast {options} /> -->
 
 <header>
 	<nav>

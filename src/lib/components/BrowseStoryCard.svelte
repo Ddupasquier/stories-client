@@ -4,6 +4,7 @@
 	import { getPageThumbnail, getThumbnailAvatar } from '$lib/services/getImages';
 	import { createLoadObserver } from '$lib/utils';
 	import Loading from '$lib/components/Loading.svelte';
+	import { avatarPlaceholder } from '$lib/assets';
 
 	export let story: Story | null;
 	let sortedDesc: Page[] | undefined = undefined;
@@ -47,11 +48,10 @@
 	<div class="container">
 		<a href="/story/view/{story.id}/{story.pages[0].id}">
 			<div class="story">
-				<img use:onLoad src={avatarUrl} alt={story.title} class="avatar" />
-				{#if loading}
-					<div class="avatar">
-						<Loading />
-					</div>
+				{#if avatarUrl}
+					<img use:onLoad src={avatarUrl} alt={story.title} class="avatar" />
+				{:else}
+					<img src={avatarPlaceholder} alt="No avatar uploaded" class="avatar"/>
 				{/if}
 
 				<div class="banner">

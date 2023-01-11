@@ -1,15 +1,19 @@
 <script lang="ts">
+	export let element: PageElement;
+
 	export let left: number;
 	export let top: number;
 	export let height: number;
 	export let zIndex: number;
-	export let element: PageElement;
+	export let rotation: number;
 
 	export let resize: (value: number) => void;
 	export let changeZindex: (value: number) => void;
+	export let rotate: (value: number) => void;
+
 	export let closeContextMenu: () => void;
 
-	import { deleteElement, saveSize, saveZindex } from '$lib/services/elementActions';
+	import { deleteElement, saveRotation, saveSize, saveZindex } from '$lib/services/elementActions';
 	let contextRef: HTMLDivElement;
 </script>
 
@@ -22,6 +26,9 @@
 				}
 				if (zIndex !== element.zIndex) {
 					saveZindex(element.id, zIndex);
+				}
+				if (rotation !== element.rotate) {
+					saveRotation(element.id, rotation);
 				}
 				closeContextMenu();
 			}
@@ -47,6 +54,20 @@
 				on:change={(e) => {
 					if (e.target instanceof HTMLInputElement) {
 						resize(Number(e.target.value));
+					}
+				}}
+			/>
+		</li>
+		<li>
+			Rotation: <input
+				type="number"
+				value={rotation}
+				class="input context-input"
+				min="-360"
+				max="360"
+				on:change={(e) => {
+					if (e.target instanceof HTMLInputElement) {
+						rotate(Number(e.target.value));
 					}
 				}}
 			/>
@@ -79,7 +100,7 @@
 
 <style lang="scss">
 	#context-menu {
-		z-index: 1000;
+		z-index: 10000;
 	}
 
 	.context-input {

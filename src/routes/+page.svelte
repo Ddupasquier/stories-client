@@ -39,6 +39,7 @@
 				}
 				if (payload.eventType === 'DELETE') {
 					stories = stories?.filter((story) => story.id !== payload.old.id);
+					console.log(stories)
 				}
 				if (payload.eventType === 'UPDATE') {
 					stories = stories?.map((story) => {
@@ -53,9 +54,7 @@
 	};
 
 	onMount(() => {
-		setTimeout(() => {
-			getMyStories();
-		}, 500);
+		getMyStories();
 	});
 </script>
 

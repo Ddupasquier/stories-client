@@ -89,6 +89,7 @@ interface ViewPageProps {
 	};
 
 interface PageElement {
+	rotate: any;
 	id: number;
 	color?: string;
 	text?: string;
