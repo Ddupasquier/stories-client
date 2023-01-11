@@ -2,18 +2,25 @@
 	import {onMount} from 'svelte';
 	import { supabase } from '$lib/supabase';
 	import type { AuthSession } from '@supabase/supabase-js';
-	import { username, userId, fullname, avatar } from '$lib/stores/userStore';
 	import Header from './Header.svelte';
 	import './styles.scss';
 	import { signout, getProfile } from '$lib/services/auth';
 	import Footer from './Footer.svelte';
+	import { SvelteToast } from '@zerodevx/svelte-toast';
+
+	const options = {
+		position: 'top-right',
+		duration: 3000,
+	};
 
 	export let data: { session: AuthSession | null };
 	
 	onMount(() => {
 		getProfile(data.session?.user.id)
 	})
+	// <SvelteToast {options} />
 </script>
+
 
 <div class="app">
 	<Header session={data.session}/>

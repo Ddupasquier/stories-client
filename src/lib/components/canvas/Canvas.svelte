@@ -28,27 +28,22 @@
 	onMount(() => {
 		supabase
 			.channel('public:elements')
-			.on(
-				'postgres_changes',
-				{ event: '*', schema: 'public', table: 'elements' },
-				(payload) => {
-					if (payload.eventType === 'INSERT') {
-						info.elements = [...info.elements, payload.new] as PageElement[];
-					}
-					if (payload.eventType === 'DELETE') {
-						info.elements = info.elements.filter((element) => element.id !== payload.old.id);
-					}
-					if (payload.eventType === 'UPDATE') {
-						info.elements = info.elements.map((element) => {
-							if (element.id === payload.new.id) {
-								return payload.new;
-							}
-							return element;
-						});
-					}
+			.on('postgres_changes', { event: '*', schema: 'public', table: 'elements' }, (payload) => {
+				if (payload.eventType === 'INSERT') {
+					info.elements = [...info.elements, payload.new] as PageElement[];
 				}
-				
-			)
+				if (payload.eventType === 'DELETE') {
+					info.elements = info.elements.filter((element) => element.id !== payload.old.id);
+				}
+				if (payload.eventType === 'UPDATE') {
+					info.elements = info.elements.map((element) => {
+						if (element.id === payload.new.id) {
+							return payload.new;
+						}
+						return element;
+					});
+				}
+			})
 			.subscribe();
 	});
 
@@ -62,7 +57,7 @@
 			.from('stories')
 			.update({ isPublic: !isPublic })
 			.match({ id: id })
-			.select('isPublic')
+			.select('isPublic');
 		if (error) {
 			throw new Error(error.message);
 		} else {
@@ -81,32 +76,56 @@
 		{#if $howToIsOpen}
 			<HowToModal />
 		{/if}
-		<div id="controls">
-			<button class="public" on:click={() => {updateIsPublic(storyId)}} title="Make Public?">
+		<div id="tools">
+			<ColorPicker color={background} {setColor} />
+		</div>
+		<div id="actions">
+			<button
+				class="publish"
+				on:click={() => {
+					updateIsPublic(storyId);
+				}}
+				title={isPublic ? 'Make story private' : 'Make story public'}
+			>
 				<svg
+					fill={isPublic ? 'green' : 'red'}
+					width="30px"
+					height="30px"
+					viewBox="0 0 32 32"
+					version="1.1"
 					xmlns="http://www.w3.org/2000/svg"
-					width="24"
-					height="24"
-					viewBox="0 0 24 24"
-					fill={isPublic ? 'yellow' : 'rgba(255, 255, 255, 0.5)'}
-					stroke="currentColor"
-					stroke-width="2"
-					stroke-linecap="round"
-					stroke-linejoin="round"
-					class="feather feather-star"
 				>
-					<path d="M12 2L15.54 8.46 22 9.74 17.27 14.27 18.55 21 12 18.18 5.45 21 6.73 14.27 2 9.74 8.46 8.46 12 2z"></path>
+					<path
+						d="M17 26c0 0 6.188-2.062 11 1.812 0-0.062 0-1.812 0-1.812-5.625-3.125-11 0-11 0zM2 6v19.875c0 0 2.688-1.938 6.5-1.938s6.5 1.938 6.5 1.938v-19.625c0 0-2.688-2.25-6.5-2.25s-6.5 2-6.5 2zM4 8h4v5h-4v-5zM13 21h-9v-1h9v1zM13 19h-9v-1h9v1zM13 17h-9v-1h9v1zM13 15h-9v-1h9v1zM9 8h4v1h-4v-1zM9 10h4v1h-4v-1zM9 12h4v1h-4v-1zM22.5 4c-3.812 0-6.5 2-6.5 2v19.875c0 0 2.688-1.938 6.5-1.938s6.5 1.938 6.5 1.938v-19.625c0 0-2.688-2.25-6.5-2.25zM27 21h-9v-1h9v1zM27 19h-9v-1h9v1zM27 17h-9v-1h9v1zM27 15h-9v-1h9v1zM27 13h-9v-1h9v1zM27 11h-9v-1h9v1zM27 9h-9v-1h9v1zM3 26c0 0 0 1.75 0 1.812 4.812-3.874 11-1.812 11-1.812s-5.375-3.125-11 0z"
+					/>
 				</svg>
 			</button>
-			<ColorPicker color={background} {setColor} />
 			<button
 				class="save"
 				on:click={() => {
 					doScreenshot();
 					saveBgColor(info.id, background);
 				}}
+				title="Save"
 			>
-				Save
+				<svg
+					fill="#fff"
+					width="30px"
+					height="30px"
+					viewBox="0 0 24 24"
+					xmlns="http://www.w3.org/2000/svg"
+				>
+					<g id="Save_Up_2" data-name="Save Up 2">
+						<g>
+							<path
+								d="M18.437,20.937H5.563a2.372,2.372,0,0,1-2.5-2.211v-11a2.372,2.372,0,0,1,2.5-2.212h.462a.5.5,0,0,1,0,1H5.563a1.381,1.381,0,0,0-1.5,1.212v11a1.38,1.38,0,0,0,1.5,1.211H18.437a1.38,1.38,0,0,0,1.5-1.211v-11a1.381,1.381,0,0,0-1.5-1.212h-.462a.5.5,0,0,1,0-1h.462a2.372,2.372,0,0,1,2.5,2.212v11A2.372,2.372,0,0,1,18.437,20.937Z"
+							/>
+							<path
+								d="M8.645,6.213l3-3a.5.5,0,0,1,.35-.15.508.508,0,0,1,.36.15l3,3a.5.5,0,0,1-.71.71l-2.14-2.14v8.47a.508.508,0,0,1-.5.5.5.5,0,0,1-.5-.5V4.763l-2.15,2.16a.5.5,0,0,1-.71-.71Z"
+							/>
+						</g>
+					</g>
+				</svg>
 			</button>
 		</div>
 	</div>
@@ -120,7 +139,7 @@
 		overflow: hidden;
 	}
 
-	#controls {
+	#tools {
 		position: absolute;
 		bottom: 1rem;
 		right: 1rem;
@@ -129,37 +148,44 @@
 		align-items: center;
 		gap: 1rem;
 		z-index: 1000;
-		.public {
-			width: fit-content;
-			aspect-ratio: 1/1;
-			border: none;
-			background: none;
-			cursor: pointer;
-			svg {
-				pointer-events: none;
-
-			}
-		}
 	}
-	.save {
+
+	@mixin action-buttons {
+		display: flex;
+		align-items: center;
+		justify-content: center;
 		width: fit-content;
 		aspect-ratio: 1/1;
-		padding: 0.5rem;
-		background-color: rgba(255, 255, 255, 0.493);
-		border-radius: 50%;
 		border: none;
-		color: rgb(0, 0, 0);
-		display: flex;
-		justify-content: center;
-		align-items: center;
-		font-size: .8rem;
-		font-weight: 600;
-		transition: all .5s;
+		background: black;
+		border-radius: 50%;
+		cursor: pointer;
+		transition: all 0.5s;
 		&:hover {
 			transform: scale(1.1);
 		}
 		&:active {
 			transform: scale(0.9);
+		}
+		svg {
+			pointer-events: none;
+		}
+	}
+
+	#actions {
+		position: absolute;
+		top: .5rem;
+		right: .5rem;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		gap: .5rem;
+		z-index: 1000;
+		.publish {
+			@include action-buttons;
+		}
+		.save {
+			@include action-buttons;
 		}
 	}
 </style>

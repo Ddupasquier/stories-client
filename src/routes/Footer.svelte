@@ -1,12 +1,12 @@
 <script lang="ts">
-	import {githubIcon} from '$lib/assets';
+	// import {githubIcon} from '$lib/assets';
 </script>
 
 <footer>
 	<div class="left">
-		<a href="https://github.com/Ddupasquier/stories-client" target="_blank" rel="noopener noreferrer">
+		<!-- <a href="https://github.com/Ddupasquier/stories-client" target="_blank" rel="noopener noreferrer">
 			<img src={githubIcon} alt="github" />
-		</a>
+		</a> -->
 	</div>
 	<div class="center">
 		Stories We Tell - &copy; {new Date().getFullYear()}

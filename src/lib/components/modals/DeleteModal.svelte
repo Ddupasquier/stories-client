@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { storyToDelete, deleteIsOpen } from '$lib/stores/modalStore';
-	import { deleteStory } from '$lib/services/delete';
+	import { deleteStory } from '$lib/services/storyActions';
 	import LoadSpinner from '../Loading.svelte';
 	import { fade, scale } from 'svelte/transition';
 

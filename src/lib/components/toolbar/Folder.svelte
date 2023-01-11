@@ -66,8 +66,8 @@
 							<div class="avatar">
 								<Loading />
 							</div>
-						{/if} -->
-						<!-- {#if !loading} -->
+						{/if}
+						{#if !loading} -->
 						<img
 							src={convToPublicUrlFromFolder(folderName, image)}
 							alt={image.name}

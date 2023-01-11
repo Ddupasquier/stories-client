@@ -3,7 +3,7 @@
 	import { changeTitle } from '$lib/services/storyActions';
 	export let data: PagesLayoutProps;
 
-	import Toolbar from '$lib/components/Toolbar/Toolbar.svelte';
+	import Toolbar from '$lib/components/toolbar/Toolbar.svelte';
 	import Slider from '$lib/components/Slider.svelte';
 	import { truncate } from '$lib/utils';
 

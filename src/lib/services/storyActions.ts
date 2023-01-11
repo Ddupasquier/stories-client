@@ -1,6 +1,7 @@
 import { supabase } from '$lib/supabase';
 import { generateUuid } from '$lib/utils';
 import { goto } from '$app/navigation';
+import { toast } from '@zerodevx/svelte-toast';
 
 export const addPage = async (storyId: number, background: string, lastPage: number) => {
 	const { data, error } = await supabase
@@ -9,8 +10,10 @@ export const addPage = async (storyId: number, background: string, lastPage: num
 		.select();
 
 	if (error) {
+		toast.push(`Something went wrong! ${error.message}`, { duration: 5000, pausable: true });
 		throw new Error(error.message);
 	} else {
+		toast.push('Page added', { duration: 2000, pausable: true });
 		return data;
 	}
 };
@@ -29,6 +32,7 @@ export const newStory = async (id: string | undefined, user: string | null) => {
 		.select();
 
 	if (error) {
+		toast.push(`Something went wrong! ${error.message}`, { duration: 5000, pausable: true });
 		throw new Error(error.message);
 	} else {
 		let page;
@@ -40,6 +44,19 @@ export const newStory = async (id: string | undefined, user: string | null) => {
 		setTimeout(() => {
 			goto(`/story/edit/${data[0].id}/${pageId}`);
 		}, 10);
+		toast.push('Happy creating!!!', { duration: 2000, pausable: true })
+	}
+};
+
+export const deleteStory = async (id: number | undefined) => {
+	const { error } = await supabase.from('stories').delete().eq('id', id);
+
+	if (error) {
+		toast.push(`Something went wrong! ${error.message}`, { duration: 5000, pausable: true });
+		throw new Error(error.message);
+	} else {
+		toast.push('Story deleted', { duration: 2000, pausable: true });
+		goto('/profile');
 	}
 };
 
@@ -50,8 +67,10 @@ export const changeTitle = async (storyId: number, title: string) => {
 		.eq('id', storyId);
 
 	if (error) {
+		toast.push(`Something went wrong! ${error.message}`, { duration: 5000, pausable: true });
 		throw new Error(error.message);
 	} else {
+		toast.push('Title updated', { duration: 2000, pausable: true });
 		return data;
 	}
 };

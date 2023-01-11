@@ -32,8 +32,10 @@
 	href="/story/{$page.route.id?.includes('edit') ? 'edit' : 'view'}/{$page.params.story_id}/{pageData.id}"
 	class="page-selection"
 >
-	{#if image}
+	{#if pageData}
+		{#if image}
 		<img src={image?.publicUrl} alt="page" class="thumbnail" />
+		{/if}
 		<div class="page-number">{pageData.pageNumber}</div>
 		{#if $page.route.id?.includes('edit')}
 			<button

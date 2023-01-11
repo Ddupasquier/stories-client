@@ -1,5 +1,6 @@
 import { supabase } from '$lib/supabase';
 import { username, fullname, avatar, userId } from '$lib/stores/userStore';
+import { toast } from '@zerodevx/svelte-toast';
 
 export const signout = () => {
 	username.set(null);
@@ -10,6 +11,7 @@ export const signout = () => {
 	supabase.auth.signOut();
 
 	location.reload()
+	toast.push('Signed out', { duration: 2000, pausable: true });
 };
 
 export const getProfile = async (id: string | undefined) => {
@@ -20,6 +22,7 @@ export const getProfile = async (id: string | undefined) => {
 			.eq('id', id)
 			.single();
 		if (error) {
+			toast.push(`Something went wrong! ${error.message}`, { duration: 5000, pausable: true });
 			throw new Error(error.message);
 		}
 		if (data) {

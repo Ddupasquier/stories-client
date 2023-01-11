@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { createEventDispatcher } from 'svelte';
 	import { supabase } from '$lib/supabase';
+	import { avatarPlaceholder } from '$lib/assets';
 
 	export let size: number;
 	export let url: string | null;
@@ -62,12 +63,9 @@
 
 <div style="width: {size}px" aria-live="polite" class="container">
 	{#if avatarUrl}
-		<img
-			src={avatarUrl}
-			alt={avatarUrl ? 'Avatar' : 'No image'}
-		/>
+		<img src={avatarUrl} alt={avatarUrl ? 'Avatar' : 'No image'} />
 	{:else}
-		<div style="height: {size}px, width: {size}px" />
+		<img src={avatarPlaceholder} alt="No avatar uploaded" />
 	{/if}
 	<div style="width: {size}px" class="upload">
 		<label class="button" for="single">
@@ -87,21 +85,21 @@
 </div>
 
 <style lang="scss">
-      .container {
-            position: relative;
-      }
+	.container {
+		position: relative;
+	}
 
-      img {
-            width: 100%;
-            border-radius: 50%;
-            aspect-ratio: 1/1;
-      }
+	img {
+		width: 100%;
+		border-radius: 50%;
+		aspect-ratio: 1/1;
+	}
 
-      .upload {
-            position: absolute;
-            bottom: 1rem;
-            right: -1rem;;
-            width: fit-content;
-            text-align: right;
-      }
+	.upload {
+		position: absolute;
+		bottom: 1rem;
+		right: -1rem;
+		width: fit-content;
+		text-align: right;
+	}
 </style>

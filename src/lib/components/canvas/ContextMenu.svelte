@@ -57,6 +57,7 @@
 				value={zIndex}
 				class="input context-input"
 				min="0"
+				max="500"
 				on:change={(e) => {
 					if (e.target instanceof HTMLInputElement) {
 						changeZindex(Number(e.target.value));
