@@ -11,7 +11,7 @@
 	import { howToIsOpen } from '$lib/stores/modalStore';
 	import { unsaved, unsavedTrue, unsavedFalse } from '$lib/stores/storyStore';
 	import { toast } from '@zerodevx/svelte-toast';
-	import Clipboard from '$lib/components/Clipboard.svelte';
+	import Clipboard from '$lib/components/canvas/Clipboard.svelte';
 
 	export let info: CanvasProps;
 	export let firstPage: number;
