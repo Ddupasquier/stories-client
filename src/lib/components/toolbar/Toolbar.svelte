@@ -13,6 +13,7 @@
 	let char_icon: FileObject[];
 	let rank: FileObject[];
 	let svg: FileObject[];
+	let speech: FileObject[];
 
 	const getFolder = async (folder: string) => {
 		const { data, error } = await supabase.storage.from('svg-assets').list(folder);
@@ -43,6 +44,9 @@
 					break;
 				case 'svg':
 					svg = data;
+					break;
+				case 'speech':
+					speech = data;
 					break;
 				default:
 					break;
@@ -107,6 +111,9 @@
 	{/if}
 	{#if backgrounds}
 		<Folder folder={backgrounds} folderIcon={backgroundIcon} folderName="backgrounds" />
+	{/if}
+	{#if speech}
+		<Folder folder={speech} folderIcon={miscIcon} folderName="speech" />
 	{/if}
 	{#if nautical}
 		<Folder folder={nautical} folderIcon={fishIcon} folderName="nautical" />
