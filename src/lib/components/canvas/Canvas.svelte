@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { supabase } from '$lib/supabase';
 	import { onMount } from 'svelte';
-	import {beforeNavigate} from '$app/navigation';
+	import { beforeNavigate } from '$app/navigation';
 	import { page } from '$app/stores';
 	import { screenshotCanvas, isLocalhost } from '$lib/utils';
 	import ImgElement from '$lib/components/canvas/ImgElement.svelte';
@@ -9,7 +9,14 @@
 	import ColorPicker from '$lib/components/ColorPicker.svelte';
 	import HowToModal from '$lib/components/modals/HowToModal.svelte';
 	import { howToIsOpen } from '$lib/stores/modalStore';
-	import { unsaved, unsavedTrue, unsavedFalse } from '$lib/stores/storyStore';
+	import {
+		unsaved,
+		toastOpen,
+		unsavedTrue,
+		unsavedFalse,
+		toastOpenTrue,
+		toastOpenFalse
+	} from '$lib/stores/storyStore';
 	import { toast } from '@zerodevx/svelte-toast';
 	import Clipboard from '$lib/components/canvas/Clipboard.svelte';
 
@@ -47,12 +54,17 @@
 			.subscribe();
 	});
 
-	beforeNavigate(({cancel}) => {
+	beforeNavigate(({ cancel }) => {
 		if ($unsaved) {
 			cancel();
-			toast.push('Please save your changes before leaving.');
+			toastOpenTrue();
+			toast.push('Please save your changes before leaving.', {
+				onpop: () => {
+					toastOpenFalse();
+				}
+			});
 		}
-	})
+	});
 
 	const doScreenshot = async () => {
 		const file = await screenshotCanvas('#canvas');

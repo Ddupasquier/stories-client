@@ -6,6 +6,8 @@
 	import Toolbar from '$lib/components/toolbar/Toolbar.svelte';
 	import Slider from '$lib/components/Slider.svelte';
 	import { truncate } from '$lib/utils';
+	import { indicateArrow } from '$lib/assets';
+	import { toastOpen } from '$lib/stores/storyStore';
 
 	let titleInput: HTMLInputElement;
 
@@ -37,6 +39,11 @@
 </h2>
 
 <br />
+
+{#if $toastOpen}
+	<img src={indicateArrow} alt="indicate arrow" class="indicate-arrow" />
+{/if}
+
 <div class="story-container">
 	<Toolbar />
 	<slot />
@@ -80,5 +87,29 @@
 		width: 75vw;
 		max-width: 2000px;
 		user-select: none;
+	}
+
+	.indicate-arrow {
+		position: absolute;
+		top: 18.5rem;
+		right: 11%;
+		width: 3rem;
+		height: 3rem;
+		z-index: 1002;
+		pointer-events: none;
+		transform-origin: bottom left;
+		animation: rotate 1s infinite;
+	}
+
+	@keyframes rotate {
+		0% {
+			transform: rotate(0deg);
+		}
+		50% {
+			transform: rotate(40deg);
+		}
+		100% {
+			transform: rotate(0deg);
+		}
 	}
 </style>
