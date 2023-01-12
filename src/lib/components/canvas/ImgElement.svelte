@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { beforeUpdate, onMount, afterUpdate } from 'svelte';
 	import { savePosition, getElementFromFolder } from '$lib/services/elementActions';
+	import { unsavedTrue } from '$lib/stores/storyStore';
 	import Loading from '$lib/components/Loading.svelte';
 	import ContextMenu from './ContextMenu.svelte';
 
@@ -12,7 +13,7 @@
 	$: height = element.size;
 	$: rotation = element.rotate;
 
-	let image: { publicUrl: string };
+	let image: { publicUrl: string } | undefined;
 	let loading = true;
 
 	beforeUpdate(() => {
@@ -82,7 +83,7 @@
 	on:mousemove={move}
 	on:mouseup={() => {
 		moving = false;
-		if (top !== element.y || left !== element.x) savePosition(top, left, element.id);
+		if (top !== element.y || left !== element.x) savePosition(top, left, element.id, unsavedTrue);
 	}}
 />
 
@@ -91,7 +92,9 @@
 	style="display: flex; justify-content: center; align-items: center; position: absolute; top: {top +
 		'%'}; left: {left + '%'}; z-index: {zIndex}; height: {element.type === 'backgrounds'
 		? null
-		: height + '%'}; width: {element.type === 'backgrounds' ? height + '%' : null}; transform: rotate({rotation + 'deg'});"
+		: height + '%'}; width: {element.type === 'backgrounds'
+		? height + '%'
+		: null}; transform: rotate({rotation + 'deg'});"
 	bind:this={container}
 >
 	{#if loading}

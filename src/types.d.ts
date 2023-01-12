@@ -36,12 +36,12 @@ interface SliderPageProps {
 }
 
 interface CanvasProps {
-		storyId?: number;
-		id: number;
-		pageNumber: number;
-		background: string;
-		elements: PageElement[];
-	};
+	storyId?: number;
+	id: number;
+	pageNumber: number;
+	background: string;
+	elements: PageElement[];
+}
 
 interface StoryId {
 	isPublic: boolean;
@@ -92,12 +92,12 @@ interface EditPageProps {
 }
 
 interface ViewPageProps {
-		page: {
-			id: number;
-			pageNumber: number;
-			screenshot: string;
-		}[];
-	};
+	page: {
+		id: number;
+		pageNumber: number;
+		screenshot: string;
+	}[];
+}
 
 interface PageElement {
 	rotate: number;

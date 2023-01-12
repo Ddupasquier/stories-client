@@ -1,12 +1,14 @@
 <script lang="ts">
 	export let color: string;
 	export let setColor: (color: string) => void;
+	import { unsavedTrue } from '$lib/stores/storyStore';
 
 	let colorPickerRef: HTMLInputElement;
 
 	function updateColor() {
 		if (colorPickerRef.value !== color) {
 			setColor(colorPickerRef.value);
+			unsavedTrue();
 		}
 	}
 </script>
@@ -23,15 +25,15 @@
 </div>
 
 <style lang="scss">
-      label {
-            font-weight: 600;
-		font-size: .8rem;
-      }
-      .color-picker-container {
-            display: flex;
-            align-items: center;
+	label {
+		font-weight: 600;
+		font-size: 0.8rem;
+	}
+	.color-picker-container {
+		display: flex;
+		align-items: center;
 		flex-direction: column;
-      }
+	}
 	input[type='color'] {
 		-webkit-appearance: none;
 		-moz-appearance: none;

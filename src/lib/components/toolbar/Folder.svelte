@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { supabase } from '$lib/supabase';
 	import { page } from '$app/stores';
+	import { unsavedTrue } from '$lib/stores/storyStore';
 	import { convToPublicUrlFromFolder, createLoadObserver } from '$lib/utils';
 	import type { FileObject } from '@supabase/storage-js';
 	import Loading from '$lib/components/Loading.svelte';
@@ -31,17 +32,24 @@
 
 		if (error) {
 			throw new Error(error.message);
+		} else {
+			unsavedTrue();
 		}
 	};
 
-	let folderRef: HTMLElement
-	let folderButtonRef: HTMLElement
+	let folderRef: HTMLElement;
+	let folderButtonRef: HTMLElement;
 </script>
 
 <svelte:window
 	on:click={(e) => {
 		if (e.target instanceof HTMLElement) {
-			if (open === true && folderRef !== e.target && !folderRef.contains(e.target) && folderButtonRef !== e.target) {
+			if (
+				open === true &&
+				folderRef !== e.target &&
+				!folderRef.contains(e.target) &&
+				folderButtonRef !== e.target
+			) {
 				open = false;
 			}
 		}

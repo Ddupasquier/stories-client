@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { supabase } from '$lib/supabase';
 	import { onMount } from 'svelte';
+	import {beforeNavigate} from '$app/navigation';
 	import { page } from '$app/stores';
 	import { screenshotCanvas, isLocalhost } from '$lib/utils';
 	import ImgElement from '$lib/components/canvas/ImgElement.svelte';
@@ -8,6 +9,7 @@
 	import ColorPicker from '$lib/components/ColorPicker.svelte';
 	import HowToModal from '$lib/components/modals/HowToModal.svelte';
 	import { howToIsOpen } from '$lib/stores/modalStore';
+	import { unsaved, unsavedTrue, unsavedFalse } from '$lib/stores/storyStore';
 	import { toast } from '@zerodevx/svelte-toast';
 	import Clipboard from '$lib/components/Clipboard.svelte';
 
@@ -20,6 +22,7 @@
 
 	const setColor = (color: string) => {
 		background = color;
+		unsavedTrue();
 	};
 
 	onMount(() => {
@@ -43,6 +46,13 @@
 			})
 			.subscribe();
 	});
+
+	beforeNavigate(({cancel}) => {
+		if ($unsaved) {
+			cancel();
+			toast.push('Please save your changes before leaving.');
+		}
+	})
 
 	const doScreenshot = async () => {
 		const file = await screenshotCanvas('#canvas');
@@ -100,8 +110,9 @@
 				</svg>
 			</button>
 			<button
-				class="save"
+				class={$unsaved ? 'save unsaved' : 'save'}
 				on:click={() => {
+					unsavedFalse();
 					doScreenshot();
 					saveBgColor(info.id, background);
 					toast.push({
@@ -199,6 +210,20 @@
 		}
 		.save {
 			@include action-buttons;
+		}
+		.unsaved {
+			animation: pulse-border 1s infinite;
+		}
+		@keyframes pulse-border {
+			0% {
+				box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.7);
+			}
+			70% {
+				box-shadow: 0 0 0 10px rgba(255, 255, 255, 0);
+			}
+			100% {
+				box-shadow: 0 0 0 0 rgba(255, 255, 255, 0);
+			}
 		}
 	}
 </style>

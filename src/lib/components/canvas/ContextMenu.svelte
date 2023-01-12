@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { unsavedTrue } from '$lib/stores/storyStore';
 	export let element: PageElement;
 
 	export let left: number;
@@ -10,7 +11,6 @@
 	export let resize: (value: number) => void;
 	export let changeZindex: (value: number) => void;
 	export let rotate: (value: number) => void;
-
 	export let closeContextMenu: () => void;
 
 	import { deleteElement, saveRotation, saveSize, saveZindex } from '$lib/services/elementActions';
@@ -29,6 +29,9 @@
 				}
 				if (rotation !== element.rotate) {
 					saveRotation(element.id, rotation);
+				}
+				if (rotation !== element.rotate || height !== element.size || zIndex !== element.zIndex) {
+					unsavedTrue();
 				}
 				closeContextMenu();
 			}
@@ -89,7 +92,7 @@
 		<!-- svelte-ignore a11y-click-events-have-key-events -->
 		<li
 			on:click={() => {
-				deleteElement(element.id);
+				deleteElement(element.id, unsavedTrue);
 				closeContextMenu();
 			}}
 		>
