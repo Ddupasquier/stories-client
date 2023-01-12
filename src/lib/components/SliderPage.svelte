@@ -42,7 +42,7 @@
 				class="delete-page"
 				title="Delete Page"
 				on:click={() => {
-					deletePage(pageData.id);
+					deletePage(pageData.id, $page.params.story_id);
 				}}
 			>
 				×

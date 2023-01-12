@@ -2,21 +2,7 @@ import { supabase } from '$lib/supabase';
 import { generateUuid } from '$lib/utils';
 import { goto } from '$app/navigation';
 import { toast } from '@zerodevx/svelte-toast';
-
-export const addPage = async (storyId: number, background: string, lastPage: number) => {
-	const { data, error } = await supabase
-		.from('pages')
-		.insert([{ storyId, background, pageNumber: lastPage + 1 }])
-		.select();
-
-	if (error) {
-		toast.push(`Something went wrong! ${error.message}`, { duration: 5000, pausable: true });
-		throw new Error(error.message);
-	} else {
-		toast.push('Page added', { duration: 2000, pausable: true });
-		return data;
-	}
-};
+import { addPage } from '$lib/services/pageActions';
 
 export const newStory = async (id: string | undefined, user: string | null) => {
 	const { data, error } = await supabase
@@ -44,7 +30,7 @@ export const newStory = async (id: string | undefined, user: string | null) => {
 		setTimeout(() => {
 			goto(`/story/edit/${data[0].id}/${pageId}`);
 		}, 10);
-		toast.push('Happy creating!!!', { duration: 2000, pausable: true })
+		toast.push('Happy creating!!!', { duration: 2000, pausable: true });
 	}
 };
 

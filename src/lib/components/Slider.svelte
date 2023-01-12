@@ -2,7 +2,7 @@
 	import { supabase } from '$lib/supabase';
 	import { page } from '$app/stores';
 	import { beforeUpdate } from 'svelte';
-	import { addPage } from '$lib/services/storyActions';
+	import { addPage } from '$lib/services/pageActions';
 	import SliderPage from './SliderPage.svelte';
 
 	export let data: PagesLayoutProps;
@@ -62,15 +62,29 @@
 	.container {
 		display: flex;
 		flex-direction: row;
-		justify-content: center;
+		justify-content: flex-start;
 		align-items: center;
 		gap: 1rem;
-		width: 100%;
-		height: 6em;
+		height: 7em;
 		background: #222;
 		color: white;
-		overflow-x: auto;
+		overflow-x: scroll;
 		overflow-y: hidden;
+		padding: 0 1rem;
+	}
+
+	.container::-webkit-scrollbar {
+		background: rgb(158, 158, 158);
+		height: 0.8rem;
+	}
+
+	.container::-webkit-scrollbar-thumb {
+		background: var(--orange);
+		border-radius: 8px;
+	}
+
+	.container::-webkit-scrollbar-track-piece:start {
+		background: #222;
 	}
 
 	.page-selection {

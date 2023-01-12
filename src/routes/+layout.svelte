@@ -1,24 +1,25 @@
 <script lang="ts">
-	import {onMount} from 'svelte';
+	import { onMount } from 'svelte';
 	import { supabase } from '$lib/supabase';
-	import type { AuthSession } from '@supabase/supabase-js';
-	import Header from './Header.svelte';
-	import './styles.scss';
 	import { signout, getProfile } from '$lib/services/auth';
+	import './styles.scss';
+
+	import type { AuthSession } from '@supabase/supabase-js';
+	
+	import Header from './Header.svelte';
 	import Footer from './Footer.svelte';
+	import { SvelteToast } from '@zerodevx/svelte-toast';
 
 	export let data: { session: AuthSession | null };
-	
+
 	onMount(() => {
-		getProfile(data.session?.user.id)
-	})
-	</script>
-	
-	
-	
+		getProfile(data.session?.user.id);
+	});
+</script>
 
 <div class="app">
-	<Header session={data.session}/>
+	<SvelteToast />
+	<Header session={data.session} />
 	{#if data.session}
 		<button
 			type="button"
@@ -33,7 +34,7 @@
 	{/if}
 
 	<main>
-		<slot session={data.session}/>
+		<slot session={data.session} />
 	</main>
 
 	<Footer />

@@ -8,6 +8,7 @@
 	import ColorPicker from '$lib/components/ColorPicker.svelte';
 	import HowToModal from '$lib/components/modals/HowToModal.svelte';
 	import { howToIsOpen } from '$lib/stores/modalStore';
+	import { toast } from '@zerodevx/svelte-toast';
 
 	export let info: {
 		id: number;
@@ -59,9 +60,11 @@
 			.match({ id: id })
 			.select('isPublic');
 		if (error) {
+			toast.push('Oops, something went wrong.')
 			throw new Error(error.message);
 		} else {
 			isPublic = data[0].isPublic;
+			toast.push('Story is now ' + (isPublic ? 'public' : 'private'));
 		}
 	};
 </script>

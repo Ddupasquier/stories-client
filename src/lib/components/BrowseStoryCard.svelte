@@ -47,7 +47,7 @@
 {#if story}
 	<div class="container">
 		<a href="/story/view/{story.id}/{story.pages[0].id}">
-			<div class="story">
+			<div class="story" title={story.title}>
 				{#if avatarUrl}
 					<img use:onLoad src={avatarUrl} alt={story.title} class="avatar" />
 				{:else}
