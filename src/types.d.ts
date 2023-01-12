@@ -35,7 +35,16 @@ interface SliderPageProps {
 	page: Page;
 }
 
+interface CanvasProps {
+		storyId?: number;
+		id: number;
+		pageNumber: number;
+		background: string;
+		elements: PageElement[];
+	};
+
 interface StoryId {
+	isPublic: boolean;
 	id: number;
 	title: string;
 	profileId: {
@@ -71,7 +80,9 @@ interface EditPageStoryId {
 }
 
 interface EditPageProps {
-	pages: any;
+	storyId: number;
+	firstPage: number;
+	pages: Page[];
 	page: {
 		id: number;
 		pageNumber: number;
@@ -89,7 +100,7 @@ interface ViewPageProps {
 	};
 
 interface PageElement {
-	rotate: any;
+	rotate: number;
 	id: number;
 	color?: string;
 	text?: string;

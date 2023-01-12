@@ -2,21 +2,17 @@
 	import { supabase } from '$lib/supabase';
 	import { onMount } from 'svelte';
 	import { page } from '$app/stores';
-	import { screenshotCanvas } from '$lib/utils';
+	import { screenshotCanvas, isLocalhost } from '$lib/utils';
 	import ImgElement from '$lib/components/canvas/ImgElement.svelte';
 	import { uploadThumbnail, saveBgColor } from '$lib/services/pageActions';
 	import ColorPicker from '$lib/components/ColorPicker.svelte';
 	import HowToModal from '$lib/components/modals/HowToModal.svelte';
 	import { howToIsOpen } from '$lib/stores/modalStore';
 	import { toast } from '@zerodevx/svelte-toast';
+	import Clipboard from '$lib/components/Clipboard.svelte';
 
-	export let info: {
-		id: number;
-		pageNumber: number;
-		background: string;
-		elements: PageElement[];
-	};
-
+	export let info: CanvasProps;
+	export let firstPage: number;
 	export let isPublic: boolean;
 	export let storyId: number;
 
@@ -60,7 +56,7 @@
 			.match({ id: id })
 			.select('isPublic');
 		if (error) {
-			toast.push('Oops, something went wrong.')
+			toast.push('Oops, something went wrong.');
 			throw new Error(error.message);
 		} else {
 			isPublic = data[0].isPublic;
@@ -108,6 +104,20 @@
 				on:click={() => {
 					doScreenshot();
 					saveBgColor(info.id, background);
+					toast.push({
+						component: {
+							src: Clipboard,
+							props: {
+								link: `${isLocalhost()}/story/view/${info.storyId}/${firstPage}`
+							}
+						},
+						duration: 10000,
+						pausable: true,
+						theme: {
+							'--toastPadding': '1rem',
+							'--toastWidth': 'auto'
+						}
+					});
 				}}
 				title="Save"
 			>
@@ -177,12 +187,12 @@
 
 	#actions {
 		position: absolute;
-		top: .5rem;
-		right: .5rem;
+		top: 0.5rem;
+		right: 0.5rem;
 		display: flex;
 		flex-direction: column;
 		align-items: center;
-		gap: .5rem;
+		gap: 0.5rem;
 		z-index: 1000;
 		.publish {
 			@include action-buttons;

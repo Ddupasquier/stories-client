@@ -9,8 +9,6 @@ const updateScreenshotColumn = async (pageId: string, screenshot: string) => {
 
 	if (pageError) {
 		throw new Error(pageError.message);
-	} else {
-		toast.push('Thumbnail and background color saved', { duration: 2000, pausable: true });
 	}
 };
 
@@ -80,10 +78,9 @@ export const deletePage = async (id: number, currentStory: string) => {
 		deletePageThumbnail(data[0].screenshot);
 		const pages = await getNewPages(data[0].storyId);
 		const finalPage = returnFinalPage(pages);
-		window.location.replace(`/story/edit/${currentStory}/${finalPage}`)
+		window.location.replace(`/story/edit/${currentStory}/${finalPage}`);
 	}
 };
-
 
 export const addPage = async (storyId: number, background: string, lastPage: number) => {
 	const { data, error } = await supabase
@@ -92,8 +89,7 @@ export const addPage = async (storyId: number, background: string, lastPage: num
 		.select();
 
 	if (error) {
-		toast.push(`Something went wrong! ${error.message}`, { duration: 5000, pausable: true });
-		throw new Error(error.message);
+		toast.push(`${error.message}`, { duration: 5000, pausable: true });
 	} else {
 		toast.push('Page added', { duration: 2000, pausable: true });
 		return data;

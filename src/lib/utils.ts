@@ -1,3 +1,4 @@
+import { toast } from '@zerodevx/svelte-toast';
 import html2canvas from 'html2canvas';
 
 export const convToPublicUrlFromFolder = (folder: string, img: ImgUrl) => {
@@ -51,3 +52,14 @@ export const createLoadObserver = (handler: () => void) => {
 
 	return onload;
 };
+
+export const isLocalhost = () => {
+	let hostName;
+	if (window.location.hostname === 'localhost') hostName = 'http://localhost:5173';
+	else hostName = 'https://stories-client.vercel.app';
+	return hostName;
+};
+
+export const customToast = (message: string, duration: number) => {
+	toast.push(message, { duration, pausable: true });
+}
