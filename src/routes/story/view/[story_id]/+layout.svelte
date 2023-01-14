@@ -5,7 +5,7 @@
 
 <svelte:head>
 	<title>{data.pages[0].storyId.title}</title>
-	<meta name="description" content="View [this story]" />
+	<meta name="description" content="View {data.pages[0].storyId.title}" />
 </svelte:head>
 
 <h2>
