@@ -7,14 +7,43 @@
 	export let height: number;
 	export let zIndex: number;
 	export let rotation: number;
+	export let text: string | undefined;
+	export let color: string | undefined;
 
 	export let resize: (value: number) => void;
 	export let changeZindex: (value: number) => void;
 	export let rotate: (value: number) => void;
+	export let changeText: (value: string) => void;
+	export let setColor: (value: string) => void;
 	export let closeContextMenu: () => void;
 
-	import { deleteElement, saveRotation, saveSize, saveZindex } from '$lib/services/elementActions';
+	import {
+		deleteElement,
+		saveRotation,
+		saveSize,
+		saveZindex,
+		editText,
+		editTextColor
+	} from '$lib/services/elementActions';
+	import ColorPicker from '../ColorPicker.svelte';
 	let contextRef: HTMLDivElement;
+
+	const handleTextSubmit = () => {
+		if (text && element.text !== text) {
+			console.log('text', text);
+			editText(element.id, text);
+			changeText(text);
+		}
+		if (color && element.color !== color) {
+			console.log('color', color);
+			editTextColor(element.id, color);
+			setColor(color);
+		}
+		if ((text && element.text !== text) || (color && element.color !== color)) {
+			unsavedTrue();
+		}
+		closeContextMenu();
+	};
 </script>
 
 <svelte:window
@@ -29,6 +58,12 @@
 				}
 				if (rotation !== element.rotate) {
 					saveRotation(element.id, rotation);
+				}
+				if (text && element.text !== text) {
+					changeText(text);
+				}
+				if (color && element.color !== color) {
+					setColor(color);
 				}
 				if (rotation !== element.rotate || height !== element.size || zIndex !== element.zIndex) {
 					unsavedTrue();
@@ -48,6 +83,23 @@
 		<b>
 			{element.elementName}
 		</b>
+		{#if element.type === 'text'}
+			<li class="text-edit-form">
+				<form on:submit|preventDefault={handleTextSubmit}>
+					<textarea
+						value={element.text}
+						class="input context-input text-edit-input"
+						on:change={(e) => {
+							if (e.target instanceof HTMLTextAreaElement) {
+								changeText(e.target.value);
+							}
+						}}
+					/>
+					<ColorPicker {color} {setColor} />
+					<button type="submit" class="text-edit-button">Save</button>
+				</form>
+			</li>
+		{/if}
 		<li>
 			Size: <input
 				type="number"
@@ -108,6 +160,28 @@
 
 	.context-input {
 		width: 40px;
+	}
+
+	.text-edit-input {
+		width: 80%;
+		resize: vertical;
+		min-height: 2rem;
+		max-height: 10rem;
+	}
+
+	.text-edit-button {
+		// position: relative;
+		// top: -0.5rem;
+		// width: 19%;
+		border: green solid;
+	}
+
+	.text-edit-form {
+		display: flex;
+		flex-direction: row;
+		flex-wrap: wrap;
+		justify-content: space-between;
+		align-items: center;
 	}
 
 	ul {

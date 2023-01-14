@@ -3,15 +3,14 @@
 	import { onMount } from 'svelte';
 	import { beforeNavigate } from '$app/navigation';
 	import { page } from '$app/stores';
-	import { screenshotCanvas, isLocalhost } from '$lib/utils';
+	import { screenshotCanvas } from '$lib/utils';
 	import ImgElement from '$lib/components/canvas/ImgElement.svelte';
 	import { uploadThumbnail, saveBgColor } from '$lib/services/pageActions';
 	import ColorPicker from '$lib/components/ColorPicker.svelte';
 	import HowToModal from '$lib/components/modals/HowToModal.svelte';
-	import { howToIsOpen } from '$lib/stores/modalStore';
+	import { howToIsOpen, textInsertIsOpen } from '$lib/stores/modalStore';
 	import {
 		unsaved,
-		toastOpen,
 		unsavedTrue,
 		unsavedFalse,
 		toastOpenTrue,
@@ -19,6 +18,7 @@
 	} from '$lib/stores/storyStore';
 	import { toast } from '@zerodevx/svelte-toast';
 	import Clipboard from '$lib/components/canvas/Clipboard.svelte';
+	import TextElement from './TextElement.svelte';
 
 	export let info: CanvasProps;
 	export let firstPage: number;
@@ -91,13 +91,18 @@
 	<div id="canvas" style="background: {background}">
 		{#if info.elements}
 			{#each info.elements as element}
-				<ImgElement {element} />
+				{#if element.type === 'text'}
+					<TextElement {element} />
+				{:else}
+					<ImgElement {element} />
+				{/if}
 			{/each}
 		{/if}
 		{#if $howToIsOpen}
 			<HowToModal />
 		{/if}
 		<div id="tools">
+			<button on:click={() => textInsertIsOpen.set(true)}>T</button>
 			<ColorPicker color={background} {setColor} />
 		</div>
 		<div id="actions">
@@ -131,7 +136,7 @@
 						component: {
 							src: Clipboard,
 							props: {
-								link: `${isLocalhost()}/story/view/${info.storyId}/${firstPage}`
+								link: `https://stories-client.vercel.app/story/view/${info.storyId}/${firstPage}`
 							}
 						},
 						duration: 10000,

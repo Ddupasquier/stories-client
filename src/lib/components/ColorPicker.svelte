@@ -1,5 +1,5 @@
 <script lang="ts">
-	export let color: string;
+	export let color: string | undefined;
 	export let setColor: (color: string) => void;
 	import { unsavedTrue } from '$lib/stores/storyStore';
 

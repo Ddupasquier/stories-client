@@ -1,8 +1,7 @@
 <script lang="ts">
-	import { beforeUpdate, onMount, afterUpdate } from 'svelte';
-	import { savePosition, getElementFromFolder } from '$lib/services/elementActions';
+	import { onMount } from 'svelte';
+	import { savePosition } from '$lib/services/elementActions';
 	import { unsavedTrue } from '$lib/stores/storyStore';
-	import Loading from '$lib/components/Loading.svelte';
 	import ContextMenu from './ContextMenu.svelte';
 
 	export let element: PageElement;
@@ -12,22 +11,10 @@
 	$: zIndex = element.zIndex;
 	$: height = element.size;
 	$: rotation = element.rotate;
+	$: color = element.color;
+	$: text = element.text;
 
-	let image: { publicUrl: string } | undefined;
 	let loading = true;
-
-	beforeUpdate(() => {
-		image = getElementFromFolder(element.type, element.elementName);
-	});
-
-	let container: HTMLDivElement;
-	$: containerWidth = container?.clientWidth;
-	$: containerHeight = container?.clientHeight;
-
-	afterUpdate(() => {
-		containerHeight = container.clientHeight;
-		containerWidth = container.clientWidth;
-	});
 
 	onMount(() => {
 		if (element) {
@@ -51,6 +38,14 @@
 
 	const rotate = (value: number) => {
 		rotation = value;
+	};
+
+	const changeText = (value: string) => {
+		text = value;
+	};
+
+	const setColor = (value: string) => {
+		color = value;
 	};
 
 	export const move = (e: { movementX: number; movementY: number }) => {
@@ -87,55 +82,38 @@
 	}}
 />
 
-<div
-	class="canvas-element"
-	style="display: flex; justify-content: center; align-items: center; position: absolute; top: {top +
-		'%'}; left: {left + '%'}; z-index: {zIndex}; height: {element.type === 'backgrounds'
-		? null
-		: height + '%'}; width: {element.type === 'backgrounds'
-		? height + '%'
-		: null}; transform: rotate({rotation + 'deg'});"
-	bind:this={container}
->
-	{#if loading}
-		<Loading />
-	{/if}
-	{#if image && !loading}
-		<img
-			src={image.publicUrl}
-			alt={element.elementName}
-			on:mousedown={startMoving}
-			draggable="false"
-			on:contextmenu={(e) => {
-				contextMenu(e);
-				isOpen = true;
-			}}
-		/>
-	{/if}
-</div>
+
+	<p
+		class="text-element"
+		style="position: absolute; top: {top + '%'}; left: {left + '%'}; z-index: {zIndex}; font-size: {height + 'vw'}; transform: rotate({rotation + 'deg'}); color: {color};"
+		on:mousedown={startMoving}
+		draggable="false"
+		on:contextmenu={(e) => {
+			contextMenu(e);
+			isOpen = true;
+		}}
+	>
+		{#if !loading}
+			{text}
+		{/if}
+	</p>
+
 
 {#if isOpen}
 	<ContextMenu
 		top={mouseLocation.y}
 		left={mouseLocation.x}
 		{element}
+		{text}
+		{color}
 		{height}
 		{zIndex}
 		{rotation}
 		{resize}
 		{changeZindex}
 		{rotate}
+		{changeText}
+		{setColor}
 		{closeContextMenu}
 	/>
 {/if}
-
-<style lang="scss">
-	.canvas-element {
-		aspect-ratio: 1/1;
-		img {
-			user-select: all;
-			width: 100%;
-			height: 100%;
-		}
-	}
-</style>
