@@ -30,12 +30,10 @@
 
 	const handleTextSubmit = () => {
 		if (text && element.text !== text) {
-			console.log('text', text);
 			editText(element.id, text);
 			changeText(text);
 		}
 		if (color && element.color !== color) {
-			console.log('color', color);
 			editTextColor(element.id, color);
 			setColor(color);
 		}
