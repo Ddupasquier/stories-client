@@ -31,19 +31,9 @@
 
 <div class="app">
 	<SvelteToast />
+
 	<Header session={data.session} />
-	{#if data.session}
-		<button
-			type="button"
-			on:click={() => {
-				supabase.auth.signOut();
-				signout();
-			}}
-			class="button logout"
-		>
-			Sign Out
-		</button>
-	{/if}
+	
 
 	<main>
 		<slot session={data.session} />
@@ -67,9 +57,5 @@
 		padding: 1rem 4rem;
 	}
 
-	.logout {
-		position: absolute;
-		top: 1rem;
-		right: 1rem;
-	}
+	
 </style>

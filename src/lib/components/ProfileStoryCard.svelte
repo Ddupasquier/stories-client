@@ -89,7 +89,7 @@
 
 <style lang="scss">
 	.container {
-		box-shadow: 0 -21px 25px 0 #5a5a5a4b;
+		filter: drop-shadow(0 -15px 20px #5a5a5a75);
 	}
 
 	.story {

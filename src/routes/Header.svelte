@@ -1,14 +1,16 @@
 <script lang="ts">
+	import { supabase } from '$lib/supabase';
+	import { signout } from '$lib/services/auth';
 	import type { AuthSession } from '@supabase/supabase-js';
 	import { page } from '$app/stores';
 	import { username } from '$lib/stores/userStore';
 	export let session: AuthSession | null;
-
-	
 </script>
 
-
 <header>
+	<div class="logo">
+		<h1>TaleWeaver</h1>
+	</div>
 	<nav>
 		<ul>
 			<li aria-current={$page.url.pathname === '/' ? 'page' : undefined}>
@@ -19,6 +21,20 @@
 			</li>
 		</ul>
 	</nav>
+	<div class="logout-container">
+		{#if session}
+			<button
+				type="button"
+				on:click={() => {
+					supabase.auth.signOut();
+					signout();
+				}}
+				class="button logout"
+			>
+				Sign Out
+			</button>
+		{/if}
+	</div>
 </header>
 
 <style>
@@ -29,11 +45,39 @@
 		margin-bottom: 3rem;
 	}
 
+	.logo {
+		display: flex;
+		align-items: center;
+		position: relative;
+		top: 0.5rem;
+		left: 0.5rem;
+	}
+
+	.logo h1 {
+		font-size: 2rem;
+		font-weight: 700;
+		margin: 0;
+		background: -webkit-linear-gradient(50deg, rgba(244,67,54,1) 20%, rgba(108,108,108,1) 40%);
+		-webkit-background-clip: text;
+		background-clip: text;
+		-webkit-text-fill-color: transparent;
+	}
+
+	.logout {
+		white-space: nowrap;
+	}
+
+	.logout-container {
+		position: relative;
+		top: 0.5rem;
+		right: 0.5rem;
+		width: 6.1rem;
+	}
+
 	nav {
 		display: flex;
 		justify-content: center;
-		/* --background: rgba(255, 255, 255, 0.7); */
-		width: 100%;
+		justify-self: center;
 	}
 
 	ul {

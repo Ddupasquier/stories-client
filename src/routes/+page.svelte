@@ -10,7 +10,7 @@
 	import DeleteModal from '$lib/components/modals/DeleteModal.svelte';
 	import { newStory } from '$lib/services/storyActions';
 
-	let stories: Story[] | null | undefined = [];
+	let stories: Story[] | undefined = [];
 
 	export let data: AuthSession | null = null;
 

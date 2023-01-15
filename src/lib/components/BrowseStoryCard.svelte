@@ -51,7 +51,7 @@
 				{#if avatarUrl}
 					<img use:onLoad src={avatarUrl} alt={story.title} class="avatar" />
 				{:else}
-					<img src={avatarPlaceholder} alt="No avatar uploaded" class="avatar"/>
+					<img src={avatarPlaceholder} alt="No avatar uploaded" class="avatar" />
 				{/if}
 
 				<div class="banner">
@@ -70,11 +70,11 @@
 
 <style lang="scss">
 	.container {
-		box-shadow: 0 -21px 25px 0 #5a5a5a75;
+		filter: drop-shadow(0 -10px 20px #5a5a5a75);
 		transition: all 0.2s ease-in-out;
 		&:hover {
+			filter: drop-shadow(0 -17px 25px #5a5a5a3f);
 			transform: scale(1.02);
-			box-shadow: 0 -17px 25px 0 #5a5a5a3f;
 		}
 	}
 
@@ -85,11 +85,11 @@
 		border-width: 0.5rem 0;
 		height: 160px;
 		aspect-ratio: 16/7.4;
-		transition: all .5s;
+		transition: all 0.5s;
 	}
 
 	// media query if on mobile story height is 100px
-	
+
 	.thumbnail {
 		width: 100%;
 		height: 100%;
@@ -144,5 +144,4 @@
 			height: 3.5rem;
 		}
 	}
-	</style>
-	
+</style>
