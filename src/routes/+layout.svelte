@@ -1,16 +1,21 @@
 <script lang="ts">
-	import { onMount } from 'svelte';
+	import { onMount, beforeUpdate } from 'svelte';
 	import { supabase } from '$lib/supabase';
 	import { signout, getProfile } from '$lib/services/auth';
+	import { flipToLandscape } from '$lib/utils';
 	import './styles.scss';
 
 	import type { AuthSession } from '@supabase/supabase-js';
-	
+
 	import Header from './Header.svelte';
 	import Footer from './Footer.svelte';
 	import { SvelteToast } from '@zerodevx/svelte-toast';
 
 	export let data: { session: AuthSession | null };
+
+	beforeUpdate(() => {
+		flipToLandscape();
+	});
 
 	onMount(() => {
 		getProfile(data.session?.user.id);

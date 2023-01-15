@@ -52,3 +52,18 @@ export const createLoadObserver = (handler: () => void) => {
 
 	return onload;
 };
+
+export const flipToLandscape = () => {
+	const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
+		navigator.userAgent
+	);
+
+	if (isMobile) {
+		if (
+			screen.orientation.type !== 'landscape-primary' &&
+			screen.orientation.type !== 'landscape-secondary'
+		) {
+			screen.orientation.lock('landscape');
+		}
+	}
+}

@@ -135,7 +135,5 @@ export const saveFlip = async (id: number, flip: boolean) => {
 			pausable: true
 		});
 		throw new Error(error.message);
-	} else {
-		toast.push(`Saved this element's flip!`)
 	}
 }
