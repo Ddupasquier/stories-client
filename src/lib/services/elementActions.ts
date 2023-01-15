@@ -10,6 +10,15 @@ export const getElementFromFolder = (folder: string | undefined, element: string
 	}
 };
 
+export const getFlip = async (id:number) => {
+	const { data, error } = await supabase.from('elements').select('flip').eq('id', id);
+	if (error) {
+		toast.push(`Couldn't get flip! ${error.message}`, { duration: 5000, pausable: true });
+		throw new Error(error.message);
+	}
+	return data;
+};
+
 export const addText = async (text: string, color: string, size: number, pageId: number) => {
 	const { error } = await supabase.from('elements').insert([
 		{
@@ -29,7 +38,6 @@ export const addText = async (text: string, color: string, size: number, pageId:
 		toast.push(`Couldn't add this text! ${error.message}`, { duration: 5000, pausable: true });
 		throw new Error(error.message);
 	} else {
-		// return data;
 		toast.push(`Added text! <br /> ${text}`, { duration: 5000, pausable: true });
 	}
 };
@@ -41,7 +49,6 @@ export const editText = async (id: number, text: string) => {
 		toast.push(`Couldn't edit this text! ${error.message}`, { duration: 5000, pausable: true });
 		throw new Error(error.message);
 	} else {
-		// return data;
 		toast.push(`Edited text! <br /> ${text}`, { duration: 5000, pausable: true });
 	}
 };
@@ -118,3 +125,17 @@ export const saveRotation = async (id: number, rotate: number) => {
 		throw new Error(error.message);
 	}
 };
+
+export const saveFlip = async (id: number, flip: boolean) => {
+	const { error } = await supabase.from('elements').update({ flip }).eq('id', id);
+
+	if (error) {
+		toast.push(`Couldn't save this element's flip! ${error.message}`, {
+			duration: 5000,
+			pausable: true
+		});
+		throw new Error(error.message);
+	} else {
+		toast.push(`Saved this element's flip!`)
+	}
+}

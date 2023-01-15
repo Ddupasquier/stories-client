@@ -40,10 +40,6 @@
 		rotation = value;
 	};
 
-	const changeText = (value: string) => {
-		text = value;
-	};
-
 	const setColor = (value: string) => {
 		color = value;
 	};
@@ -103,16 +99,17 @@
 	<ContextMenu
 		top={mouseLocation.y}
 		left={mouseLocation.x}
+		flip={false}
 		{element}
 		{text}
 		{color}
 		{height}
 		{zIndex}
 		{rotation}
+		flipImage={undefined}
 		{resize}
 		{changeZindex}
 		{rotate}
-		{changeText}
 		{setColor}
 		{closeContextMenu}
 	/>

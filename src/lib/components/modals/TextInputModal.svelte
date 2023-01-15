@@ -16,7 +16,7 @@
 
 	const handleSubmit = async () => {
 		await addText(text, color, size, pageId);
-            textInsertIsOpen.set(false);
+		textInsertIsOpen.set(false);
 	};
 </script>
 
@@ -24,16 +24,19 @@
 	<div class="modal" transition:scale>
 		<button class="close" on:click={() => textInsertIsOpen.set(false)}> X </button>
 		<br />
-		<p>What would you link this to say?</p>
+		<p>What would you like this to say?</p>
+		<br />
+		<form on:submit|preventDefault={handleSubmit} class="form">
+			<div class="text-color">
+				<input type="text" bind:value={text} class="input text-input" />
+				<ColorPicker {color} {setColor} labelShown={false}/>
+			</div>
+			<input type="number" min="1" bind:value={size} class="input number-input" />
+			<button type="submit" class="button">Add Text</button>
+		</form>
 		{#if text}
 			<p class="text-preview" style="color: {color}; font-size: {size + 'vw'}">{text}</p>
 		{/if}
-		<form on:submit|preventDefault={handleSubmit}>
-			<input type="text" bind:value={text} class="input text-input" />
-			<ColorPicker {color} {setColor} />
-                  <input type="number" min="1" bind:value={size} class="input" />
-                  <button type="submit" class="button">Add Text</button>
-		</form>
 	</div>
 </div>
 
@@ -62,5 +65,32 @@
 		flex-direction: column;
 		z-index: 1001;
 		overflow: auto;
+	}
+
+	form {
+		display: flex;
+		flex-direction: column;
+		justify-content: space-between;
+		align-items: center;
+		gap: 1rem;
+		.text-color {
+			display: flex;
+			flex-direction: row;
+			justify-content: space-between;
+			align-items: center;
+			gap: 1rem;
+			.input {
+				width: 80%;
+			}
+		}
+		.number-input {
+			width: 90%;
+		}
+	}
+
+	p {
+		font-size: 1.2rem;
+		font-weight: 600;
+		margin: auto;
 	}
 </style>

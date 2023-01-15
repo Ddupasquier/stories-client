@@ -1,7 +1,17 @@
 <script lang="ts">
 	import { unsavedTrue } from '$lib/stores/storyStore';
-	export let element: PageElement;
+	import {
+		deleteElement,
+		saveRotation,
+		saveSize,
+		saveZindex,
+		editText,
+		editTextColor,
+		saveFlip
+	} from '$lib/services/elementActions';
 
+	export let element: PageElement;
+	export let flip: boolean;
 	export let left: number;
 	export let top: number;
 	export let height: number;
@@ -10,38 +20,15 @@
 	export let text: string | undefined;
 	export let color: string | undefined;
 
+	export let flipImage: ((value: boolean) => void) | undefined;
 	export let resize: (value: number) => void;
 	export let changeZindex: (value: number) => void;
 	export let rotate: (value: number) => void;
-	export let changeText: (value: string) => void;
-	export let setColor: (value: string) => void;
+	export let setColor: ((value: string) => void) | undefined;
 	export let closeContextMenu: () => void;
 
-	import {
-		deleteElement,
-		saveRotation,
-		saveSize,
-		saveZindex,
-		editText,
-		editTextColor
-	} from '$lib/services/elementActions';
 	import ColorPicker from '../ColorPicker.svelte';
 	let contextRef: HTMLDivElement;
-
-	const handleTextSubmit = () => {
-		if (text && element.text !== text) {
-			editText(element.id, text);
-			changeText(text);
-		}
-		if (color && element.color !== color) {
-			editTextColor(element.id, color);
-			setColor(color);
-		}
-		if ((text && element.text !== text) || (color && element.color !== color)) {
-			unsavedTrue();
-		}
-		closeContextMenu();
-	};
 </script>
 
 <svelte:window
@@ -58,12 +45,21 @@
 					saveRotation(element.id, rotation);
 				}
 				if (text && element.text !== text) {
-					changeText(text);
+					editText(element.id, text);
 				}
 				if (color && element.color !== color) {
-					setColor(color);
+					editTextColor(element.id, color);
 				}
-				if (rotation !== element.rotate || height !== element.size || zIndex !== element.zIndex) {
+				if (flipImage && flip !== undefined && element.flip !== flip) {
+					saveFlip(element.id, flip);
+				}
+				if (
+					rotation !== element.rotate ||
+					height !== element.size ||
+					zIndex !== element.zIndex ||
+					(text && element.text !== text) ||
+					(color && element.color !== color)
+				) {
 					unsavedTrue();
 				}
 				closeContextMenu();
@@ -78,24 +74,15 @@
 	bind:this={contextRef}
 >
 	<ul>
-		<b>
-			{element.elementName}
-		</b>
-		{#if element.type === 'text'}
-			<li class="text-edit-form">
-				<form on:submit|preventDefault={handleTextSubmit}>
-					<textarea
-						value={element.text}
-						class="input context-input text-edit-input"
-						on:change={(e) => {
-							if (e.target instanceof HTMLTextAreaElement) {
-								changeText(e.target.value);
-							}
-						}}
-					/>
-					<ColorPicker {color} {setColor} />
-					<button type="submit" class="text-edit-button">Save</button>
-				</form>
+		{#if element.type !== 'text'}
+			<b>
+				{element.elementName}
+			</b>
+		{/if}
+		{#if element.type === 'text' && setColor}
+			<li class="text-color">
+				<input type="text" bind:value={text} class="input" />
+				<ColorPicker {color} {setColor} labelShown={false} />
 			</li>
 		{/if}
 		<li>
@@ -139,6 +126,17 @@
 				}}
 			/>
 		</li>
+		{#if flipImage}
+			<!-- svelte-ignore a11y-click-events-have-key-events -->
+			<li
+				on:click={() => {
+					flipImage && flipImage(!flip);
+					unsavedTrue();
+				}}
+			>
+				Flip
+			</li>
+		{/if}
 		<!-- svelte-ignore a11y-click-events-have-key-events -->
 		<li
 			on:click={() => {
@@ -160,26 +158,15 @@
 		width: 40px;
 	}
 
-	.text-edit-input {
-		width: 80%;
-		resize: vertical;
-		min-height: 2rem;
-		max-height: 10rem;
-	}
-
-	.text-edit-button {
-		// position: relative;
-		// top: -0.5rem;
-		// width: 19%;
-		border: green solid;
-	}
-
-	.text-edit-form {
+	.text-color {
 		display: flex;
 		flex-direction: row;
-		flex-wrap: wrap;
 		justify-content: space-between;
 		align-items: center;
+		gap: 1rem;
+		input {
+			width: 8rem;
+		}
 	}
 
 	ul {

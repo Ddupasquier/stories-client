@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { beforeUpdate, onMount, afterUpdate } from 'svelte';
-	import { savePosition, getElementFromFolder } from '$lib/services/elementActions';
+	import { savePosition, getElementFromFolder, getFlip } from '$lib/services/elementActions';
 	import { unsavedTrue } from '$lib/stores/storyStore';
 	import Loading from '$lib/components/Loading.svelte';
 	import ContextMenu from './ContextMenu.svelte';
@@ -12,27 +12,39 @@
 	$: zIndex = element.zIndex;
 	$: height = element.size;
 	$: rotation = element.rotate;
+	$: flip = element.flip;
 
 	let image: { publicUrl: string } | undefined;
 	let loading = true;
 
-	beforeUpdate(() => {
+	beforeUpdate(async() => {
 		image = getElementFromFolder(element.type, element.elementName);
-	});
 
+		if (flip === undefined) {
+			let data: { //<reference types="svelte" />
+				flip: any;
+			}[]
+			data = await getFlip(element.id);
+			flip = data[0].flip;
+		}
+	});
+	
 	let container: HTMLDivElement;
 	$: containerWidth = container?.clientWidth;
 	$: containerHeight = container?.clientHeight;
-
+	
 	afterUpdate(() => {
 		containerHeight = container.clientHeight;
 		containerWidth = container.clientWidth;
-	});
 
-	onMount(() => {
+		
+	});
+	
+	onMount(async() => {
 		if (element) {
 			loading = false;
 		}
+		
 	});
 
 	let moving = false;
@@ -51,6 +63,10 @@
 
 	const rotate = (value: number) => {
 		rotation = value;
+	};
+
+	const flipImage = (value: boolean) => {
+		flip = value;
 	};
 
 	export const move = (e: { movementX: number; movementY: number }) => {
@@ -94,7 +110,7 @@
 		? null
 		: height + '%'}; width: {element.type === 'backgrounds'
 		? height + '%'
-		: null}; transform: rotate({rotation + 'deg'});"
+		: null}; transform: rotate({rotation + 'deg'}) scaleX({flip ? -1 : 1});"
 	bind:this={container}
 >
 	{#if loading}
@@ -118,13 +134,18 @@
 	<ContextMenu
 		top={mouseLocation.y}
 		left={mouseLocation.x}
+		{flip}
 		{element}
+		text={undefined}
+		color={undefined}
 		{height}
 		{zIndex}
 		{rotation}
 		{resize}
 		{changeZindex}
+		setColor={undefined}
 		{rotate}
+		{flipImage}
 		{closeContextMenu}
 	/>
 {/if}

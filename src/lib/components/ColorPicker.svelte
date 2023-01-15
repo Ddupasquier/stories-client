@@ -1,12 +1,13 @@
 <script lang="ts">
+	export let labelShown: boolean = true;
 	export let color: string | undefined;
-	export let setColor: (color: string) => void;
+	export let setColor: ((color: string) => void) | undefined;
 	import { unsavedTrue } from '$lib/stores/storyStore';
 
 	let colorPickerRef: HTMLInputElement;
 
 	function updateColor() {
-		if (colorPickerRef.value !== color) {
+		if (colorPickerRef.value !== color && setColor) {
 			setColor(colorPickerRef.value);
 			unsavedTrue();
 		}
@@ -14,7 +15,9 @@
 </script>
 
 <div class="color-picker-container">
-	<label for="color-picker">Color</label>
+	{#if labelShown}
+		<label for="color-picker">Color</label>
+	{/if}
 	<input
 		type="color"
 		bind:this={colorPickerRef}

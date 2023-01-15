@@ -100,6 +100,7 @@ interface ViewPageProps {
 }
 
 interface PageElement {
+	flip: boolean;
 	rotate: number;
 	id: number;
 	color?: string;
