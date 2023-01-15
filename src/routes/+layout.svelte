@@ -1,8 +1,8 @@
 <script lang="ts">
-	import { onMount, beforeUpdate } from 'svelte';
+	import { onMount, afterUpdate } from 'svelte';
 	import { supabase } from '$lib/supabase';
 	import { signout, getProfile } from '$lib/services/auth';
-	import { flipToLandscape } from '$lib/utils';
+	import { detectDevice } from '$lib/utils';
 	import './styles.scss';
 
 	import type { AuthSession } from '@supabase/supabase-js';
@@ -13,13 +13,19 @@
 
 	export let data: { session: AuthSession | null };
 
-	beforeUpdate(() => {
-		
-	});
+	$: isMobile = false;
 
 	onMount(() => {
 		getProfile(data.session?.user.id);
-		flipToLandscape();
+		isMobile = detectDevice();
+	});
+
+	afterUpdate(() => {
+		if (isMobile) {
+			document.body.classList.add('mobile');
+		} else {
+			document.body.classList.remove('mobile');
+		}
 	});
 </script>
 
