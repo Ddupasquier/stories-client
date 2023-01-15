@@ -85,8 +85,11 @@
 		border-width: 0.5rem 0;
 		height: 160px;
 		aspect-ratio: 16/7.4;
+		transition: all .5s;
 	}
 
+	// media query if on mobile story height is 100px
+	
 	.thumbnail {
 		width: 100%;
 		height: 100%;
@@ -120,4 +123,26 @@
 		padding: 0.25rem 1rem;
 		z-index: 1;
 	}
-</style>
+
+	@media only screen and (max-width: 800px) {
+		.story {
+			height: 100px;
+		}
+		.banner {
+			left: 1.1rem;
+			h2 {
+				font-size: 1rem;
+			}
+			h3 {
+				font-size: 0.8rem;
+			}
+		}
+		.avatar {
+			top: -1.5rem;
+			left: -1.5rem;
+			width: 3.5rem;
+			height: 3.5rem;
+		}
+	}
+	</style>
+	

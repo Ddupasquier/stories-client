@@ -59,8 +59,7 @@ const detectDevice = () => {
 };
 
 export const flipToLandscape = () => {
-	// if isMobile then show toast
-	if (detectDevice()) {
+	if (detectDevice() && window.screen.orientation.type.includes('portrait')) {
 		toast.push('Rotate your device to landscape', {
 			onpop: () => {
 				window.screen.orientation.lock('landscape');
