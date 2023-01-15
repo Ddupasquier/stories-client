@@ -1,6 +1,8 @@
 <script lang="ts">
-	import { beforeUpdate, onMount } from 'svelte';
+	import { beforeUpdate } from 'svelte';
 	import { username, fullname, avatar, userId } from '$lib/stores/userStore';
+	import { beforeNavigate } from '$app/navigation';
+	import { toast } from '@zerodevx/svelte-toast';
 	import type { AuthSession } from '@supabase/supabase-js';
 	import { supabase } from '$lib/supabase';
 
@@ -26,9 +28,18 @@
 		userId.set(d);
 	};
 
+	beforeNavigate(({ cancel }) => {
+		if (!username || !fullname || !avatar) {
+			cancel();
+			toast.push('Please update your profile before continuing', {
+				duration: 5000
+			});
+		}
+	});
+
 	beforeUpdate(() => {
 		getProfile(session?.user.id);
-	})
+	});
 
 	const updateProfile = async () => {
 		try {
@@ -62,7 +73,7 @@
 <form on:submit|preventDefault={updateProfile}>
 	<Avatar bind:url={avatarUrl} size={200} on:upload={updateProfile} />
 	{#if session}
-	<div><b>Email: {session.user.email}</b></div>
+		<div><b>Email: {session.user.email}</b></div>
 	{/if}
 	<div>
 		<label for="username">Username</label>
@@ -111,8 +122,7 @@
 		gap: 1rem;
 		width: fit-content;
 		padding: 0 3rem;
-		background: rgb
-		div {
+		background: rgb div {
 			display: flex;
 			flex-flow: column nowrap;
 		}
