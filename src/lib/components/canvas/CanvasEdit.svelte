@@ -24,6 +24,7 @@
 	export let firstPage: number;
 	export let isPublic: boolean;
 	export let storyId: number;
+	export let hasPermission: boolean;
 
 	$: background = info.background;
 
@@ -66,7 +67,11 @@
 		}
 	});
 
-	const doScreenshot = async () => {
+	const doScreenshot = async (hasPermission: boolean) => {
+		if (!hasPermission) {
+			toast.push('Woah woah woah! Get out of here!');
+			return;
+		};
 		const file = await screenshotCanvas('#canvas');
 		file && uploadThumbnail(file, $page.params.page_id);
 	};
@@ -130,22 +135,23 @@
 				class={$unsaved ? 'save unsaved' : 'save'}
 				on:click={() => {
 					unsavedFalse();
-					doScreenshot();
+					doScreenshot(hasPermission);
 					saveBgColor(info.id, background);
-					toast.push({
-						component: {
-							src: Clipboard,
-							props: {
-								link: `https://stories-client.vercel.app/story/view/${info.storyId}/${firstPage}`
+					hasPermission &&
+						toast.push({
+							component: {
+								src: Clipboard,
+								props: {
+									link: `https://stories-client.vercel.app/story/view/${info.storyId}/${firstPage}`
+								}
+							},
+							duration: 10000,
+							pausable: true,
+							theme: {
+								'--toastPadding': '1rem',
+								'--toastWidth': 'auto'
 							}
-						},
-						duration: 10000,
-						pausable: true,
-						theme: {
-							'--toastPadding': '1rem',
-							'--toastWidth': 'auto'
-						}
-					});
+						});
 				}}
 				title="Save"
 			>
@@ -171,6 +177,7 @@
 		</div>
 	</div>
 {/if}
+
 
 <style lang="scss">
 	#canvas {

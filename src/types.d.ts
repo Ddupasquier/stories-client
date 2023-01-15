@@ -9,7 +9,7 @@ interface Story {
 	title: string;
 	author: string;
 	isPublic: boolean;
-	pages: Page[];
+	pages?: Page[];
 	profileId: {
 		id: string;
 		username: string;
@@ -19,7 +19,7 @@ interface Story {
 
 interface Page {
 	createdAt: string;
-	pageNumber?: number;
+	pageNumber: number;
 	storyId: StoryId;
 	id: number;
 	background: string;
@@ -36,7 +36,7 @@ interface SliderPageProps {
 }
 
 interface CanvasProps {
-	stories: {
+	stories?: {
 		profileId: string
 	};
 	storyId?: number;
@@ -87,6 +87,7 @@ interface EditPageProps {
 	firstPage: number;
 	pages: Page[];
 	page: {
+		stories: any;
 		id: number;
 		pageNumber: number;
 		background: string;

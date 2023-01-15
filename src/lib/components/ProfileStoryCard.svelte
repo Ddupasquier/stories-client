@@ -110,7 +110,7 @@
 		text-align: center;
 		background: rgb(237, 240, 248);
 		padding: 0.5rem;
-		border-radius: 0.5rem;
+		border-radius: 0 0 0.5rem 0.5rem;
 	}
 
 	.delete {

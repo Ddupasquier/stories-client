@@ -30,13 +30,18 @@ export const uploadThumbnail = async (file: File, id: string) => {
 };
 
 export const saveBgColor = async (id: number, color: string) => {
-	const { error } = await supabase
+	const { data, error } = await supabase
 		.from('pages')
 		.update({ background: color, updatedAt: new Date() })
-		.eq('id', id);
+		.eq('id', id)
+		.select()
 
 	if (error) {
 		throw new Error(error.message);
+	} else {
+		if (data.length === 0) {
+			toast.push('You are not authorized to make these changes!', { duration: 5000, pausable: true });
+		}
 	}
 };
 
