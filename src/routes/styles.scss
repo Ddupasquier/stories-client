@@ -80,6 +80,7 @@ body.mobile {
 		.story-container {
 			width: 100%;
 			max-width: 100%;
+			scroll-snap-align: start;
 		}
 	}
 }
