@@ -14,11 +14,12 @@
 	export let data: { session: AuthSession | null };
 
 	beforeUpdate(() => {
-		flipToLandscape();
+		
 	});
 
 	onMount(() => {
 		getProfile(data.session?.user.id);
+		flipToLandscape();
 	});
 </script>
 

@@ -53,17 +53,18 @@ export const createLoadObserver = (handler: () => void) => {
 	return onload;
 };
 
-export const flipToLandscape = () => {
-	const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
-		navigator.userAgent
-	);
+const detectDevice = () => {
+	const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+	return isMobile;
+};
 
-	if (isMobile) {
-		if (
-			screen.orientation.type !== 'landscape-primary' &&
-			screen.orientation.type !== 'landscape-secondary'
-		) {
-			screen.orientation.lock('landscape');
-		}
+export const flipToLandscape = () => {
+	// if isMobile then show toast
+	if (detectDevice()) {
+		toast.push('Rotate your device to landscape', {
+			onpop: () => {
+				window.screen.orientation.lock('landscape');
+			}
+		});
 	}
-}
+};
