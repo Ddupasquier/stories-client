@@ -67,17 +67,17 @@ body {
 		linear-gradient(180deg, var(--color-bg-0) 0%, var(--color-bg-1) 35%, var(--color-bg-2) 60%);
 }
 
-body.mobile {
-	// force screen orientation to landscape
-	@media (orientation: portrait) {
-		& {
-			transform: rotate(-90deg);
-			transform-origin: 50% 50%;
-			width: 100vh;
-			height: 100vw;
-		}
-	}
-}
+// body.mobile {
+// 	// force screen orientation to landscape
+// 	@media (orientation: portrait) {
+// 		& {
+// 			transform: rotate(-90deg);
+// 			transform-origin: 50% 50%;
+// 			width: 100vh;
+// 			height: 100vw;
+// 		}
+// 	}
+// }
 
 h1,
 h2,

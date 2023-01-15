@@ -21,10 +21,9 @@
 	});
 
 	afterUpdate(() => {
-		if (isMobile) {
-			document.body.classList.add('mobile');
-		} else {
-			document.body.classList.remove('mobile');
+		if (!isMobile) {
+			screen.orientation.lock('landscape')
+			console.log('changed', screen.orientation.type)
 		}
 	});
 </script>
