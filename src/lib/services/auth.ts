@@ -23,7 +23,7 @@ export const getProfile = async (id: string | undefined) => {
 			.single();
 		if (error) {
 			//do nothing
-			toast.push(`Please fill out profile information before continuing :)`, { duration: 5000, pausable: true });
+			toast.push(`Welcome! <br /><br /> You'll need to fill out your profile information before you can make a story :)`, { duration: 5000, pausable: true });
 			return
 			// throw new Error(error.message);
 		}
