@@ -1,5 +1,6 @@
 <script lang="ts">
 	export let screenshot: string | undefined;
+
 	$: img = screenshot;
 </script>
 

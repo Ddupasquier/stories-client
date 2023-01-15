@@ -36,6 +36,9 @@ interface SliderPageProps {
 }
 
 interface CanvasProps {
+	stories: {
+		profileId: string
+	};
 	storyId?: number;
 	id: number;
 	pageNumber: number;
@@ -93,6 +96,7 @@ interface EditPageProps {
 
 interface ViewPageProps {
 	page: {
+		stories: any;
 		id: number;
 		pageNumber: number;
 		screenshot: string;
