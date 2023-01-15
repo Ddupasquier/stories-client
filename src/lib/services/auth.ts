@@ -22,8 +22,10 @@ export const getProfile = async (id: string | undefined) => {
 			.eq('id', id)
 			.single();
 		if (error) {
-			toast.push(`Something went wrong! ${error.message}`, { duration: 5000, pausable: true });
-			throw new Error(error.message);
+			//do nothing
+			toast.push(`Please fill out profile information before continuing :)`, { duration: 5000, pausable: true });
+			return
+			// throw new Error(error.message);
 		}
 		if (data) {
 			username.set(data.username);

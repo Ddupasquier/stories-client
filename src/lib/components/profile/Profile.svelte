@@ -12,7 +12,7 @@
 	export let session: AuthSession;
 
 	let profileLoading = false;
-	$: userName = $username;
+	$: userName = $username === 'Profile' ? '' : $username;
 	$: fullName = $fullname;
 	$: avatarUrl = $avatar;
 

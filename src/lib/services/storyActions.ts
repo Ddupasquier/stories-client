@@ -2,7 +2,7 @@ import { supabase } from '$lib/supabase';
 import { generateUuid } from '$lib/utils';
 import { goto } from '$app/navigation';
 import { toast } from '@zerodevx/svelte-toast';
-import { addPage } from '$lib/services/pageActions';
+import { addPage } from '$lib/services/pageActions';;
 
 export const newStory = async (id: string | undefined, user: string | null) => {
 	const { data, error } = await supabase
@@ -18,8 +18,9 @@ export const newStory = async (id: string | undefined, user: string | null) => {
 		.select();
 
 	if (error) {
-		toast.push(`Something went wrong! ${error.message}`, { duration: 5000, pausable: true });
-		throw new Error(error.message);
+		// toast.push(`Something went wrong! ${error.message}`, { duration: 5000, pausable: true });
+		// throw new Error(error.message);
+		return
 	} else {
 		let page;
 		let pageId: number;
