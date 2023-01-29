@@ -1,4 +1,6 @@
 import { supabase } from '$lib/supabase';
+import {currentPage} from '$lib/stores/viewStore';
+import { getPageThumbnail } from '$lib/services/getImages';
 
 export async function load({ params }: { params: { story_id: number } }) {
 	const { data: pages, error } = await supabase
@@ -11,6 +13,10 @@ export async function load({ params }: { params: { story_id: number } }) {
 
 	if (error) {
 		throw new Error(error.message);
+	} else {
+		const firstPage = pages[0].screenshot;
+		const thumbnail = await getPageThumbnail(firstPage);
+		currentPage.set(thumbnail?.publicUrl);
 	}
 
 	return {

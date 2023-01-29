@@ -3,7 +3,7 @@
 	import { page } from '$app/stores';
 	import { beforeUpdate } from 'svelte';
 	import { addPage } from '$lib/services/pageActions';
-	import SliderPage from './SliderPage.svelte';
+	import SliderPageEdit from './SliderPageEdit.svelte';
 
 	export let data: PagesLayoutProps;
 
@@ -34,7 +34,7 @@
 
 <div class="container">
 	{#each data.pages as pageData}
-		<SliderPage {pageData} />
+		<SliderPageEdit {pageData} />
 	{/each}
 	{#if $page.route.id?.includes('edit')}
 		<button

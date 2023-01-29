@@ -1,12 +1,10 @@
 <script lang="ts">
-	export let screenshot: string | undefined;
-
-	$: img = screenshot;
+	import {currentPage} from '$lib/stores/viewStore';
 </script>
 
 <div id="canvas">
-	{#if img}
-		<img src={img} alt="Page" />
+	{#if $currentPage}
+		<img src={$currentPage} alt="Page" />
 	{/if}
 </div>
 

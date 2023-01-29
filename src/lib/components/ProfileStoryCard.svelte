@@ -39,7 +39,7 @@
 
 {#if story && sortedDesc}
 	<div class="container">
-		<a href="/story/view/{story.id}/{sortedDesc[0].id}">
+		<a href="/story/view/{story.id}">
 			<div class="story" title={story.title}>
 				<h1>
 					{truncate(story.title, 15)}

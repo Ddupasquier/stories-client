@@ -1,5 +1,5 @@
 <script lang="ts">
-	import CanvasEdit from '$lib/components/canvas/CanvasEdit.svelte';
+	import CanvasEdit from '../../CanvasEdit.svelte';
 	import TextInputModal from '$lib/components/modals/TextInputModal.svelte';
 	import { textInsertIsOpen } from '$lib/stores/modalStore';
 	import { page } from '$app/stores';

@@ -3,8 +3,8 @@
 	import { changeTitle } from '$lib/services/storyActions';
 	export let data: PagesLayoutProps;
 
-	import Toolbar from '$lib/components/toolbar/Toolbar.svelte';
-	import Slider from '$lib/components/Slider.svelte';
+	import Toolbar from '../toolbar/Toolbar.svelte';
+	import SliderEdit from '../SliderEdit.svelte';
 	import { truncate } from '$lib/utils';
 	import { indicateArrow } from '$lib/assets';
 	import { toastOpen } from '$lib/stores/storyStore';
@@ -47,7 +47,7 @@
 <div class="story-container">
 	<Toolbar />
 	<slot />
-	<Slider {data} />
+	<SliderEdit {data} />
 </div>
 
 <style lang="scss">

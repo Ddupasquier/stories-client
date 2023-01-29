@@ -18,7 +18,7 @@
 	} from '$lib/stores/storyStore';
 	import { toast } from '@zerodevx/svelte-toast';
 	import Clipboard from '$lib/components/canvas/Clipboard.svelte';
-	import TextElement from './TextElement.svelte';
+	import TextElement from '../../../lib/components/canvas/TextElement.svelte';
 
 	export let info: CanvasProps;
 	export let firstPage: number;

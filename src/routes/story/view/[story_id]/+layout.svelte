@@ -1,7 +1,8 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
 	export let data: PagesLayoutProps;
-	import Slider from '$lib/components/Slider.svelte';
+	$: console.log(data.pages)
+	import Slider from '../SliderView.svelte';
 	import { getPageThumbnail } from '$lib/services/getImages';
 
 	let previewImage: string | undefined;
@@ -19,9 +20,9 @@
 <svelte:head>
 	<title>{data.pages[0].storyId.title}</title>
 	<meta name="description" content="View {data.pages[0].storyId.title}" />
-	<meta property="og:title" content="{data.pages[0].storyId.title}" />
+	<meta property="og:title" content={data.pages[0].storyId.title} />
 	<meta property="og:description" content="View {data.pages[0].storyId.title}" />
-	<meta property="og:image" content="{screenshot?.publicUrl}" />
+	<meta property="og:image" content={screenshot?.publicUrl} />
 </svelte:head>
 
 <h2>
