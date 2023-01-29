@@ -24,6 +24,7 @@
 				<li>Right-click on an image to open the control menu</li>
 				<li>The color picker at the top right will change your page color</li>
 				<li>Click on the "Save" button to save your page</li>
+				<li>Click the book in the top right of your canvas to make your story public!</li>
 				<li>Click the "+" button at the bottom to add a page</li>
 			</ul>
 		</div>

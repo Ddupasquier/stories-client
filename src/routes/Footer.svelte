@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { domainName } from './constants';
 	// import {githubIcon} from '$lib/assets';
 </script>
 
@@ -9,7 +10,7 @@
 		</a> -->
 	</div>
 	<div class="center">
-		Stories We Tell - &copy; {new Date().getFullYear()}
+		{domainName} - &copy; {new Date().getFullYear()}
 	</div>
 	<div class="right">
 		<a href="https://www.buymeacoffee.com/dylandupasquier" target="_blank" rel="noopener noreferrer"
@@ -34,14 +35,6 @@
 		width: 30%;
 	}
 
-	// .left {
-	// 	text-align: left;
-	// 	padding-left: 1rem;
-	// 	img {
-	// 		width: 2rem;
-	// 	}
-	// }
-
 	.center {
 		text-align: center;
 	}
@@ -57,7 +50,6 @@
 		}
 	}
 
-	// on mobile footer flex column
 	@media (max-width: 600px) {
 		footer {
 			flex-direction: column;

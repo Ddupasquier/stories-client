@@ -4,12 +4,14 @@
 	import type { AuthSession } from '@supabase/supabase-js';
 	import { page } from '$app/stores';
 	import { username } from '$lib/stores/userStore';
+	import { domainName } from './constants';
+
 	export let session: AuthSession | null;
 </script>
 
 <header>
 	<div class="logo">
-		<h1>TaleWeaver</h1>
+		<h1>{domainName}</h1>
 	</div>
 	<nav>
 		<ul>
@@ -45,8 +47,6 @@
 		margin-bottom: 3rem;
 	}
 
-	
-
 	.logo {
 		display: flex;
 		align-items: center;
@@ -59,7 +59,11 @@
 		font-size: 2rem;
 		font-weight: 700;
 		margin: 0;
-		background: -webkit-linear-gradient(50deg, rgba(244,67,54,1) 20%, rgba(108,108,108,1) 40%);
+		background: -webkit-linear-gradient(
+			50deg,
+			rgba(244, 67, 54, 1) 20%,
+			rgba(108, 108, 108, 1) 40%
+		);
 		-webkit-background-clip: text;
 		background-clip: text;
 		-webkit-text-fill-color: transparent;
@@ -135,6 +139,7 @@
 			flex-direction: column;
 			justify-content: center;
 			align-items: center;
+			gap: 1rem;
 		}
 
 		.logo {

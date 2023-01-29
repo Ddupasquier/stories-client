@@ -103,7 +103,6 @@
 		justify-content: center;
 		align-items: center;
 		align-self: center;
-		gap: 5rem;
 	}
 
 	.buttons-head {
@@ -120,7 +119,7 @@
 	.responsive-grid {
 		display: grid;
 		grid-template-columns: 20rem auto;
-		grid-gap: 1rem;
+		grid-gap: 3rem;
 	}
 
 	.left {
@@ -133,7 +132,6 @@
 		grid-row: 1 / 2;
 	}
 
-	// media query 840px wide right appears underneath left
 	@media screen and (max-width: 840px) {
 		.responsive-grid {
 			grid-template-columns: auto;
@@ -158,6 +156,5 @@
 		align-items: center;
 		align-self: center;
 		gap: 3rem;
-		width: 100%;
 	}
 </style>

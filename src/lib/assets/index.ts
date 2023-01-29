@@ -4,6 +4,8 @@ export { default as miscIcon } from './miscIcon.svg';
 export { default as plantsIcon } from './plantsIcon.svg';
 export { default as rankIcon } from './rankIcon.svg';
 export { default as rpgIcon } from './rpgIcon.svg';
+export { default as speechIcon } from './speechIcon.svg';
+export { default as foodIcon } from './foodIcon.svg';
 export { default as backgroundIcon } from './backgroundIcon.svg';
 export { default as githubIcon } from './github.svg';
 

@@ -1,5 +1,14 @@
 <script lang="ts">
-	import {charsIcon, fishIcon, miscIcon, plantsIcon, rankIcon, rpgIcon, backgroundIcon} from '$lib/assets';
+	import {
+		charsIcon,
+		fishIcon,
+		miscIcon,
+		plantsIcon,
+		rpgIcon,
+		backgroundIcon,
+		speechIcon,
+		foodIcon
+	} from '$lib/assets';
 	import type { FileObject } from '@supabase/storage-js';
 	import { howToIsOpen } from '$lib/stores/modalStore';
 	import { onMount } from 'svelte';
@@ -7,12 +16,12 @@
 	import Folder from './Folder.svelte';
 
 	let backgrounds: FileObject[];
+	let char_icon: FileObject[];
+	let food: FileObject[];
+	let misc: FileObject[];
 	let nautical: FileObject[];
 	let plants: FileObject[];
 	let rpg: FileObject[];
-	let char_icon: FileObject[];
-	let rank: FileObject[];
-	let svg: FileObject[];
 	let speech: FileObject[];
 
 	const getFolder = async (folder: string) => {
@@ -27,6 +36,15 @@
 				case 'backgrounds':
 					backgrounds = data;
 					break;
+				case 'char_icon':
+					char_icon = data;
+					break;
+				case 'food':
+					food = data;
+					break;
+				case 'misc':
+					misc = data;
+					break;
 				case 'nautical':
 					nautical = data;
 					break;
@@ -35,15 +53,6 @@
 					break;
 				case 'rpg':
 					rpg = data;
-					break;
-				case 'char_icon':
-					char_icon = data;
-					break;
-				case 'rank':
-					rank = data;
-					break;
-				case 'svg':
-					svg = data;
 					break;
 				case 'speech':
 					speech = data;
@@ -106,14 +115,14 @@
 		</svg>
 	</button>
 
-	{#if svg}
-		<Folder folder={svg} folderIcon={miscIcon} folderName="svg" />
+	{#if misc}
+		<Folder folder={misc} folderIcon={miscIcon} folderName="misc" />
 	{/if}
 	{#if backgrounds}
 		<Folder folder={backgrounds} folderIcon={backgroundIcon} folderName="backgrounds" />
 	{/if}
 	{#if speech}
-		<Folder folder={speech} folderIcon={miscIcon} folderName="speech" />
+		<Folder folder={speech} folderIcon={speechIcon} folderName="speech" />
 	{/if}
 	{#if nautical}
 		<Folder folder={nautical} folderIcon={fishIcon} folderName="nautical" />
@@ -121,14 +130,14 @@
 	{#if plants}
 		<Folder folder={plants} folderIcon={plantsIcon} folderName="plants" />
 	{/if}
-	<!-- {#if rpg}
+	{#if rpg}
 		<Folder folder={rpg} folderIcon={rpgIcon} folderName="rpg" />
-	{/if} -->
+	{/if}
 	{#if char_icon}
 		<Folder folder={char_icon} folderIcon={charsIcon} folderName="char_icon" />
 	{/if}
-	{#if rank}
-		<Folder folder={rank} folderIcon={rankIcon} folderName="rank" />
+	{#if food}
+		<Folder folder={food} folderIcon={foodIcon} folderName="food" />
 	{/if}
 </div>
 

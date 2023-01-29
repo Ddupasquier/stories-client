@@ -97,7 +97,7 @@
 		border-image: linear-gradient(45deg, purple, orange) 1;
 		border-style: solid;
 		border-width: 0.5rem 0;
-		height: 200px;
+		height: 150px;
 		aspect-ratio: 16/7.4;
 	}
 
