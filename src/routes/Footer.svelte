@@ -16,6 +16,7 @@
 			><img
 				src="https://img.buymeacoffee.com/button-api/?text=Buy me a coffee&emoji=&slug=dylandupasquier&button_colour=FFDD00&font_colour=000000&font_family=Cookie&outline_colour=000000&coffee_colour=ffffff"
 				alt="buy-me-a-coffee"
+				title="I'm broke as heck."
 			/></a
 		>
 	</div>
@@ -33,13 +34,13 @@
 		width: 30%;
 	}
 
-	.left {
-		text-align: left;
-		padding-left: 1rem;
-		img {
-			width: 2rem;
-		}
-	}
+	// .left {
+	// 	text-align: left;
+	// 	padding-left: 1rem;
+	// 	img {
+	// 		width: 2rem;
+	// 	}
+	// }
 
 	.center {
 		text-align: center;
@@ -53,6 +54,30 @@
 	@media (min-width: 480px) {
 		footer {
 			padding: 12px 0;
+		}
+	}
+
+	// on mobile footer flex column
+	@media (max-width: 600px) {
+		footer {
+			flex-direction: column;
+			justify-content: center;
+			text-align: center;
+			gap: 1rem;
+		}
+
+		footer div {
+			width: 100%;
+		}
+
+		.right {
+			padding-right: 0;
+			text-align: center;
+			order: 1;
+		}
+
+		.center {
+			order: 2;
 		}
 	}
 </style>

@@ -1,8 +1,7 @@
 <script lang="ts">
-	import { onMount, afterUpdate } from 'svelte';
-	import { supabase } from '$lib/supabase';
-	import { signout, getProfile } from '$lib/services/auth';
-	import { detectDevice } from '$lib/utils';
+	import { onMount } from 'svelte';
+	import { getProfile } from '$lib/services/auth';
+	// import { detectDevice } from '$lib/utils';
 	import './styles.scss';
 
 	import type { AuthSession } from '@supabase/supabase-js';
@@ -13,20 +12,20 @@
 
 	export let data: { session: AuthSession | null };
 
-	$: isMobile = false;
+	// $: isMobile = false;
 
 	onMount(() => {
 		getProfile(data.session?.user.id);
-		isMobile = detectDevice();
+		// isMobile = detectDevice();
 	});
 
-	afterUpdate(() => {
-		if (isMobile) {
-			document.body.classList.add('mobile');
-		} else {
-			document.body.classList.remove('mobile');
-		}
-	});
+	// afterUpdate(() => {
+	// 	if (isMobile) {
+	// 		document.body.classList.add('mobile');
+	// 	} else {
+	// 		document.body.classList.remove('mobile');
+	// 	}
+	// });
 </script>
 
 <div class="app">

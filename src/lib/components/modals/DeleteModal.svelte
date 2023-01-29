@@ -3,6 +3,7 @@
 	import { deleteStory } from '$lib/services/storyActions';
 	import LoadSpinner from '../Loading.svelte';
 	import { fade, scale } from 'svelte/transition';
+	import {Close} from '$lib/assets';
 
 	let loading: boolean = false;
 </script>
@@ -12,7 +13,7 @@
 		{#if loading}
 			<LoadSpinner />
 		{:else}
-			<button class="close" on:click={() => deleteIsOpen.set(false)}> X </button>
+			<button class="close" on:click={() => deleteIsOpen.set(false)}><Close color={"black"}/></button>
 			<br />
 			<h2>
 				Are you sure you want to delete <span>

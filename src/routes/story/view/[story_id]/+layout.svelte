@@ -54,4 +54,10 @@
 		max-width: 2000px;
 		user-select: none;
 	}
+
+	@media only screen and (max-width: 600px) {
+		.story-container {
+			width: 95vw;
+		}
+	}
 </style>

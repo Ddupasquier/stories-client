@@ -37,13 +37,15 @@
 	</div>
 </header>
 
-<style>
+<style lang="scss">
 	header {
 		display: flex;
 		justify-content: space-between;
 		width: 100%;
 		margin-bottom: 3rem;
 	}
+
+	
 
 	.logo {
 		display: flex;
@@ -126,5 +128,31 @@
 
 	a:hover {
 		color: var(--color-theme-1);
+	}
+
+	@media (max-width: 600px) {
+		header {
+			flex-direction: column;
+			justify-content: center;
+			align-items: center;
+		}
+
+		.logo {
+			left: 0;
+		}
+
+		.logo > * {
+			margin: 0;
+			padding: 0;
+			width: 100%;
+			text-align: center;
+		}
+
+		.logout-container {
+			position: absolute;
+			.logout {
+				transform: scale(0.8);
+			}
+		}
 	}
 </style>

@@ -3,6 +3,7 @@
 	import { fade, scale } from 'svelte/transition';
 	import { addText } from '$lib/services/elementActions';
 	import ColorPicker from '$lib/components/ColorPicker.svelte';
+	import { Close } from '$lib/assets';
 
 	export let pageId: number;
 
@@ -22,14 +23,16 @@
 
 <div class="modal-overlay" transition:fade>
 	<div class="modal" transition:scale>
-		<button class="close" on:click={() => textInsertIsOpen.set(false)}> X </button>
+		<button class="close" on:click={() => textInsertIsOpen.set(false)}
+			><Close color={'black'} /></button
+		>
 		<br />
 		<p>What would you like this to say?</p>
 		<br />
 		<form on:submit|preventDefault={handleSubmit} class="form">
 			<div class="text-color">
 				<input type="text" bind:value={text} class="input text-input" />
-				<ColorPicker {color} {setColor} labelShown={false}/>
+				<ColorPicker {color} {setColor} labelShown={false} />
 			</div>
 			<input type="number" min="1" bind:value={size} class="input number-input" />
 			<button type="submit" class="button">Add Text</button>

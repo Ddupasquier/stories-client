@@ -5,6 +5,7 @@
 	import { convToPublicUrlFromFolder, createLoadObserver } from '$lib/utils';
 	import type { FileObject } from '@supabase/storage-js';
 	import Loading from '$lib/components/Loading.svelte';
+	import { Close } from '$lib/assets';
 
 	export let folder: FileObject[];
 	export let folderIcon: string;
@@ -63,7 +64,7 @@
 {#if open}
 	<div class="folder-contents" bind:this={folderRef}>
 		<div class="modal-header">
-			<button class="close" on:click={() => (open = false)}> X </button>
+			<button class="close" on:click={() => (open = false)}><Close /></button>
 		</div>
 		<div class="modal-body">
 			{#each folder as image}

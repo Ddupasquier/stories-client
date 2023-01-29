@@ -107,7 +107,7 @@
 			<HowToModal />
 		{/if}
 		<div id="tools">
-			<button on:click={() => textInsertIsOpen.set(true)}>T</button>
+			<button on:click={() => textInsertIsOpen.set(true)}><b>T</b></button>
 			<ColorPicker color={background} {setColor} />
 		</div>
 		<div id="actions">

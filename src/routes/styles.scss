@@ -67,24 +67,6 @@ body {
 		linear-gradient(180deg, var(--color-bg-0) 0%, var(--color-bg-1) 35%, var(--color-bg-2) 60%);
 }
 
-body.mobile {
-	// force screen orientation to landscape
-	@media (orientation: portrait) {
-		& {
-			transform: rotate(-90deg);
-			transform-origin: 50% 50%;
-			width: 100vh;
-			height: 100vw;
-			overflow-y: hidden;
-		}
-		.story-container {
-			width: 100%;
-			max-width: 100%;
-			scroll-snap-align: start;
-		}
-	}
-}
-
 h1,
 h2,
 p {
@@ -190,10 +172,13 @@ button:focus:not(:focus-visible) {
 	position: absolute;
 	top: 0;
 	right: 0;
-	padding: 1rem;
+	padding: .75rem;
+	width: 3rem;
+	height: 3rem;
 	background-color: transparent;
 	color: black;
 	border: none;
 	cursor: pointer;
 	font-size: 1.5rem;
+	z-index: 1003;
 }
