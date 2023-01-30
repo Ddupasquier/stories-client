@@ -9,7 +9,7 @@
 	$: left = element.x;
 	$: zIndex = element.zIndex;
 	$: height = element.size;
-	let image: { publicUrl: string };
+	let image: { publicUrl: string } | undefined;
 	let loading = true;
 
 	beforeUpdate(() => {

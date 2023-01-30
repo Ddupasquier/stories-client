@@ -1,42 +1,14 @@
 <script lang="ts">
-	import { supabase } from '$lib/supabase';
-	import { page } from '$app/stores';
-	import { unsavedTrue } from '$lib/stores/storyStore';
-	import { convToPublicUrlFromFolder, createLoadObserver } from '$lib/utils';
 	import type { FileObject } from '@supabase/storage-js';
-	import Loading from '$lib/components/Loading.svelte';
+
 	import { Close } from '$lib/assets';
+	import FolderItem from './FolderItem.svelte';
 
 	export let folder: FileObject[];
 	export let folderIcon: string;
 	export let folderName: string;
 
-	let loading = true;
-	const onLoad = createLoadObserver(() => {
-		loading = false;
-	});
-
 	let open = false;
-
-	const addElementToPage = async (folder: string, name: string) => {
-		const { error } = await supabase.from('elements').insert([
-			{
-				elementName: name,
-				pageId: $page.params.page_id,
-				x: folder === 'backgrounds' ? 0 : 50,
-				y: folder === 'backgrounds' ? 0 : 50,
-				zIndex: folder === 'backgrounds' ? 0 : 1,
-				size: folder === 'backgrounds' ? 120 : 50,
-				type: folder
-			}
-		]);
-
-		if (error) {
-			throw new Error(error.message);
-		} else {
-			unsavedTrue();
-		}
-	};
 
 	let folderRef: HTMLElement;
 	let folderButtonRef: HTMLElement;
@@ -69,26 +41,7 @@
 		<div class="modal-body">
 			{#each folder as image}
 				{#if image.name !== '.emptyFolderPlaceholder'}
-					<!-- svelte-ignore a11y-click-events-have-key-events -->
-					<div class="toolbar-item">
-						<!-- {#if loading}
-							<div class="avatar">
-								<Loading />
-							</div>
-						{/if}
-						{#if !loading} -->
-						<img
-							src={convToPublicUrlFromFolder(folderName, image)}
-							alt={image.name}
-							title={image.name}
-							on:click={() => {
-								addElementToPage(folderName, image.name);
-							}}
-							use:onLoad
-						/>
-						<div class="add-icon">+</div>
-						<!-- {/if} -->
-					</div>
+					<FolderItem {image} {folderName} />
 				{/if}
 			{/each}
 		</div>
@@ -138,45 +91,6 @@
 		overflow-x: hidden;
 		padding: 10px;
 		z-index: 1002;
-	}
-
-	.toolbar-item {
-		position: relative;
-		height: 80%;
-		cursor: pointer;
-		filter: grayscale(100%);
-		transition: filter 0.2s ease-in-out;
-		&:hover {
-			filter: grayscale(0%);
-		}
-		img {
-			height: 80px;
-			aspect-ratio: 1/1;
-			&:active {
-				transform: scale(0.9);
-			}
-		}
-	}
-
-	.toolbar-item:hover .add-icon {
-		opacity: 1;
-	}
-
-	.add-icon {
-		position: absolute;
-		top: 0;
-		right: 0;
-		width: 1.2rem;
-		height: 1.2rem;
-		display: flex;
-		justify-content: center;
-		align-items: center;
-		font-size: 2rem;
-		color: rgb(0, 0, 0);
-		opacity: 0;
-		transition: opacity 0.2s ease-in-out;
-		background: rgb(255, 255, 255, 0.5);
-		border-radius: 50%;
 	}
 
 	.modal-header {
