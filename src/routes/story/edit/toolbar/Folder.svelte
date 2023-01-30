@@ -94,7 +94,7 @@
 		justify-content: center;
 		align-items: center;
 		gap: 1rem;
-		background: #2c3e50;
+		background: var(--color-bg-0);
 		border-radius: 5px;
 		max-height: 60vh;
 		max-width: 75vw;
@@ -120,7 +120,6 @@
 		justify-content: center;
 		align-items: center;
 		gap: 1rem;
-		background-color: #2c3e50;
 		border-radius: 0 0 5px 5px;
 	}
 

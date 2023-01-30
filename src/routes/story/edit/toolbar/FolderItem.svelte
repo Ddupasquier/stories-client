@@ -5,6 +5,7 @@
 	import { convToPublicUrlFromFolder, createLoadObserver } from '$lib/utils';
 	import type { FileObject } from '@supabase/storage-js';
 	import Loading from '$lib/components/Loading.svelte';
+	import { toast } from '@zerodevx/svelte-toast';
 
 	export let image: FileObject;
 	export let folderName: string;
@@ -31,6 +32,7 @@
 		if (error) {
 			throw new Error(error.message);
 		} else {
+			toast.push(`Added ${name} to page`);
 			unsavedTrue();
 		}
 	};
@@ -77,7 +79,6 @@
 			height: 80px;
 			aspect-ratio: 1/1;
 			img {
-				
 				height: 100%;
 				width: 100%;
 				object-fit: contain;

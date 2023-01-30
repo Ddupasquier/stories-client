@@ -14,7 +14,7 @@
 	}
 </script>
 
-<div class="color-picker-container">
+<div class="color-picker-container" title="Change color">
 	{#if labelShown}
 		<label for="color-picker">Color</label>
 	{/if}

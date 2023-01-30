@@ -10,10 +10,10 @@
 			<button class="close" on:click={() => howToIsOpen.set(false)}><Close /></button>
 		</div>
 		<div class="modal-body">
-			<p>
+			<!-- <p>
 				While in development, you may need to refresh the page if certain actions are not appearing
 				on command. This is an ongoing issue and I am working to fix it.
-			</p>
+			</p> -->
 			<ul>
 				<li>
 					To change your title, click on the title above your canvas, type the desired title, and
@@ -48,9 +48,9 @@
 	.modal {
 		position: relative;
 		width: 100%;
-		height: 80%;
+		height: fit-content;
 		max-width: 650px;
-		background-color: rgba(196, 196, 196, 0.98);
+		background-color: var(--color-bg-2);
 		padding: 2rem 1rem;
 		border-radius: 0.8rem;
 		display: flex;
@@ -62,7 +62,7 @@
 		}
 		.modal-body {
 			flex: 1;
-			overflow-y: scroll;
+			overflow-y: auto;
 		}
 	}
 
@@ -71,9 +71,10 @@
 		text-align: center;
 		font-weight: 800;
 		color: red;
-		background: rgb(77, 77, 77);
+		background: var(--color-bg-1);
 		border-radius: 0.8rem;
 		padding: 1rem;
+		margin: 0 1rem;
 	}
 
 	ul {

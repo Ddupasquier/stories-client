@@ -23,9 +23,7 @@
 
 <div class="modal-overlay" transition:fade>
 	<div class="modal" transition:scale>
-		<button class="close" on:click={() => textInsertIsOpen.set(false)}
-			><Close color={'black'} /></button
-		>
+		<button class="close" on:click={() => textInsertIsOpen.set(false)}><Close /></button>
 		<br />
 		<p>What would you like this to say?</p>
 		<br />
@@ -61,7 +59,7 @@
 		position: relative;
 		width: fit-content;
 		height: fit-content;
-		background-color: rgba(196, 196, 196, 0.98);
+		background-color: var(--color-bg-2);
 		padding: 2rem 1rem;
 		border-radius: 0.8rem;
 		display: flex;

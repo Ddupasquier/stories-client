@@ -1,7 +1,9 @@
 <script lang="ts">
 	import CanvasEdit from '../../CanvasEdit.svelte';
 	import TextInputModal from '$lib/components/modals/TextInputModal.svelte';
-	import { textInsertIsOpen } from '$lib/stores/modalStore';
+	import HowToModal from '$lib/components/modals/HowToModal.svelte';
+	
+	import { textInsertIsOpen, howToIsOpen } from '$lib/stores/modalStore';
 	import { page } from '$app/stores';
 
 	export let data: EditPageProps;
@@ -19,4 +21,8 @@
 
 {#if $textInsertIsOpen}
 	<TextInputModal pageId={data.page[0].id} />
+{/if}
+
+{#if $howToIsOpen}
+	<HowToModal />
 {/if}

@@ -3,7 +3,7 @@
 	import { deleteStory } from '$lib/services/storyActions';
 	import LoadSpinner from '../Loading.svelte';
 	import { fade, scale } from 'svelte/transition';
-	import {Close} from '$lib/assets';
+	import { Close } from '$lib/assets';
 
 	let loading: boolean = false;
 </script>
@@ -13,7 +13,9 @@
 		{#if loading}
 			<LoadSpinner />
 		{:else}
-			<button class="close" on:click={() => deleteIsOpen.set(false)}><Close color={"black"}/></button>
+			<button class="close" on:click={() => deleteIsOpen.set(false)}
+				><Close /></button
+			>
 			<br />
 			<h2>
 				Are you sure you want to delete <span>
@@ -54,7 +56,7 @@
 
 	.modal {
 		position: relative;
-		background-color: #fff;
+		background-color: var(--color-bg-2);
 		padding: 2rem 1rem;
 		border-radius: 0.5rem;
 		max-width: 400px;

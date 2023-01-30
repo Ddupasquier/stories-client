@@ -7,8 +7,7 @@
 	import ImgElement from '$lib/components/canvas/ImgElement.svelte';
 	import { uploadThumbnail, saveBgColor } from '$lib/services/pageActions';
 	import ColorPicker from '$lib/components/ColorPicker.svelte';
-	import HowToModal from '$lib/components/modals/HowToModal.svelte';
-	import { howToIsOpen, textInsertIsOpen } from '$lib/stores/modalStore';
+	import { textInsertIsOpen } from '$lib/stores/modalStore';
 	import {
 		unsaved,
 		unsavedTrue,
@@ -18,7 +17,7 @@
 	} from '$lib/stores/storyStore';
 	import { toast } from '@zerodevx/svelte-toast';
 	import Clipboard from '$lib/components/canvas/Clipboard.svelte';
-	import TextElement from '../../../lib/components/canvas/TextElement.svelte';
+	import TextElement from '$lib/components/canvas/TextElement.svelte';
 
 	export let info: CanvasProps;
 	export let firstPage: number;
@@ -71,7 +70,7 @@
 		if (!hasPermission) {
 			toast.push('Woah woah woah! Get out of here!');
 			return;
-		};
+		}
 		const file = await screenshotCanvas('#canvas');
 		file && uploadThumbnail(file, $page.params.page_id);
 	};
@@ -103,11 +102,8 @@
 				{/if}
 			{/each}
 		{/if}
-		{#if $howToIsOpen}
-			<HowToModal />
-		{/if}
 		<div id="tools">
-			<button on:click={() => textInsertIsOpen.set(true)}><b>T</b></button>
+			<button on:click={() => textInsertIsOpen.set(true)} class="text-button" title="Add text">T</button>
 			<ColorPicker color={background} {setColor} />
 		</div>
 		<div id="actions">
@@ -178,7 +174,6 @@
 	</div>
 {/if}
 
-
 <style lang="scss">
 	#canvas {
 		position: relative;
@@ -187,22 +182,30 @@
 		overflow: hidden;
 	}
 
-	#tools {
-		position: absolute;
-		bottom: 1rem;
-		right: 1rem;
+	@mixin tool-buttons {
 		display: flex;
-		flex-direction: column;
 		align-items: center;
-		gap: 1rem;
-		z-index: 1000;
+		justify-content: center;
+		width: 2.75rem;
+		aspect-ratio: 1/1;
+		border: none;
+		background: black;
+		border-radius: 50%;
+		cursor: pointer;
+		transition: all 0.5s;
+		&:hover {
+			transform: scale(1.1);
+		}
+		&:active {
+			transform: scale(0.9);
+		}
 	}
 
 	@mixin action-buttons {
 		display: flex;
 		align-items: center;
 		justify-content: center;
-		width: fit-content;
+		width: 2.75rem;
 		aspect-ratio: 1/1;
 		border: none;
 		background: black;
@@ -217,6 +220,23 @@
 		}
 		svg {
 			pointer-events: none;
+		}
+	}
+
+	#tools {
+		position: absolute;
+		bottom: 1rem;
+		right: 1rem;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		gap: 1rem;
+		z-index: 1000;
+		.text-button {
+			@include tool-buttons;
+			color: white;
+			font-family: 'Times New Roman', Times, serif;
+			font-size: 1.8rem;
 		}
 	}
 
