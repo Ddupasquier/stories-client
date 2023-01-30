@@ -13,8 +13,8 @@
 	let folderRef: HTMLElement;
 	let folderButtonRef: HTMLElement;
 
-	let howManyButtons = Math.ceil(folder.length / 20);
-	$: twentyItems = folder.slice(0, 20);
+	let howManyButtons = Math.ceil(folder.length / 21);
+	$: twentyItems = folder.slice(0, 21);
 </script>
 
 <svelte:window
@@ -51,7 +51,7 @@
 		{#if howManyButtons > 1}
 			<div class="pagination-buttons">
 				{#each Array(howManyButtons) as _, i}
-					<button on:click={() => (twentyItems = folder.slice(i * 20, i * 20 + 20))}>{i + 1}</button
+					<button on:click={() => (twentyItems = folder.slice(i * 21, i * 21 + 21))}>{i + 1}</button
 					>
 				{/each}
 			</div>
@@ -100,7 +100,7 @@
 		max-width: 75vw;
 		overflow-y: auto;
 		overflow-x: hidden;
-		padding: 10px;
+		padding: 20px 10px;
 		z-index: 1002;
 	}
 

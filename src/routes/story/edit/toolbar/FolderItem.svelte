@@ -38,18 +38,20 @@
 
 <!-- svelte-ignore a11y-click-events-have-key-events -->
 <div class="toolbar-item">
-	<img
-		src={convToPublicUrlFromFolder(folderName, image)}
-		alt={image.name}
-		title={image.name}
-		aria-label={`Add ${image.name} to page`}
-		on:click={() => {
-			addElementToPage(folderName, image.name);
-		}}
-		use:onLoad
-		loading="lazy"
-		style="visibility: {loading ? 'hidden' : 'visible'}"
-	/>
+	<div class="item-container">
+		<img
+			src={convToPublicUrlFromFolder(folderName, image)}
+			alt={image.name}
+			title={image.name}
+			aria-label={`Add ${image.name} to page`}
+			on:click={() => {
+				addElementToPage(folderName, image.name);
+			}}
+			use:onLoad
+			loading="lazy"
+			style="visibility: {loading ? 'hidden' : 'visible'}"
+		/>
+	</div>
 
 	<div class="add-icon">+</div>
 
@@ -68,11 +70,20 @@
 		&:hover {
 			filter: grayscale(0%);
 		}
-		img {
+		.item-container {
+			display: flex;
+			justify-content: center;
+			align-items: center;
 			height: 80px;
 			aspect-ratio: 1/1;
-			&:active {
-				transform: scale(0.9);
+			img {
+				
+				height: 100%;
+				width: 100%;
+				object-fit: contain;
+				&:active {
+					transform: scale(0.9);
+				}
 			}
 		}
 	}
