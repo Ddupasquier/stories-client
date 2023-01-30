@@ -12,6 +12,9 @@
 
 	let folderRef: HTMLElement;
 	let folderButtonRef: HTMLElement;
+
+	let howManyButtons = Math.ceil(folder.length / 20);
+	$: twentyItems = folder.slice(0, 20);
 </script>
 
 <svelte:window
@@ -39,12 +42,20 @@
 			<button class="close" on:click={() => (open = false)}><Close /></button>
 		</div>
 		<div class="modal-body">
-			{#each folder as image}
+			{#each twentyItems as image}
 				{#if image.name !== '.emptyFolderPlaceholder'}
 					<FolderItem {image} {folderName} />
 				{/if}
 			{/each}
 		</div>
+		{#if howManyButtons > 1}
+			<div class="pagination-buttons">
+				{#each Array(howManyButtons) as _, i}
+					<button on:click={() => (twentyItems = folder.slice(i * 20, i * 20 + 20))}>{i + 1}</button
+					>
+				{/each}
+			</div>
+		{/if}
 	</div>
 {/if}
 
@@ -111,5 +122,30 @@
 		gap: 1rem;
 		background-color: #2c3e50;
 		border-radius: 0 0 5px 5px;
+	}
+
+	.pagination-buttons {
+		display: flex;
+		flex-wrap: wrap;
+		flex-direction: row;
+		justify-content: center;
+		align-items: center;
+		gap: 1rem;
+		border-radius: 0 0 5px 5px;
+	}
+
+	.pagination-buttons button {
+		color: white;
+		background: #435e79;
+		border: none;
+		border-radius: 5px;
+		padding: 0.5rem;
+		cursor: pointer;
+		height: 2rem;
+		aspect-ratio: 1/1;
+		transition: all 0.5s;
+		&:hover {
+			background-color: var(--orange);
+		}
 	}
 </style>
