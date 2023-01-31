@@ -45,7 +45,7 @@
 					deletePage(pageData.id, $page.params.story_id);
 				}}
 			>
-				×
+				x
 			</button>
 		{/if}
 	{/if}

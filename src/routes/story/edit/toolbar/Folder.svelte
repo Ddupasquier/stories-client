@@ -1,6 +1,5 @@
 <script lang="ts">
 	import type { FileObject } from '@supabase/storage-js';
-
 	import { Close } from '$lib/assets';
 	import FolderItem from './FolderItem.svelte';
 
@@ -9,12 +8,11 @@
 	export let folderName: string;
 
 	let open = false;
-
 	let folderRef: HTMLElement;
 	let folderButtonRef: HTMLElement;
 
 	let howManyButtons = Math.ceil(folder.length / 21);
-	$: twentyItems = folder.slice(0, 21);
+	let twentyItems = folder.slice(0, 21);
 </script>
 
 <svelte:window
@@ -108,7 +106,6 @@
 		display: flex;
 		justify-content: space-between;
 		align-items: center;
-		background-color: #2c3e50;
 		width: 100%;
 		margin-bottom: 1rem;
 	}
@@ -134,8 +131,8 @@
 	}
 
 	.pagination-buttons button {
-		color: white;
-		background: #435e79;
+		color: black;
+		background: var(--color-bg-2);
 		border: none;
 		border-radius: 5px;
 		padding: 0.5rem;

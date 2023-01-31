@@ -103,7 +103,9 @@
 			{/each}
 		{/if}
 		<div id="tools">
-			<button on:click={() => textInsertIsOpen.set(true)} class="text-button" title="Add text">T</button>
+			<button on:click={() => textInsertIsOpen.set(true)} class="text-button" title="Add text"
+				>T</button
+			>
 			<ColorPicker color={background} {setColor} />
 		</div>
 		<div id="actions">

@@ -1,15 +1,15 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
 	import { changeTitle } from '$lib/services/storyActions';
-	export let data: PagesLayoutProps;
-
 	import Toolbar from '../toolbar/Toolbar.svelte';
 	import SliderEdit from '../SliderEdit.svelte';
 	import { truncate } from '$lib/utils';
 	import { indicateArrow } from '$lib/assets';
 	import { toastOpen } from '$lib/stores/storyStore';
 
+	export let data: PagesLayoutProps;
 	let titleInput: HTMLInputElement;
+	$: saveTitleShown = false;
 
 	const resizeTitleInput = () => {
 		titleInput.style.width = `${titleInput.value.length * 0.9}rem`;
@@ -32,10 +32,39 @@
 			value={truncate(data.pages[0].storyId.title, 25)}
 			bind:this={titleInput}
 			on:change={resizeTitleInput}
-			on:focus={(event) => event.target instanceof HTMLInputElement && event.target.select()}
+			on:focus={(event) => {
+				event.target instanceof HTMLInputElement && event.target.select();
+				saveTitleShown = true;
+			}}
 		/>
+		{#if saveTitleShown}
+			<button
+				type="button"
+				class="title-button"
+				on:click={() => {
+					changeTitle(data.pages[0].storyId.id, titleInput.value);
+					saveTitleShown = false;
+				}}
+			>
+				<svg
+					xmlns="http://www.w3.org/2000/svg"
+					width="16"
+					height="16"
+					fill="green"
+					class="bi-check"
+					viewBox="0 0 16 16"
+				>
+					<path
+						fill-rule="evenodd"
+						d="M13.854 4.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3-3a.5.5 0 1 1 .708-.708L6.5 10.793l6.646-6.647a.5.5 0 0 1 .708 0z"
+					/>
+				</svg></button
+			>
+		{/if}
 	</form>
-	by {data.pages[0].storyId.profileId.username}
+	<div>
+		by {data.pages[0].storyId.profileId.username}
+	</div>
 </h2>
 
 <br />
@@ -53,7 +82,7 @@
 <style lang="scss">
 	h2 {
 		display: flex;
-		flex-direction: row;
+		flex-direction: column;
 		justify-content: space-between;
 		align-items: center;
 		font-size: 1.5rem;
@@ -77,6 +106,22 @@
 			border: none;
 			background: rgb(255, 255, 255, 0.4);
 			box-shadow: none;
+		}
+	}
+
+	.title-button {
+		background: var(--color-bg-2);
+		border: none;
+		border-radius: 50%;
+		height: 1.7rem;
+		width: 1.7rem;
+		margin: 0;
+		padding: 0;
+		cursor: pointer;
+		.bi-check {
+			width: 1.5rem;
+			height: 1.5rem;
+			pointer-events: none;
 		}
 	}
 

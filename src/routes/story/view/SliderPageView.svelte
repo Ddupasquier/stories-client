@@ -33,6 +33,7 @@
 		aspect-ratio: 16/9;
 		position: relative;
 		background: white;
+		cursor: pointer;
 		&:active {
 			transform: scale(0.95);
 		}

@@ -10,7 +10,7 @@
 	export let image: FileObject;
 	export let folderName: string;
 
-	$: loading = true;
+	let loading = true;
 
 	const onLoad = createLoadObserver(() => {
 		loading = false;
