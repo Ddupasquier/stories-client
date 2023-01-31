@@ -41,6 +41,8 @@ export const saveBgColor = async (id: number, color: string) => {
 	} else {
 		if (data.length === 0) {
 			toast.push('You are not authorized to make these changes!', { duration: 5000, pausable: true });
+		} else {
+			toast.push('Background color updated', { duration: 2000, pausable: true });
 		}
 	}
 };

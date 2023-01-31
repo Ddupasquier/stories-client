@@ -1,7 +1,6 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
 	export let data: PagesLayoutProps;
-	$: console.log(data.pages)
 	import Slider from '../SliderView.svelte';
 	import { getPageThumbnail } from '$lib/services/getImages';
 

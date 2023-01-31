@@ -62,7 +62,7 @@
 				{#if url}
 				<img src={url} alt="avatar" class="thumbnail" />
 				{:else}
-				<img src="https://via.placeholder.com/433x200.png/000000/?text=No+Saved+Thumbnail" alt="placeholder" />
+				<img src="https://via.placeholder.com/433x200.png/000000/?text=No+Saved+Thumbnail" alt="placeholder" class="thumbnail" />
 				{/if}
 			</div>
 		</a>
