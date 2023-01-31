@@ -17,34 +17,32 @@
 	let image: { publicUrl: string } | undefined;
 	let loading = true;
 
-	beforeUpdate(async() => {
+	beforeUpdate(async () => {
 		image = getElementFromFolder(element.type, element.elementName);
 
 		if (flip === undefined) {
-			let data: { //<reference types="svelte" />
+			let data: {
+				//<reference types="svelte" />
 				flip: any;
-			}[]
+			}[];
 			data = await getFlip(element.id);
 			flip = data[0].flip;
 		}
 	});
-	
+
 	let container: HTMLDivElement;
 	$: containerWidth = container?.clientWidth;
 	$: containerHeight = container?.clientHeight;
-	
+
 	afterUpdate(() => {
 		containerHeight = container.clientHeight;
 		containerWidth = container.clientWidth;
-
-		
 	});
-	
-	onMount(async() => {
+
+	onMount(async () => {
 		if (element) {
 			loading = false;
 		}
-		
 	});
 
 	let moving = false;

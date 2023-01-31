@@ -62,7 +62,15 @@
 						{truncate(story.author, 30)}
 					</h3>
 				</div>
-				<img src={bgUrl} alt="avatar" class="thumbnail" />
+				{#if bgUrl}
+					<img src={bgUrl} alt="avatar" class="thumbnail" />
+				{:else}
+					<img
+						src="https://via.placeholder.com/433x200.png/000000/?text=No+Saved+Thumbnail"
+						alt="placeholder"
+						class="thumbnail"
+					/>
+				{/if}
 			</div>
 		</a>
 	</div>

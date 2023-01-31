@@ -66,11 +66,23 @@
 		}
 	});
 
+	const updateUpdatedAt = async (id: number) => {
+		const { data, error } = await supabase
+			.from('stories')
+			.update({ updatedAt: new Date() })
+			.match({ id: id });
+		if (error) {
+			toast.push('Oops, something went wrong.');
+			throw new Error(error.message);
+		}
+	};
+
 	const doScreenshot = async (hasPermission: boolean) => {
 		if (!hasPermission) {
 			toast.push('Woah woah woah! Get out of here!');
 			return;
 		}
+		updateUpdatedAt(storyId);
 		const file = await screenshotCanvas('#canvas');
 		file && uploadThumbnail(file, $page.params.page_id);
 	};

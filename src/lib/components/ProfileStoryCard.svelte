@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { onMount, beforeUpdate } from 'svelte';
+	import { onMount, beforeUpdate, afterUpdate } from 'svelte';
 	import { storyToDelete, deleteIsOpen } from '$lib/stores/modalStore';
 	import { truncate } from '$lib/utils';
 	import { getPageThumbnail } from '$lib/services/getImages';
@@ -35,6 +35,14 @@
 			}
 		}, 10);
 	});
+
+	afterUpdate(() => {
+		setTimeout(async () => {
+			if (sortedDesc) {
+				background = await getPageThumbnail(sortedDesc[0].screenshot);
+			}
+		}, 10);
+	})
 </script>
 
 {#if story && sortedDesc}

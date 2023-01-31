@@ -2,10 +2,10 @@ import { supabase } from '$lib/supabase';
 import { toast } from '@zerodevx/svelte-toast';
 
 const updateScreenshotColumn = async (pageId: string, screenshot: string) => {
-	const { error: pageError } = await supabase
+	const { data, error: pageError } = await supabase
 		.from('pages')
 		.update({ screenshot, updatedAt: new Date() })
-		.eq('id', pageId);
+		.eq('id', pageId)
 
 	if (pageError) {
 		throw new Error(pageError.message);

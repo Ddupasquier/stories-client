@@ -9,7 +9,9 @@ interface Story {
 	title: string;
 	author: string;
 	isPublic: boolean;
-	pages?: Page[];
+	updatedAt: string;
+	createdAt: string;
+	pages: Page[] | null;
 	profileId: {
 		id: string;
 		username: string;
@@ -23,7 +25,7 @@ interface Page {
 	storyId: StoryId;
 	id: number;
 	background: string;
-	screenshot?: string;
+	screenshot?: string | null;
 	[key: string]: any;
 }
 

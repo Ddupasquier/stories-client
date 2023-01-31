@@ -114,6 +114,8 @@
 
 <style lang="scss">
 	form {
+		position: sticky;
+		top: 5rem;
 		display: flex;
 		flex-flow: column nowrap;
 		align-items: center;

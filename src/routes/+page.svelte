@@ -11,6 +11,37 @@
 	import { newStory } from '$lib/services/storyActions';
 
 	let stories: Story[] | undefined = [];
+	let filterTerm: string = '';
+	let sortTerm: string = 'updatedAt';
+
+	$: filteredStories = stories?.filter((story) =>
+		story.title.toLowerCase().includes(filterTerm.toLowerCase())
+	) as Story[];
+
+	$: sortedStories = filteredStories?.sort((a, b) => {
+		switch (sortTerm) {
+			case 'title':
+				if (a[sortTerm] < b[sortTerm]) return -1;
+				if (a[sortTerm] > b[sortTerm]) return 1;
+				return 0;
+			case 'updatedAt':
+				if (a[sortTerm] < b[sortTerm]) return 1;
+				if (a[sortTerm] > b[sortTerm]) return -1;
+				return 0;
+			case 'createdAt':
+				if (a[sortTerm] < b[sortTerm]) return-1;
+				if (a[sortTerm] > b[sortTerm]) return 1;
+				return 0;
+			case 'isPublic':
+				if (a[sortTerm] < b[sortTerm]) return 1;
+				if (a[sortTerm] > b[sortTerm]) return -1;
+				return 0;
+			default:
+				return 0;
+		}
+	}) as Story[];
+
+	$: console.table(sortedStories);
 
 	export let data: AuthSession | null = null;
 
@@ -19,27 +50,23 @@
 			const { data: theseStories, error } = await supabase
 				.from('stories')
 				.select(
-					'id, title, author, updatedAt, isPublic, profileId (id, username, avatarUrl), pages: pages (id, background, screenshot, createdAt, pageNumber)'
+					'id, title, author, updatedAt, createdAt, isPublic, profileId (id, username, avatarUrl), pages: pages (id, background, screenshot, createdAt, pageNumber)'
 				)
 				.eq('profileId', data.session.user.id)
-				.order('updatedAt', { ascending: false });
+				.order('updatedAt', { ascending: true });
 			if (error) {
 				throw new Error(error.message);
 			}
 
 			stories = theseStories;
-			return;
 		}
 
 		supabase
 			.channel('public:stories')
 			.on('postgres_changes', { event: '*', schema: 'public', table: 'stories' }, (payload) => {
-				if (payload.eventType === 'INSERT') {
-					stories = stories?.unshift(payload.new);
-				}
 				if (payload.eventType === 'DELETE') {
 					stories = stories?.filter((story) => story.id !== payload.old.id);
-					console.log(stories)
+					console.log(stories);
 				}
 				if (payload.eventType === 'UPDATE') {
 					stories = stories?.map((story) => {
@@ -76,11 +103,20 @@
 					<button class="button" on:click={() => newStory(data?.session.user.id, $username)}
 						>New Story</button
 					>
+					<div>
+						<input type="text" placeholder="Search" bind:value={filterTerm} class="input" />
+						<select bind:value={sortTerm} class="input">
+							<option value="updatedAt">Recently Updated</option>
+							<option value="createdAt">Date Created</option>
+							<option value="title">A-Z</option>
+							<option value="isPublic">Public</option>
+						</select>
+					</div>
 				</div>
 
 				<div class="stories">
 					{#if stories}
-						{#each stories as story}
+						{#each sortedStories as story}
 							<StoryCard {story} />
 						{/each}
 					{:else}
@@ -108,12 +144,15 @@
 	.buttons-head {
 		display: flex;
 		flex-flow: row wrap;
-		justify-content: center;
+		justify-content: space-between;
 		align-items: center;
 		align-self: center;
 		gap: 1rem;
 		width: 100%;
 		margin-bottom: 2rem;
+		padding: .7rem 1rem;
+		background: var(--color-bg-2);
+		border-radius: 5px;
 	}
 
 	.responsive-grid {
