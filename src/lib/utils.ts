@@ -57,3 +57,35 @@ export const detectDevice = () => {
 	const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
 	return isMobile;
 };
+
+export const sortSwitch = (
+	toSort: Story[],
+	sortBy: string | number,
+	order: 'asc' | 'desc' = 'desc'
+) => {
+	if (!toSort || !sortBy) return toSort;
+
+	toSort.sort((a: Story, b: Story) => {
+		const sortValue = order === 'asc' ? -1 : 1;
+
+		switch (sortBy) {
+			case 'title':
+				if (a[sortBy] < b[sortBy]) return -1 * sortValue;
+				if (a[sortBy] > b[sortBy]) return 1 * sortValue;
+				return 0;
+			case 'updatedAt':
+			case 'createdAt':
+				if (a[sortBy] < b[sortBy]) return 1 * sortValue;
+				if (a[sortBy] > b[sortBy]) return -1 * sortValue;
+				return 0;
+			case 'isPublic':
+				if (a[sortBy] < b[sortBy]) return 1 * sortValue;
+				if (a[sortBy] > b[sortBy]) return -1 * sortValue;
+				return 0;
+			default:
+				return 0;
+		}
+	});
+
+	return toSort;
+};

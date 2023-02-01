@@ -1,8 +1,9 @@
 <script lang="ts">
 	import { onMount, beforeUpdate, afterUpdate } from 'svelte';
 	import { storyToDelete, deleteIsOpen } from '$lib/stores/modalStore';
-	import { truncate } from '$lib/utils';
+	import { createLoadObserver, truncate } from '$lib/utils';
 	import { getPageThumbnail } from '$lib/services/getImages';
+	import Loading from './Loading.svelte';
 
 	export let story: Story | null;
 	let sortedDesc: Page[] | undefined = undefined;
@@ -10,6 +11,12 @@
 	let background: { publicUrl: string } | undefined;
 	$: url = background?.publicUrl;
 	$: isPublic = story?.isPublic;
+
+	let loading = true;
+
+	const onLoad = createLoadObserver(() => {
+		loading = false;
+	});
 
 	beforeUpdate(() => {
 		if (story?.pages) {
@@ -42,12 +49,12 @@
 				background = await getPageThumbnail(sortedDesc[0].screenshot);
 			}
 		}, 10);
-	})
+	});
 </script>
 
 {#if story && sortedDesc}
 	<div class="container">
-		<a href="/story/view/{story.id}">
+		<a href="/story/view/{story.id}" style="visibility: {loading ? 'hidden' : 'visible'}">
 			<div class="story" title={story.title}>
 				<h1>
 					{truncate(story.title, 15)}
@@ -68,13 +75,19 @@
 					</svg>
 				</div>
 				{#if url}
-				<img src={url} alt="avatar" class="thumbnail" />
+					<img src={url} alt="avatar" class="thumbnail" use:onLoad loading="lazy" />
 				{:else}
-				<img src="https://via.placeholder.com/433x200.png/000000/?text=No+Saved+Thumbnail" alt="placeholder" class="thumbnail" />
+					<img
+						src="https://via.placeholder.com/433x200.png/000000/?text=No+Saved+Thumbnail"
+						alt="placeholder"
+						class="thumbnail"
+						use:onLoad
+						loading="lazy"
+					/>
 				{/if}
 			</div>
 		</a>
-		<div class="controls">
+		<div class="controls" style="visibility: {loading ? 'hidden' : 'visible'}">
 			{#if story?.pages}
 				<a href="/story/edit/{story.id}/{sortedDesc[0].id}">Edit</a> |
 			{/if}
@@ -91,6 +104,9 @@
 					}
 				}}>Delete</span
 			>
+		</div>
+		<div class="loading" style="display: {!loading ? 'none' : 'flex'}">
+			<Loading />
 		</div>
 	</div>
 {/if}
@@ -148,5 +164,16 @@
 		position: absolute;
 		top: 0.5rem;
 		right: 0.5rem;
+	}
+
+	.loading {
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+		display: flex;
+		justify-content: center;
+		align-items: center;
 	}
 </style>

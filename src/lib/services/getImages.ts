@@ -31,7 +31,7 @@ export const getElements = async (pageId: number) => {
 	}
 };
 
-export const getPageThumbnail = async (data: string | undefined) => {
+export const getPageThumbnail = async (data: string | undefined | null) => {
 	if (data) {
 		const { data: url } = supabase.storage
 			.from('page-screenshots')

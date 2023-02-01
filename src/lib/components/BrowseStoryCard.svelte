@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { beforeUpdate, onMount } from 'svelte';
+	import { beforeUpdate, onMount, afterUpdate } from 'svelte';
 	import { truncate } from '$lib/utils';
 	import { getPageThumbnail, getThumbnailAvatar } from '$lib/services/getImages';
 	import { createLoadObserver } from '$lib/utils';
@@ -7,7 +7,7 @@
 	import { avatarPlaceholder } from '$lib/assets';
 
 	export let story: Story | null;
-	let sortedDesc: Page[] | undefined = undefined;
+	let sortedDesc: Page[] | null = null;
 
 	let avatar: { publicUrl: string } | undefined;
 	let background: { publicUrl: string } | undefined;
@@ -15,6 +15,7 @@
 	$: avatarUrl = avatar?.publicUrl;
 
 	let loading = true;
+
 	const onLoad = createLoadObserver(() => {
 		loading = false;
 	});
@@ -42,14 +43,23 @@
 		}
 		avatar = await getThumbnailAvatar(story?.profileId.avatarUrl);
 	});
+
+	afterUpdate(() => {
+		setTimeout(async () => {
+			if (sortedDesc) {
+				background = await getPageThumbnail(sortedDesc[0].screenshot);
+			}
+			avatar = await getThumbnailAvatar(story?.profileId.avatarUrl);
+		}, 10);
+	});
 </script>
 
 {#if story}
 	<div class="container">
 		<a href="/story/view/{story.id}">
-			<div class="story" title={story.title}>
+			<div class="story" title={story.title} style="visibility: {loading ? 'hidden' : 'visible'}">
 				{#if avatarUrl}
-					<img use:onLoad src={avatarUrl} alt={story.title} class="avatar" />
+					<img src={avatarUrl} alt={story.title} class="avatar" loading="lazy" />
 				{:else}
 					<img src={avatarPlaceholder} alt="No avatar uploaded" class="avatar" />
 				{/if}
@@ -63,7 +73,7 @@
 					</h3>
 				</div>
 				{#if bgUrl}
-					<img src={bgUrl} alt="avatar" class="thumbnail" />
+					<img src={bgUrl} alt="avatar" class="thumbnail" use:onLoad loading="lazy" />
 				{:else}
 					<img
 						src="https://via.placeholder.com/433x200.png/000000/?text=No+Saved+Thumbnail"
@@ -73,6 +83,9 @@
 				{/if}
 			</div>
 		</a>
+		<div class="loading" style="display: {!loading ? 'none' : 'flex'}">
+			<Loading />
+		</div>
 	</div>
 {/if}
 
@@ -95,8 +108,6 @@
 		aspect-ratio: 16/7.4;
 		transition: all 0.5s;
 	}
-
-	// media query if on mobile story height is 100px
 
 	.thumbnail {
 		width: 100%;
@@ -130,6 +141,17 @@
 		background: purple;
 		padding: 0.25rem 1rem;
 		z-index: 1;
+	}
+
+	.loading {
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+		display: flex;
+		justify-content: center;
+		align-items: center;
 	}
 
 	@media only screen and (max-width: 800px) {

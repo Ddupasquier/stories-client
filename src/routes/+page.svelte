@@ -9,39 +9,18 @@
 	import StoryCard from '$lib/components/ProfileStoryCard.svelte';
 	import DeleteModal from '$lib/components/modals/DeleteModal.svelte';
 	import { newStory } from '$lib/services/storyActions';
+	import { sortSwitch } from '$lib/utils';
 
 	let stories: Story[] | undefined = [];
 	let filterTerm: string = '';
 	let sortTerm: string = 'updatedAt';
+	let order: string = 'desc';
 
 	$: filteredStories = stories?.filter((story) =>
 		story.title.toLowerCase().includes(filterTerm.toLowerCase())
 	) as Story[];
 
-	$: sortedStories = filteredStories?.sort((a, b) => {
-		switch (sortTerm) {
-			case 'title':
-				if (a[sortTerm] < b[sortTerm]) return -1;
-				if (a[sortTerm] > b[sortTerm]) return 1;
-				return 0;
-			case 'updatedAt':
-				if (a[sortTerm] < b[sortTerm]) return 1;
-				if (a[sortTerm] > b[sortTerm]) return -1;
-				return 0;
-			case 'createdAt':
-				if (a[sortTerm] < b[sortTerm]) return-1;
-				if (a[sortTerm] > b[sortTerm]) return 1;
-				return 0;
-			case 'isPublic':
-				if (a[sortTerm] < b[sortTerm]) return 1;
-				if (a[sortTerm] > b[sortTerm]) return -1;
-				return 0;
-			default:
-				return 0;
-		}
-	}) as Story[];
-
-	$: console.table(sortedStories);
+	$: sortedStories = sortSwitch(filteredStories, sortTerm, order as 'desc' | 'asc') as Story[];
 
 	export let data: AuthSession | null = null;
 
@@ -57,7 +36,6 @@
 			if (error) {
 				throw new Error(error.message);
 			}
-
 			stories = theseStories;
 		}
 
@@ -103,14 +81,19 @@
 					<button class="button" on:click={() => newStory(data?.session.user.id, $username)}
 						>New Story</button
 					>
-					<div>
-						<input type="text" placeholder="Search" bind:value={filterTerm} class="input" />
+					<div class="sortfilter">
+						<input type="text" placeholder="Search" bind:value={filterTerm} class="input search" />
 						<select bind:value={sortTerm} class="input">
 							<option value="updatedAt">Recently Updated</option>
 							<option value="createdAt">Date Created</option>
 							<option value="title">A-Z</option>
 							<option value="isPublic">Public</option>
 						</select>
+						<button
+							class="button ascdesc"
+							on:click={() => (order = order === 'asc' ? 'desc' : 'asc')}
+							>{order === 'asc' ? '⬇' : '⬆'}</button
+						>
 					</div>
 				</div>
 
@@ -150,9 +133,23 @@
 		gap: 1rem;
 		width: 100%;
 		margin-bottom: 2rem;
-		padding: .7rem 1rem;
+		padding: 0.7rem 1rem;
 		background: var(--color-bg-2);
 		border-radius: 5px;
+		.sortfilter {
+			display: flex;
+			flex-flow: row;
+			align-items: center;
+			align-self: center;
+			gap: 0.5rem;
+		}
+
+		.ascdesc {
+			text-align: center;
+			width: 2rem;
+			height: 2rem;
+			padding: 0;
+		}
 	}
 
 	.responsive-grid {
@@ -185,6 +182,21 @@
 		.right {
 			grid-column: 1 / 2;
 			grid-row: 2 / 3;
+		}
+	}
+
+	@media screen and (max-width: 734px) {
+		.buttons-head {
+			flex-direction: column;
+			.sortfilter {
+				order: 1;
+			}
+			.button {
+				order: 2;
+			}
+			.search {
+				width: 120px;
+			}
 		}
 	}
 

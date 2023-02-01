@@ -132,4 +132,9 @@
 			align-self: center;
 		}
 	}
+
+	form div {
+		display: flex;
+		flex-flow: column nowrap;
+	}
 </style>
