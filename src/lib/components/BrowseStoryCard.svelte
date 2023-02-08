@@ -66,7 +66,9 @@
 					<img src={avatarPlaceholder} alt="No avatar uploaded" class="avatar" />
 				{/if}
 				<div>
-					{truncate(story.title, 15)}
+					<h2>
+						{truncate(story.title, 15)}
+					</h2>
 					<h3>
 						{truncate(story.author, 30)}
 					</h3>
@@ -103,12 +105,16 @@
 
 	.header {
 		display: flex;
-		text-align: center;
 		background: rgb(237, 240, 248);
 		padding: 0.5rem;
 		border-radius: 0.5rem 0.5rem 0 0;
 		font-size: 20px;
 		font-weight: 600;
+		div {
+			text-align: left;
+			align-self: center;
+			margin-left: 0.5rem;
+		}
 	}
 
 	.thumbnail {
