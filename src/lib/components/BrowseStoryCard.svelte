@@ -136,9 +136,6 @@
 	}
 
 	.avatar {
-		// position: absolute;
-		// top: 0.28rem;
-		// right: 0.28rem;
 		width: 3rem;
 		height: 3rem;
 		border-radius: 50%;
@@ -178,6 +175,12 @@
 			left: -1.5rem;
 			width: 3.5rem;
 			height: 3.5rem;
+		}
+	}
+
+	@media (max-width: 641px) {
+		.story {
+			height: 180px;
 		}
 	}
 </style>

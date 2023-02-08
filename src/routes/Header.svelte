@@ -5,10 +5,16 @@
 	import { page } from '$app/stores';
 	import { username } from '$lib/stores/userStore';
 	import { domainName } from './constants';
-	import {Craib} from '$lib/assets';
+	import { Craib } from '$lib/assets';
+	import { powerIcon } from '$lib/assets';
 
 	export let session: AuthSession | null;
+
+	let screenWidth: any;
+	$: console.log(screenWidth);
 </script>
+
+<svelte:window bind:innerWidth={screenWidth} />
 
 <header>
 	<div class="logo">
@@ -17,26 +23,39 @@
 	</div>
 	<nav>
 		<ul>
-			<li aria-current={$page.url.pathname === '/' ? 'page' : undefined}>
-				<a href="/">{session ? $username : 'Login'}</a>
+			<li aria-current={$page.url.pathname === '/profile' ? 'page' : undefined}>
+				<a href="/profile">{session ? $username : 'Login'}</a>
 			</li>
-			<li aria-current={$page.url.pathname === '/browse' ? 'page' : undefined}>
-				<a href="/browse">Browse</a>
+			<li aria-current={$page.url.pathname === '/' ? 'page' : undefined}>
+				<a href="/">Browse</a>
 			</li>
 		</ul>
 	</nav>
 	<div class="logout-container">
 		{#if session}
-			<button
-				type="button"
-				on:click={() => {
-					supabase.auth.signOut();
-					signout();
-				}}
-				class="button logout"
-			>
-				Sign Out
-			</button>
+			{#if screenWidth > 600}
+				<button
+					type="button"
+					on:click={() => {
+						supabase.auth.signOut();
+						signout();
+					}}
+					class="button logout"
+				>
+					Sign Out
+				</button>
+			{:else}
+				<button
+					type="button"
+					on:click={() => {
+						supabase.auth.signOut();
+						signout();
+					}}
+					class="button logout-small"
+				>
+					<img src={powerIcon} alt="sign-out" title="sign-out" />
+				</button>
+			{/if}
 		{/if}
 	</div>
 </header>
@@ -73,6 +92,18 @@
 
 	.logout {
 		white-space: nowrap;
+	}
+
+	.logout-small {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		border-radius: 50rem;
+		width: 2rem;
+		height: 2rem;
+		img {
+			height: 1.5rem;
+		}
 	}
 
 	.logout-container {
@@ -136,7 +167,7 @@
 		color: var(--color-theme-1);
 	}
 
-	@media (max-width: 600px) {
+	@media (max-width: 750px) {
 		header {
 			flex-direction: column;
 			justify-content: center;
@@ -160,6 +191,14 @@
 			.logout {
 				transform: scale(0.8);
 			}
+		}
+	}
+
+	@media (max-width: 600px) {
+		.logout-container {
+			position: absolute;
+			top: 1rem;
+			right: -2rem;
 		}
 	}
 </style>
