@@ -5,12 +5,14 @@
 	import { page } from '$app/stores';
 	import { username } from '$lib/stores/userStore';
 	import { domainName } from './constants';
+	import {Craib} from '$lib/assets';
 
 	export let session: AuthSession | null;
 </script>
 
 <header>
 	<div class="logo">
+		<img src={Craib} alt="Craib Logo" width="50" height="50" />
 		<h1>{domainName}</h1>
 	</div>
 	<nav>

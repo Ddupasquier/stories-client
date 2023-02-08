@@ -13,3 +13,4 @@ export { default as avatarPlaceholder } from './avatar_placeholder.png';
 export { default as indicateArrow } from './indicate.svg';
 export { default as Thumbs } from './Thumbs.svelte';
 export { default as Close } from './CloseIcon.svelte';
+export {default as Craib} from './craibpath.svg';
