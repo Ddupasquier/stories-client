@@ -5,6 +5,7 @@
 declare namespace App {}
 
 interface Story {
+	likes: number | undefined;
 	id: number;
 	title: string;
 	author: string;

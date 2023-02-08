@@ -37,6 +37,10 @@ export const truncate = (str: string, n: number) => {
 	return str.length > n ? str.substr(0, n - 1) + '...' : str;
 };
 
+export const addCommasToNumber = (num: number) => {
+	return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+};
+
 export const createLoadObserver = (handler: () => void) => {
 	let waiting = 0;
 

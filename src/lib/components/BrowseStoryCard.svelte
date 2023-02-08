@@ -5,6 +5,7 @@
 	import { createLoadObserver } from '$lib/utils';
 	import Loading from '$lib/components/Loading.svelte';
 	import { avatarPlaceholder } from '$lib/assets';
+	import Likes from './Likes.svelte';
 
 	export let story: Story | null;
 	let sortedDesc: Page[] | null = null;
@@ -37,52 +38,47 @@
 		}
 	});
 
-	onMount(async () => {
+	const doImages = async () => {
 		if (sortedDesc) {
 			background = await getPageThumbnail(sortedDesc[0].screenshot);
 		}
 		avatar = await getThumbnailAvatar(story?.profileId.avatarUrl);
+	};
+
+	onMount(async () => {
+		doImages();
 	});
 
 	afterUpdate(() => {
 		setTimeout(async () => {
-			if (sortedDesc) {
-				background = await getPageThumbnail(sortedDesc[0].screenshot);
-			}
-			avatar = await getThumbnailAvatar(story?.profileId.avatarUrl);
-		}, 10);
+			await doImages();
+		}, 4);
 	});
 </script>
 
 {#if story}
 	<div class="container">
-		<a href="/story/view/{story.id}">
-			<div class="story" title={story.title} style="visibility: {loading ? 'hidden' : 'visible'}">
+		<div style="visibility: {loading ? 'hidden' : 'visible'}">
+			<div class="header">
 				{#if avatarUrl}
 					<img src={avatarUrl} alt={story.title} class="avatar" loading="lazy" />
 				{:else}
 					<img src={avatarPlaceholder} alt="No avatar uploaded" class="avatar" />
 				{/if}
-
-				<div class="banner">
-					<h2>
-						{truncate(story.title, 15)}
-					</h2>
+				<div>
+					{truncate(story.title, 15)}
 					<h3>
 						{truncate(story.author, 30)}
 					</h3>
 				</div>
-				{#if bgUrl}
-					<img src={bgUrl} alt="avatar" class="thumbnail" use:onLoad loading="lazy" />
-				{:else}
-					<img
-						src="https://via.placeholder.com/433x200.png/000000/?text=No+Saved+Thumbnail"
-						alt="placeholder"
-						class="thumbnail"
-					/>
-				{/if}
 			</div>
-		</a>
+			<a href="/story/view/{story.id}">
+				<div class="story" title={story.title}>
+					<img src={bgUrl} alt="avatar" class="thumbnail" use:onLoad loading="lazy" />
+				</div>
+			</a>
+			<div class="footer"><Likes likes={story.likes} id={story.id} /></div>
+		</div>
 		<div class="loading" style="display: {!loading ? 'none' : 'flex'}">
 			<Loading />
 		</div>
@@ -95,52 +91,56 @@
 		transition: all 0.2s ease-in-out;
 		&:hover {
 			filter: drop-shadow(0 -17px 25px #5a5a5a3f);
-			transform: scale(1.02);
 		}
 	}
 
 	.story {
 		position: relative;
-		border-image: linear-gradient(45deg, purple, orange) 1;
-		border-style: solid;
-		border-width: 0.5rem 0;
 		height: 160px;
 		aspect-ratio: 16/7.4;
 		transition: all 0.5s;
+	}
+
+	.header {
+		display: flex;
+		text-align: center;
+		background: rgb(237, 240, 248);
+		padding: 0.5rem;
+		border-radius: 0.5rem 0.5rem 0 0;
+		font-size: 20px;
+		font-weight: 600;
 	}
 
 	.thumbnail {
 		width: 100%;
 		height: 100%;
 		filter: grayscale(100%);
-		transition: all 0.4s ease-in-out;
+		transition: all 0.2s ease-in-out;
 		&:hover {
 			filter: grayscale(0%);
+			transform: scale(1.05);
 		}
 	}
 
+	.footer {
+		text-align: center;
+		background: rgb(237, 240, 248);
+		padding: 0.5rem;
+		border-radius: 0 0 0.5rem 0.5rem;
+	}
+
 	.avatar {
-		position: absolute;
-		top: -1.9rem;
-		left: -2.5rem;
-		width: 5rem;
-		height: 5rem;
+		// position: absolute;
+		// top: 0.28rem;
+		// right: 0.28rem;
+		width: 3rem;
+		height: 3rem;
 		border-radius: 50%;
 		z-index: 2;
 		display: flex;
 		justify-content: center;
 		align-items: center;
 		background: rgb(139, 139, 139);
-	}
-
-	.banner {
-		position: absolute;
-		top: -1.1rem;
-		left: 1.9rem;
-		height: fit-content;
-		background: purple;
-		padding: 0.25rem 1rem;
-		z-index: 1;
 	}
 
 	.loading {
