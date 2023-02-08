@@ -156,6 +156,19 @@
 		height: 5rem;
 		overflow-x: auto;
 	}
+	.container::-webkit-scrollbar {
+		background: rgb(158, 158, 158);
+		height: 0.8rem;
+	}
+
+	.container::-webkit-scrollbar-thumb {
+		background: var(--orange);
+		border-radius: 8px;
+	}
+
+	.container::-webkit-scrollbar-track-piece:start {
+		background: #222;
+	}
 
 	.info {
 		height: 100%;
