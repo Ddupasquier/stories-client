@@ -41,7 +41,7 @@ export const deleteStory = async (id: number | undefined) => {
 		throw new Error(error.message);
 	} else {
 		toast.push('Story deleted', { duration: 2000, pausable: true });
-		goto('/');
+		goto('/profile');
 	}
 };
 

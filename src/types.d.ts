@@ -12,6 +12,7 @@ interface Story {
 	isPublic: boolean;
 	updatedAt: string;
 	createdAt: string;
+	likes: number;
 	pages: Page[] | null;
 	profileId: {
 		id: string;
@@ -50,6 +51,7 @@ interface CanvasProps {
 }
 
 interface StoryId {
+	[x: string]: number | undefined;
 	isPublic: boolean;
 	id: number;
 	title: string;

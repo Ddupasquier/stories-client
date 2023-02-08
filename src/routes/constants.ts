@@ -1,1 +1,1 @@
-export const domainName = "PinchedParables"
+export const domainName = "Pinched Parables"

@@ -6,7 +6,7 @@ export async function load({ params }: { params: { story_id: number } }) {
 	const { data: pages, error } = await supabase
 		.from('pages')
 		.select(
-			'id, background, createdAt, pageNumber, screenshot, storyId (id, title, profileId (username))'
+			'id, background, createdAt, pageNumber, screenshot, storyId (id, title, likes, profileId (username))'
 		)
 		.eq('storyId', params.story_id)
 		.order('pageNumber', { ascending: true });

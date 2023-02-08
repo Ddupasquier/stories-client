@@ -3,12 +3,13 @@
 	export let data: PagesLayoutProps;
 	import Slider from '../SliderView.svelte';
 	import { getPageThumbnail } from '$lib/services/getImages';
+	import Likes from '$lib/components/Likes.svelte';
 
 	let previewImage: string | undefined;
 	let screenshot: { publicUrl: string } | undefined;
 
 	onMount(() => {
-		previewImage = data.pages[0].screenshot;
+		if (data.pages[0].screenshot) previewImage = data.pages[0].screenshot;
 
 		getPageThumbnail(previewImage).then((res) => {
 			screenshot = res;
@@ -34,6 +35,7 @@
 	<slot />
 	<Slider {data} />
 </div>
+<Likes id={data.pages[0].storyId.id} likes={data.pages[0].storyId.likes}/>
 
 <style lang="scss">
 	h2 {

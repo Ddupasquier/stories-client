@@ -10,6 +10,7 @@
 	import DeleteModal from '$lib/components/modals/DeleteModal.svelte';
 	import { newStory } from '$lib/services/storyActions';
 	import { sortSwitch } from '$lib/utils';
+	import { domainName } from '../constants';
 
 	let stories: Story[] | undefined = [];
 	let filterTerm: string = '';
@@ -63,7 +64,7 @@
 </script>
 
 <svelte:head>
-	<title>{$username ? `${$username}'s Stories` : 'Stories We Tell'}</title>
+	<title>{$username ? `${$username}'s Stories` : { domainName }}</title>
 	<meta name="description" content="Svelte demo app" />
 </svelte:head>
 

@@ -3,6 +3,7 @@
 	import AboveTheFold from '$lib/components/cta/AboveTheFold.svelte';
 	import { sortSwitch } from '$lib/utils';
 	import type { AuthSession } from '@supabase/supabase-js';
+	import { domainName } from './constants';
 
 	let filterTerm: string = '';
 	let sortTerm: string = 'updatedAt';
@@ -22,7 +23,7 @@
 </script>
 
 <svelte:head>
-	<title>PinchedParables</title>
+	<title>{domainName}</title>
 	<meta name="description" content="Svelte demo app" />
 </svelte:head>
 
