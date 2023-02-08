@@ -55,6 +55,4 @@
 		align-items: center;
 		padding: 1rem 4rem;
 	}
-
-	
 </style>

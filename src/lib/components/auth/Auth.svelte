@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { supabase } from '$lib/supabase';
+	import { toast } from '@zerodevx/svelte-toast';
 
 	let loading = false;
 	let email = '';
@@ -17,15 +18,19 @@
 			const { error } = await supabase.auth.signInWithOtp({
 				email,
 				options: {
-					emailRedirectTo: isLocalhost(),
+					emailRedirectTo: isLocalhost()
 				}
 			});
 
 			if (error) throw error;
-			alert('Check your email for login link!');
+			toast.push('Check your email for the magic link!', {
+				duration: 5000
+			});
 		} catch (error) {
 			if (error instanceof Error) {
-				alert(error.message);
+				toast.push(error.message, {
+					duration: 5000
+				});
 			}
 		} finally {
 			loading = false;

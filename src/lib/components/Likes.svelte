@@ -9,7 +9,6 @@
 	export let likes = 0;
 
 	$: isLiked = false;
-	$: console.log(isLiked, id);
 
 	onMount(async () => {
 		if (!$userId) return;

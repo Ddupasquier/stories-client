@@ -11,7 +11,6 @@
 	export let session: AuthSession | null;
 
 	let screenWidth: any;
-	$: console.log(screenWidth);
 </script>
 
 <svelte:window bind:innerWidth={screenWidth} />

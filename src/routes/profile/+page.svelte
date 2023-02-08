@@ -44,7 +44,6 @@
 			.on('postgres_changes', { event: '*', schema: 'public', table: 'stories' }, (payload) => {
 				if (payload.eventType === 'DELETE') {
 					stories = stories?.filter((story) => story.id !== payload.old.id);
-					console.log(stories);
 				}
 				if (payload.eventType === 'UPDATE') {
 					stories = stories?.map((story) => {
@@ -185,8 +184,11 @@
 		}
 	}
 
-	@media screen and (max-width: 734px) {
+	@media screen and (max-width: 1100px) {
 		.buttons-head {
+			margin: auto;
+			margin-bottom: 2rem;
+			width: fit-content;
 			flex-direction: column;
 			.sortfilter {
 				order: 1;

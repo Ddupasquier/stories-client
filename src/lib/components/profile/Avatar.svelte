@@ -2,6 +2,7 @@
 	import { createEventDispatcher } from 'svelte';
 	import { supabase } from '$lib/supabase';
 	import { avatarPlaceholder } from '$lib/assets';
+	import { toast } from '@zerodevx/svelte-toast';
 
 	export let size: number;
 	export let url: string | null;
@@ -51,7 +52,9 @@
 			dispatch('upload');
 		} catch (error) {
 			if (error instanceof Error) {
-				alert(error.message);
+				toast.push(error.message, {
+					duration: 5000
+				});
 			}
 		} finally {
 			uploading = false;

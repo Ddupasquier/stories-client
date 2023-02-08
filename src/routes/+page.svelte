@@ -1,12 +1,14 @@
 <script lang="ts">
 	import StoryCard from '$lib/components/BrowseStoryCard.svelte';
+	import AboveTheFold from '$lib/components/cta/AboveTheFold.svelte';
 	import { sortSwitch } from '$lib/utils';
+	import type { AuthSession } from '@supabase/supabase-js';
 
 	let filterTerm: string = '';
 	let sortTerm: string = 'updatedAt';
 	let order: string = 'desc';
 
-	export let data: Stories;
+	export let data: { session: AuthSession | null; stories: Story[] };
 
 	interface Stories {
 		stories: Story[];
@@ -25,6 +27,9 @@
 </svelte:head>
 
 <div class="stories">
+	{#if !data.session}
+		<AboveTheFold />
+	{/if}
 	<div class="buttons-head">
 		<div class="sortfilter">
 			<div>
