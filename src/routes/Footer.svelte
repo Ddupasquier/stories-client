@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { domainName } from '../constants';
+	import { domainName } from '../lib/constants';
 	// import {githubIcon} from '$lib/assets';
 </script>
 

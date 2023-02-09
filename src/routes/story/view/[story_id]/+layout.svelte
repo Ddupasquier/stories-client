@@ -4,7 +4,7 @@
 	import Slider from '../SliderView.svelte';
 	import { getPageThumbnail } from '$lib/services/getImages';
 	import Likes from '$lib/components/Likes.svelte';
-	import { metaDescription } from 'src/constants';
+	import { metaDescription } from '$lib/constants';
 
 	let previewImage: string | undefined;
 	let screenshot: { publicUrl: string } | undefined;

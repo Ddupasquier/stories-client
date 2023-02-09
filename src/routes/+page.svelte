@@ -3,7 +3,7 @@
 	import AboveTheFold from '$lib/components/cta/AboveTheFold.svelte';
 	import { sortSwitch } from '$lib/utils';
 	import type { AuthSession } from '@supabase/supabase-js';
-	import { domainName, metaDescription } from '../constants';
+	import { domainName, metaDescription } from '$lib/constants';
 
 	let filterTerm: string = '';
 	let sortTerm: string = 'updatedAt';
