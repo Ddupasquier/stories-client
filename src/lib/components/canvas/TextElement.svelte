@@ -78,22 +78,22 @@
 	}}
 />
 
-
-	<p
-		class="text-element"
-		style="position: absolute; top: {top + '%'}; left: {left + '%'}; z-index: {zIndex}; font-size: {height + 'vw'}; transform: rotate({rotation + 'deg'}); color: {color};"
-		on:mousedown={startMoving}
-		draggable="false"
-		on:contextmenu={(e) => {
-			contextMenu(e);
-			isOpen = true;
-		}}
-	>
-		{#if !loading}
-			{text}
-		{/if}
-	</p>
-
+<p
+	class="text-element"
+	style="position: absolute; top: {top + '%'}; left: {left +
+		'%'}; z-index: {zIndex}; font-size: {height + 'vw'}; transform: rotate({rotation +
+		'deg'}); color: {color};"
+	on:mousedown={startMoving}
+	draggable="false"
+	on:contextmenu={(e) => {
+		contextMenu(e);
+		isOpen = true;
+	}}
+>
+	{#if !loading}
+		{text}
+	{/if}
+</p>
 
 {#if isOpen}
 	<ContextMenu
@@ -114,3 +114,12 @@
 		{closeContextMenu}
 	/>
 {/if}
+
+<style lang="scss">
+	.text-element {
+		&:hover {
+			filter: brightness(0.8);
+			cursor: grabbing;
+		}
+	}
+</style>

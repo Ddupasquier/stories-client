@@ -11,10 +11,6 @@
 
 	export let data: { session: AuthSession | null; stories: Story[] };
 
-	interface Stories {
-		stories: Story[];
-	}
-
 	$: filteredStories = data?.stories.filter((story) =>
 		story.title.toLowerCase().includes(filterTerm.toLowerCase())
 	);

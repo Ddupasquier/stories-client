@@ -155,6 +155,10 @@
 			user-select: all;
 			width: 100%;
 			height: 100%;
+			&:hover {
+				filter: brightness(0.8);
+				cursor: grabbing;
+			}
 		}
 	}
 </style>
