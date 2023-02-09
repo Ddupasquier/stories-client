@@ -91,10 +91,17 @@
 
 	@media (orientation: portrait) {
 		.modal-mobile {
-			position: fixed;
-			top: 0;
-			width: 100vw;
-			height: calc(100vw * 16 / 9);
+		position: relative;
+		width: 100%;
+		height: fit-content;
+		display: flex;
+		flex-direction: column;
+		z-index: 1001;
+		overflow: hidden;
+		.modal-body {
+			flex: 1;
+			overflow-y: auto;
 		}
+	}
 	}
 </style>
