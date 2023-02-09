@@ -67,4 +67,12 @@
 			pointer-events: none;
 		}
 	}
+
+	// if screen orientation is landscape fullscreen to height 100vh and width to maintain aspect ratio
+	@media (orientation: landscape) {
+		.modal {
+			width: calc(100vh * 16 / 9);
+			height: 100vh;
+		}
+	}
 </style>
