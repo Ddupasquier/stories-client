@@ -66,17 +66,6 @@
 		}
 	}
 
-	p {
-		font-size: 1.2rem;
-		text-align: center;
-		font-weight: 800;
-		color: red;
-		background: var(--color-bg-1);
-		border-radius: 0.8rem;
-		padding: 1rem;
-		margin: 0 1rem;
-	}
-
 	ul {
 		font-size: 1.2rem;
 		font-weight: 600;

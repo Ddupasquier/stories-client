@@ -1,5 +1,6 @@
 <script lang="ts">
 	import {currentPage} from '$lib/stores/viewStore';
+	
 </script>
 
 <div id="canvas">
@@ -7,6 +8,7 @@
 		<img src={$currentPage} alt="Page" />
 	{/if}
 </div>
+
 
 <style lang="scss">
 	#canvas {
