@@ -3,7 +3,7 @@
 	import AboveTheFold from '$lib/components/cta/AboveTheFold.svelte';
 	import { sortSwitch } from '$lib/utils';
 	import type { AuthSession } from '@supabase/supabase-js';
-	import { domainName } from './constants';
+	import { domainName, metaDescription } from '../constants';
 
 	let filterTerm: string = '';
 	let sortTerm: string = 'updatedAt';
@@ -24,7 +24,10 @@
 
 <svelte:head>
 	<title>{domainName}</title>
-	<meta name="description" content="Create short stories, memes, or whatever you can come up with in a pinch!!!" />
+	<meta
+		name="description"
+		content={metaDescription}
+	/>
 </svelte:head>
 
 <div class="stories">

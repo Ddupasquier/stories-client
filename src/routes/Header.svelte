@@ -4,7 +4,7 @@
 	import type { AuthSession } from '@supabase/supabase-js';
 	import { page } from '$app/stores';
 	import { username } from '$lib/stores/userStore';
-	import { domainName } from './constants';
+	import { domainName } from '../constants';
 	import { Craib } from '$lib/assets';
 	import { powerIcon } from '$lib/assets';
 

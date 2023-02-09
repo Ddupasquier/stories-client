@@ -4,6 +4,7 @@
 	import Slider from '../SliderView.svelte';
 	import { getPageThumbnail } from '$lib/services/getImages';
 	import Likes from '$lib/components/Likes.svelte';
+	import { metaDescription } from 'src/constants';
 
 	let previewImage: string | undefined;
 	let screenshot: { publicUrl: string } | undefined;
@@ -21,7 +22,7 @@
 	<title>{data.pages[0].storyId.title}</title>
 	<meta name="description" content="View {data.pages[0].storyId.title}" />
 	<meta property="og:title" content={data.pages[0].storyId.title} />
-	<meta property="og:description" content="View {data.pages[0].storyId.title}" />
+	<meta property="og:description" content={metaDescription} />
 	<meta property="og:image" content={screenshot?.publicUrl} />
 </svelte:head>
 

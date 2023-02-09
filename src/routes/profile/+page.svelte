@@ -10,7 +10,7 @@
 	import DeleteModal from '$lib/components/modals/DeleteModal.svelte';
 	import { newStory } from '$lib/services/storyActions';
 	import { sortSwitch } from '$lib/utils';
-	import { domainName } from '../constants';
+	import { domainName } from '../../constants';
 
 	let stories: Story[] | undefined = [];
 	let filterTerm: string = '';
