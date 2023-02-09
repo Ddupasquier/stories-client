@@ -1,7 +1,23 @@
 <script lang="ts">
+	import { onMount, afterUpdate } from 'svelte';
 	import { fade, scale } from 'svelte/transition';
 	import { fullScreenIsOpen } from '$lib/stores/modalStore';
 	import { fullScreen } from '$lib/assets';
+	import { detectDevice } from '$lib/utils';
+
+	$: isMobile = false;
+
+	onMount(() => {
+		isMobile = detectDevice();
+	});
+
+	afterUpdate(() => {
+		if (isMobile) {
+			document.body.classList.add('mobile');
+		} else {
+			document.body.classList.remove('mobile');
+		}
+	});
 </script>
 
 <div class="modal-overlay" transition:fade>
@@ -68,9 +84,9 @@
 		}
 	}
 
-	// if screen orientation is landscape fullscreen to height 100vh and width to maintain aspect ratio
+	
 	@media (orientation: landscape) {
-		.modal {
+		.modal.mobile {
 			position: fixed;
 			top: 0;
 			width: calc(100vh * 16 / 9);

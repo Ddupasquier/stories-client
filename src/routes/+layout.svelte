@@ -9,6 +9,7 @@
 	import Header from './Header.svelte';
 	import Footer from './Footer.svelte';
 	import { SvelteToast } from '@zerodevx/svelte-toast';
+	import Analytic from '$lib/components/Analytic.svelte';
 
 	export let data: { session: AuthSession | null };
 
@@ -27,6 +28,8 @@
 		}
 	});
 </script>
+
+<Analytic />
 
 <div class="app">
 	<SvelteToast />
