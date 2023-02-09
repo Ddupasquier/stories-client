@@ -60,13 +60,10 @@
 
 <style lang="scss">
 	h2 {
-		display: flex;
-		flex-direction: row;
-		justify-content: space-between;
-		align-items: center;
 		font-size: 1.5rem;
 		margin: 0;
 		font-weight: 800;
+		text-align: center;
 	}
 
 	.story-container {

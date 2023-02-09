@@ -196,7 +196,14 @@
 		.logout-container {
 			position: absolute;
 			top: 1rem;
-			right: -2rem;
+			right: -3rem;
+		}
+	}
+
+	@media (max-width: 450px) {
+		.logo {
+			display: flex;
+			flex-direction: column;
 		}
 	}
 </style>
