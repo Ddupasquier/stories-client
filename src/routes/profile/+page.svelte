@@ -77,27 +77,27 @@
 				<Profile session={data?.session} />
 			</div>
 			<div class="right">
-				<div class="buttons-head">
-					<button class="button" on:click={() => newStory(data?.session.user.id, $username)}
-						>New Story</button
-					>
-					<div class="sortfilter">
-						<input type="text" placeholder="Search" bind:value={filterTerm} class="input search" />
-						<select bind:value={sortTerm} class="input">
-							<option value="updatedAt">Recently Updated</option>
-							<option value="createdAt">Date Created</option>
-							<option value="title">A-Z</option>
-							<option value="isPublic">Public</option>
-						</select>
-						<button
-							class="button ascdesc"
-							on:click={() => (order = order === 'asc' ? 'desc' : 'asc')}
-							>{order === 'asc' ? '⬇' : '⬆'}</button
-						>
-					</div>
-				</div>
-
+				
 				<div class="stories">
+					<div class="buttons-head">
+						<button class="button" on:click={() => newStory(data?.session.user.id, $username)}
+							>New Story</button
+						>
+						<div class="sortfilter">
+							<input type="text" placeholder="Search" bind:value={filterTerm} class="input search" />
+							<select bind:value={sortTerm} class="input">
+								<option value="updatedAt">Recently Updated</option>
+								<option value="createdAt">Date Created</option>
+								<option value="title">A-Z</option>
+								<option value="isPublic">Public</option>
+							</select>
+							<button
+								class="button ascdesc"
+								on:click={() => (order = order === 'asc' ? 'desc' : 'asc')}
+								>{order === 'asc' ? '⬇' : '⬆'}</button
+							>
+						</div>
+					</div>
 					{#if stories}
 						{#each sortedStories as story}
 							<StoryCard {story} />
@@ -185,7 +185,7 @@
 		}
 	}
 
-	@media screen and (max-width: 1100px) {
+	@media screen and (max-width: 1150px) {
 		.buttons-head {
 			margin: auto;
 			margin-bottom: 2rem;

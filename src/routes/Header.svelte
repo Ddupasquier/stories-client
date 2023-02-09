@@ -23,7 +23,7 @@
 	<nav>
 		<ul>
 			<li aria-current={$page.url.pathname === '/profile' ? 'page' : undefined}>
-				<a href="/profile">{session ? $username : 'Login'}</a>
+				<a href="/profile">{!session || !$username ? 'Login' : $username}</a>
 			</li>
 			<li aria-current={$page.url.pathname === '/' ? 'page' : undefined}>
 				<a href="/">Browse</a>
@@ -181,7 +181,6 @@
 		.logo > * {
 			margin: 0;
 			padding: 0;
-			width: 100%;
 			text-align: center;
 		}
 
