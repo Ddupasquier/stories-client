@@ -24,7 +24,7 @@
 
 <svelte:head>
 	<title>{domainName}</title>
-	<meta name="description" content="Svelte demo app" />
+	<meta name="description" content="Create short stories, memes, or whatever you can come up with in a pinch!!!" />
 </svelte:head>
 
 <div class="stories">

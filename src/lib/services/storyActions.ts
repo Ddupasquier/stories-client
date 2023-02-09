@@ -64,8 +64,13 @@ export const likeStory = async (storyId: number, profileId: string | null) => {
 	const { error } = await supabase.from('likes').insert([{ storyId, profileId }]).select();
 
 	if (error) {
-		toast.push(`Something went wrong! ${error.message}`, { duration: 5000, pausable: true });
-		throw new Error(error.message);
+		if (error.message.includes('null value in column')) {
+			toast.push('You must be logged in to like a story', { duration: 5000, pausable: true });
+			return;
+		} else {
+			toast.push(`Something went wrong! ${error.message}`, { duration: 5000, pausable: true });
+			throw new Error(error.message);
+		}
 	} else {
 		toast.push('Story liked', { duration: 2000, pausable: true });
 	}
@@ -79,8 +84,13 @@ export const unlikeStory = async (storyId: number, profileId: string | null) => 
 		.eq('profileId', profileId);
 
 	if (error) {
-		toast.push(`Something went wrong! ${error.message}`, { duration: 5000, pausable: true });
-		throw new Error(error.message);
+		if (error.message.includes('null value in column')) {
+			toast.push('You must be logged in to unlike a story', { duration: 5000, pausable: true });
+			return;
+		} else {
+			toast.push(`Something went wrong! ${error.message}`, { duration: 5000, pausable: true });
+			throw new Error(error.message);
+		}
 	} else {
 		toast.push('Story unliked', { duration: 2000, pausable: true });
 	}
