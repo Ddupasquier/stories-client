@@ -97,9 +97,8 @@
 	}
 
 	.story {
-		position: relative;
-		height: 160px;
-		aspect-ratio: 16/7.4;
+		width: 20rem;
+		height: 9rem;
 		transition: all 0.5s;
 	}
 
@@ -120,6 +119,7 @@
 	.thumbnail {
 		width: 100%;
 		height: 100%;
+		object-fit: cover;
 		filter: grayscale(100%);
 		transition: all 0.2s ease-in-out;
 		&:hover {
@@ -157,19 +157,12 @@
 		align-items: center;
 	}
 
-	@media only screen and (max-width: 800px) {
+	@media only screen and (max-width: 848px) {
 		.story {
-			height: 100px;
+			width: 75vw;
+			height: 33vw;
 		}
-		.banner {
-			left: 1.1rem;
-			h2 {
-				font-size: 1rem;
-			}
-			h3 {
-				font-size: 0.8rem;
-			}
-		}
+
 		.avatar {
 			top: -1.5rem;
 			left: -1.5rem;
@@ -178,9 +171,4 @@
 		}
 	}
 
-	@media (max-width: 641px) {
-		.story {
-			height: 180px;
-		}
-	}
 </style>
