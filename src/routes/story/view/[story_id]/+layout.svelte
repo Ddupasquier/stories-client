@@ -101,7 +101,7 @@
 
 	@media only screen and (max-width: 600px) {
 		.story-container {
-			width: 95vw;
+			width: 85vw;
 		}
 	}
 </style>
