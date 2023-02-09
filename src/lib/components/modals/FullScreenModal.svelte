@@ -12,16 +12,12 @@
 	});
 
 	afterUpdate(() => {
-		if (isMobile) {
-			document.body.classList.add('mobile');
-		} else {
-			document.body.classList.remove('mobile');
-		}
+		isMobile = detectDevice();
 	});
 </script>
 
 <div class="modal-overlay" transition:fade>
-	<div class="modal" transition:scale>
+	<div class={isMobile ? 'modal-mobile' : 'modal'} transition:scale>
 		<button
 			class="button full-screen"
 			on:click={() => {
@@ -84,9 +80,8 @@
 		}
 	}
 
-	
 	@media (orientation: landscape) {
-		.modal.mobile {
+		.modal-mobile {
 			position: fixed;
 			top: 0;
 			width: calc(100vh * 16 / 9);
