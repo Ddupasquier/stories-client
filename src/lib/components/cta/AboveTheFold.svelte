@@ -29,4 +29,10 @@
 			text-decoration: none;
 		}
 	}
+
+	@media (max-width: 768px) {
+		.above-the-fold {
+			font-size: .75rem;
+		}
+	}
 </style>
