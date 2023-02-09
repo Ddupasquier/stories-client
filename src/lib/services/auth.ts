@@ -16,17 +16,11 @@ export const signout = () => {
 
 export const getProfile = async (id: string | undefined) => {
 	if (id) {
-		const { data, error } = await supabase
+		const { data } = await supabase
 			.from('profiles')
 			.select('username, fullName, avatarUrl')
 			.eq('id', id)
 			.single();
-		if (error) {
-			//do nothing
-			toast.push(`Welcome! <br /><br /> You'll need to fill out your profile information before you can make a story :)`, { duration: 5000, pausable: true });
-			return
-			// throw new Error(error.message);
-		}
 		if (data) {
 			username.set(data.username);
 			fullname.set(data.fullName);
