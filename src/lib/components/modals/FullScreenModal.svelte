@@ -53,7 +53,6 @@
 		display: flex;
 		flex-direction: column;
 		z-index: 1001;
-		overflow: hidden;
 		.modal-body {
 			flex: 1;
 			overflow-y: auto;
