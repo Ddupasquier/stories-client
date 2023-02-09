@@ -56,6 +56,7 @@
 		z-index: 1001;
 		.modal-body {
 			flex: 1;
+			overflow-y: auto;
 		}
 	}
 
@@ -99,6 +100,7 @@
 			z-index: 1001;
 			.modal-body {
 				flex: 1;
+				overflow-y: auto;
 			}
 		}
 	}
