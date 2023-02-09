@@ -44,6 +44,7 @@
 		justify-content: center;
 		align-items: center;
 		z-index: 1000;
+		overflow: hidden;
 	}
 
 	.modal {
@@ -55,7 +56,6 @@
 		z-index: 1001;
 		.modal-body {
 			flex: 1;
-			overflow-y: auto;
 		}
 	}
 
@@ -85,6 +85,7 @@
 			top: 0;
 			width: calc(100vh * 16 / 9);
 			height: 100vh;
+			overflow-y: auto;
 		}
 	}
 
@@ -98,7 +99,6 @@
 			z-index: 1001;
 			.modal-body {
 				flex: 1;
-				overflow-y: auto;
 			}
 		}
 	}
