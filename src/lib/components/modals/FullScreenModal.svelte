@@ -88,4 +88,13 @@
 			height: 100vh;
 		}
 	}
+
+	@media (orientation: portrait) {
+		.modal-mobile {
+			position: fixed;
+			top: 0;
+			width: 100vw;
+			height: calc(100vw * 16 / 9);
+		}
+	}
 </style>
