@@ -72,6 +72,7 @@
 	@media (orientation: landscape) {
 		.modal {
 			position: fixed;
+			top: 0;
 			width: calc(100vh * 16 / 9);
 			height: 100vh;
 		}
