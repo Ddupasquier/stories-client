@@ -85,6 +85,7 @@
 		font-size: 1.6rem;
 		color: #f44336;
 		margin: 0;
+		text-align: center;
 	}
 
 	.sub-description {
