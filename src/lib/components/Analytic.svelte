@@ -25,4 +25,6 @@
 		gtag('js', new Date());
 		gtag('config', 'MEASUREMENT_ID');
 	</script>
+	<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3560491105009054"
+     crossorigin="anonymous"></script>
 </svelte:head>
