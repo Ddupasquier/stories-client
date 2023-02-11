@@ -10,14 +10,14 @@
 			link: '/information/?topic=contact',
 			text: 'Contact Us'
 		},
-		{
-			link: '/information/?topic=privacy',
-			text: 'Privacy Policy'
-		},
-		{
-			link: '/information/?topic=terms',
-			text: 'Terms of Service'
-		}
+		// {
+		// 	link: '/information/?topic=privacy',
+		// 	text: 'Privacy Policy'
+		// },
+		// {
+		// 	link: '/information/?topic=terms',
+		// 	text: 'Terms of Service'
+		// }
 	];
 </script>
 

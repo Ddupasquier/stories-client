@@ -8,8 +8,8 @@
 	<div class="sidebar">
 		<a href="/information?topic=about" class="button">About</a>
 		<a href="/information?topic=contact" class="button">Contact</a>
-		<a href="/information?topic=privacy" class="button">Privacy</a>
-		<a href="/information?topic=terms" class="button">Terms</a>
+		<!-- <a href="/information?topic=privacy" class="button">Privacy</a>
+		<a href="/information?topic=terms" class="button">Terms</a> -->
 	</div>
 	<div class="content">
 		<slot {topic} />
