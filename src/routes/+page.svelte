@@ -99,6 +99,7 @@
 
 	@media (max-width: 670px) {
 		.buttons-head {
+			width: 80%;
 			.sortfilter {
 				flex-direction: column;
 				justify-content: center;

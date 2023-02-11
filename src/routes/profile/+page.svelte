@@ -61,6 +61,9 @@
 	onMount(() => {
 		getMyStories();
 	});
+	// <button class="button" on:click={() => newStory(data?.session.user.id, $username)}
+	// 	>New Story</button
+	// >
 </script>
 
 <svelte:head>
@@ -77,25 +80,29 @@
 				<Profile session={data?.session} />
 			</div>
 			<div class="right">
-				
 				<div class="stories">
 					<div class="buttons-head">
-						<button class="button" on:click={() => newStory(data?.session.user.id, $username)}
-							>New Story</button
-						>
 						<div class="sortfilter">
-							<input type="text" placeholder="Search" bind:value={filterTerm} class="input search" />
-							<select bind:value={sortTerm} class="input">
-								<option value="updatedAt">Recently Updated</option>
-								<option value="createdAt">Date Created</option>
-								<option value="title">A-Z</option>
-								<option value="isPublic">Public</option>
-							</select>
-							<button
-								class="button ascdesc"
-								on:click={() => (order = order === 'asc' ? 'desc' : 'asc')}
-								>{order === 'asc' ? '⬇' : '⬆'}</button
-							>
+							<div>
+								<input
+									type="text"
+									placeholder="Search"
+									bind:value={filterTerm}
+									class="input search"
+								/>
+							</div>
+							<div>
+								<select bind:value={sortTerm} class="input">
+									<option value="updatedAt">Recently Updated</option>
+									<option value="createdAt">Date Created</option>
+									<option value="title">A-Z</option>
+								</select>
+								<button
+									class="button ascdesc"
+									on:click={() => (order = order === 'asc' ? 'desc' : 'asc')}
+									>{order === 'asc' ? '⬇' : '⬆'}</button
+								>
+							</div>
 						</div>
 					</div>
 					{#if stories}
@@ -127,12 +134,11 @@
 	.buttons-head {
 		display: flex;
 		flex-flow: row wrap;
-		justify-content: space-between;
+		justify-content: flex-end;
 		align-items: center;
 		align-self: center;
 		gap: 1rem;
 		width: 100%;
-		margin-bottom: 2rem;
 		padding: 0.7rem 1rem;
 		background: var(--color-bg-2);
 		border-radius: 5px;
@@ -142,6 +148,11 @@
 			align-items: center;
 			align-self: center;
 			gap: 0.5rem;
+			div {
+				display: flex;
+				align-items: center;
+				gap: 0.5rem;
+			}
 		}
 
 		.ascdesc {
@@ -185,20 +196,25 @@
 		}
 	}
 
-	@media screen and (max-width: 1150px) {
+	@media (max-width: 670px) {
 		.buttons-head {
-			margin: auto;
-			margin-bottom: 2rem;
-			width: fit-content;
-			flex-direction: column;
+			width: 80%;
 			.sortfilter {
-				order: 1;
-			}
-			.button {
-				order: 2;
-			}
-			.search {
-				width: 120px;
+				flex-direction: column;
+				justify-content: center;
+				width: 100%;
+				div {
+					display: flex;
+					align-items: center;
+					gap: 0.5rem;
+					width: 100%;
+					select {
+						width: 100%;
+					}
+				}
+				.search {
+					width: 93%;
+				}
 			}
 		}
 	}

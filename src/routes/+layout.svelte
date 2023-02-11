@@ -58,4 +58,10 @@
 		align-items: center;
 		padding: 1rem 4rem;
 	}
+
+	@media (max-width: 600px) {
+		main {
+			padding: 1rem 0rem;
+		}
+	}
 </style>

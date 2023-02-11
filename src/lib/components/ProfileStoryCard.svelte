@@ -119,8 +119,9 @@
 
 	.story {
 		position: relative;
-		height: 150px;
-		aspect-ratio: 16/7.4;
+		width: 20rem;
+		height: 9rem;
+		transition: all 0.5s;
 	}
 
 	.header {
@@ -135,6 +136,7 @@
 	.thumbnail {
 		width: 100%;
 		height: 100%;
+		object-fit: cover;
 	}
 
 	.controls {
@@ -182,5 +184,12 @@
 		display: flex;
 		justify-content: center;
 		align-items: center;
+	}
+
+	@media only screen and (max-width: 848px) {
+		.story {
+			width: 75vw;
+			height: 33vw;
+		}
 	}
 </style>
