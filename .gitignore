@@ -5,6 +5,7 @@ node_modules
 /package
 .env
 .env.*
+ads.txt
 !.env.example
 .vercel
 .output

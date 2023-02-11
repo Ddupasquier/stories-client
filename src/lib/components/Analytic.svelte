@@ -28,8 +28,10 @@
 		gtag('js', new Date());
 		gtag('config', 'MEASUREMENT_ID');
 	</script>
-	<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client={googleAds}"
-     crossorigin="anonymous">
-
-</script>
+	<script
+		async
+		src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client={googleAds}"
+		crossorigin="anonymous"
+	>
+	</script>
 </svelte:head>
