@@ -4,13 +4,10 @@
 
 	$: {
 		if (typeof gtag !== 'undefined') {
-			gtag(
-				'config', `${import.meta.env.ANALYTICS_ID}`,
-				{
-					page_title: document.title,
-					page_path: $page.url.pathname
-				}
-			);
+			gtag('config', 'G-HYH2C42YHT', {
+				page_title: document.title,
+				page_path: $page.url.pathname
+			});
 		}
 	}
 </script>
@@ -28,6 +25,4 @@
 		gtag('js', new Date());
 		gtag('config', 'MEASUREMENT_ID');
 	</script>
-	<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${import.meta.env.AdsenseClientId}"
-     crossorigin="anonymous"></script>
 </svelte:head>
