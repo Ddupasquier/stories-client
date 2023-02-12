@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { beforeUpdate } from 'svelte';
+	import { onMount } from 'svelte';
 	import { username, fullname, avatar, userId } from '$lib/stores/userStore';
 	import { beforeNavigate } from '$app/navigation';
 	import { toast } from '@zerodevx/svelte-toast';
@@ -37,7 +37,7 @@
 		}
 	});
 
-	beforeUpdate(() => {
+	onMount(() => {
 		getProfile(session?.user.id);
 	});
 
@@ -68,6 +68,16 @@
 			updateUserStore(userName, fullName, avatarUrl, session.user.id);
 		}
 	};
+	// <div>
+	// 	<label for="avatar_url">Avatar</label>
+	// 	<input
+	// 		id="avatar_url"
+	// 		type="text"
+	// 		placeholder={avatarUrl}
+	// 		bind:value={avatarUrl}
+	// 		class="input"
+	// 	/>
+	// </div>
 </script>
 
 <form on:submit|preventDefault={updateProfile}>
@@ -97,20 +107,10 @@
 			required
 		/>
 	</div>
-	<div>
-		<label for="avatar_url">Avatar</label>
-		<input
-			id="avatar_url"
-			type="text"
-			placeholder={avatarUrl}
-			bind:value={avatarUrl}
-			class="input"
-		/>
-	</div>
 	<button type="submit" disabled={profileLoading} class="button">
 		{profileLoading ? 'Saving ...' : 'Update profile'}
-	</button>
-</form>
+		</button>
+		</form>
 
 <style lang="scss">
 	form {

@@ -25,6 +25,8 @@
 
 	export let data: AuthSession | null = null;
 
+
+	// * TODO: Move client side fetches to SSR (+page.ts)
 	const getMyStories = async () => {
 		if (data?.session) {
 			const { data: theseStories, error } = await supabase
@@ -61,10 +63,19 @@
 	onMount(() => {
 		getMyStories();
 	});
+
+	
+	$: setTitle = () => {
+		if (typeof $username !== 'undefined' && $username !== '[Object Object]') {
+			return `${$username}'s Stories`;
+		} else {
+			return domainName;
+		}
+	};
 </script>
 
 <svelte:head>
-	<title>{$username ? `${$username}'s Stories` : { domainName }}</title>
+	<title>{setTitle()}</title>
 	<meta name="description" content="Svelte demo app" />
 </svelte:head>
 

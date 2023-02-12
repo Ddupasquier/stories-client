@@ -14,13 +14,20 @@ export const signout = () => {
 	toast.push('Signed out', { duration: 2000, pausable: true });
 };
 
+
+// * TODO: Add error handling for profile not existing
 export const getProfile = async (id: string | undefined) => {
 	if (id) {
-		const { data } = await supabase
+		const { data, error } = await supabase
 			.from('profiles')
 			.select('username, fullName, avatarUrl')
 			.eq('id', id)
 			.single();
+
+		if (error) {
+			return
+		}
+
 		if (data) {
 			username.set(data.username);
 			fullname.set(data.fullName);
