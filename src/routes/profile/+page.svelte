@@ -61,9 +61,6 @@
 	onMount(() => {
 		getMyStories();
 	});
-	// <button class="button" on:click={() => newStory(data?.session.user.id, $username)}
-	// 	>New Story</button
-	// >
 </script>
 
 <svelte:head>
@@ -103,6 +100,9 @@
 									>{order === 'asc' ? '⬇' : '⬆'}</button
 								>
 							</div>
+							<button class="button" on:click={() => newStory(data?.session.user.id, $username)}
+								>New Story</button
+							>
 						</div>
 					</div>
 					{#if stories}
