@@ -1,4 +1,7 @@
 # PinchedParables
+
+![ezgif com-video-to-gif (1)](https://user-images.githubusercontent.com/89223122/229226984-3d85b0a2-1e94-4e22-8b21-245e73a0719d.gif)
+
 ### Get creative with [PinchedParables.com](https://www.pinchedparables.com) - the ultimate story book creator for kids! Stamp your way to an exciting adventure with our crab-tivating collection of stamps. Join the shell-abration of imagination and storytelling today!
 
 
