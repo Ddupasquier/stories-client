@@ -20,7 +20,6 @@
 	import TextElement from '$lib/components/canvas/TextElement.svelte';
 
 	export let info: CanvasProps;
-	export let firstPage: number;
 	export let isPublic: boolean;
 	export let storyId: number;
 	export let hasPermission: boolean;
@@ -31,6 +30,17 @@
 		background = color;
 		unsavedTrue();
 	};
+
+	function isPageElement(obj: any): obj is PageElement {
+		return (
+			obj &&
+			typeof obj.flip === 'boolean' &&
+			typeof obj.rotate === 'number' &&
+			typeof obj.id === 'number' &&
+			// include checks for all other required properties of PageElement here...
+			true
+		);
+	}
 
 	onMount(() => {
 		supabase
@@ -44,7 +54,7 @@
 				}
 				if (payload.eventType === 'UPDATE') {
 					info.elements = info.elements.map((element) => {
-						if (element.id === payload.new.id) {
+						if (element.id === payload.new.id && isPageElement(payload.new)) {
 							return payload.new;
 						}
 						return element;
@@ -115,7 +125,9 @@
 			{/each}
 		{/if}
 		<div id="tools">
-			<button on:click={() => textInsertIsOpen.set(true)} class="text-button" title="Add text">T</button>
+			<button on:click={() => textInsertIsOpen.set(true)} class="text-button" title="Add text"
+				>T</button
+			>
 			<ColorPicker color={background} {setColor} />
 		</div>
 		<div id="actions">
@@ -150,7 +162,7 @@
 							component: {
 								src: Clipboard,
 								props: {
-									link: `https://stories-client.vercel.app/story/view/${info.storyId}/${firstPage}`
+									link: `https://www.pinchedparables.com/story/view/${info.storyId}`
 								}
 							},
 							duration: 10000,

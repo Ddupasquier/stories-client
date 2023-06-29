@@ -6,19 +6,27 @@
 	let email = '';
 
 	const handleLogin = async () => {
-		const isLocalhost = () => {
-			let local;
-			if (window.location.hostname === 'localhost') local = 'http://localhost:5173';
-			else local = 'https://www.pinchedparables.com/';
-			return local;
+		const getRedirectURL = () => {
+			let url;
+			if (window.location.hostname.includes('www')) {
+				url = 'https://www.pinchedparables.com/';
+			} else {
+				url =
+					window.location.protocol +
+					'//' +
+					window.location.hostname +
+					(window.location.port ? ':' + window.location.port : '');
+			}
+			return url;
 		};
 
 		try {
 			loading = true;
+			console.log(getRedirectURL());
 			const { error } = await supabase.auth.signInWithOtp({
 				email,
 				options: {
-					emailRedirectTo: isLocalhost()
+					emailRedirectTo: getRedirectURL()
 				}
 			});
 

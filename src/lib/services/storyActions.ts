@@ -61,7 +61,7 @@ export const changeTitle = async (storyId: number, title: string) => {
 };
 
 export const likeStory = async (storyId: number, profileId: string | null) => {
-	const { error } = await supabase.from('likes').insert([{ storyId, profileId }]).select();
+	const { error } = await supabase.from('likes').insert([{ storyId, profileId }]);
 
 	if (error) {
 		if (error.message.includes('null value in column')) {

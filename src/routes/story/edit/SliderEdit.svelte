@@ -9,19 +9,30 @@
 
 	let lastPage = data.pages[data.pages.length - 1].pageNumber;
 
+	function isPage(obj: any): obj is Page {
+		return (
+			obj &&
+			typeof obj.id === 'number' &&
+			// include checks for all other required properties of Page here...
+			true
+		);
+	}
+
 	beforeUpdate(async () => {
 		supabase
 			.channel('public:pages')
 			.on('postgres_changes', { event: '*', schema: 'public', table: 'pages' }, (payload) => {
 				if (payload.eventType === 'INSERT') {
-					data.pages = [...data.pages, payload.new] as Page[];
+					if (isPage(payload.new)) {
+						data.pages = [...data.pages, payload.new];
+					}
 				}
 				if (payload.eventType === 'DELETE') {
 					data.pages = data.pages.filter((page) => page.id !== payload.old.id);
 				}
 				if (payload.eventType === 'UPDATE') {
 					data.pages = data.pages.map((page) => {
-						if (page.id === payload.new.id) {
+						if (page.id === payload.new.id && isPage(payload.new)) {
 							return payload.new;
 						}
 						return page;

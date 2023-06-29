@@ -20,7 +20,7 @@
 		const { error } = await supabase.from('elements').insert([
 			{
 				elementName: name,
-				pageId: $page.params.page_id,
+				pageId: Number($page.params.page_id),
 				x: folder === 'backgrounds' ? 0 : 50,
 				y: folder === 'backgrounds' ? 0 : 50,
 				zIndex: folder === 'backgrounds' ? 0 : 1,
