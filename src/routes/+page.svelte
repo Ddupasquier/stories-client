@@ -6,10 +6,12 @@
 	import { domainName, metaDescription } from '$lib/constants';
 
 	let filterTerm: string = '';
-	let sortTerm: string = 'updatedAt';
+	let sortTerm: "updatedAt" | "title" | "likes" | "isPublic" | "createdAt" = 'updatedAt';
 	let order: string = 'desc';
 
 	export let data: { session: AuthSession | null; stories: Story[] };
+
+	// $: console.log(data.stories)
 
 	$: filteredStories = data?.stories.filter((story) =>
 		story.title.toLowerCase().includes(filterTerm.toLowerCase())
@@ -40,6 +42,7 @@
 					<option value="updatedAt">Recently Updated</option>
 					<option value="createdAt">Date Created</option>
 					<option value="title">A-Z</option>
+					<option value="likes">Most Liked</option>
 				</select>
 				<button class="button ascdesc" on:click={() => (order = order === 'asc' ? 'desc' : 'asc')}
 					>{order === 'asc' ? '⬇' : '⬆'}</button

@@ -62,30 +62,41 @@ export const detectDevice = () => {
 	return isMobile;
 };
 
+// interface Story {
+// 	updatedAt: any;
+// 	createdAt: any;
+// 	title: string;
+// 	likes: number;
+// 	isPublic: boolean;
+// }
+
+interface SortTerms {
+	sortBy: "title" | "likes" | "isPublic" | "updatedAt" | "createdAt";
+}
+
 export const sortSwitch = (
 	toSort: Story[],
-	sortBy: string | number,
-	order: 'asc' | 'desc' = 'desc'
+	sortBy: SortTerms["sortBy"],
+	order: "asc" | "desc" = "desc"
 ) => {
 	if (!toSort || !sortBy) return toSort;
 
+	console.log(toSort);
+
 	toSort.sort((a: Story, b: Story) => {
-		const sortValue = order === 'asc' ? -1 : 1;
+		const sortValue = order === "asc" ? -1 : 1;
 
 		switch (sortBy) {
-			case 'title':
-				if (a[sortBy] < b[sortBy]) return -1 * sortValue;
-				if (a[sortBy] > b[sortBy]) return 1 * sortValue;
-				return 0;
-			case 'updatedAt':
-			case 'createdAt':
-				if (a[sortBy] < b[sortBy]) return 1 * sortValue;
-				if (a[sortBy] > b[sortBy]) return -1 * sortValue;
-				return 0;
-			case 'isPublic':
-				if (a[sortBy] < b[sortBy]) return 1 * sortValue;
-				if (a[sortBy] > b[sortBy]) return -1 * sortValue;
-				return 0;
+			case "title":
+				return sortValue * ((a.title < b.title) ? -1 : (a.title > b.title ? 1 : 0));
+			case "likes":
+				return sortValue * ((a.likes < b.likes) ? 1 : (a.likes > b.likes ? -1 : 0));
+			case "updatedAt":
+				return sortValue * ((a.updatedAt < b.updatedAt) ? 1 : (a.updatedAt > b.updatedAt ? -1 : 0));
+			case "createdAt":
+				return sortValue * ((a.createdAt < b.createdAt) ? 1 : (a.createdAt > b.createdAt ? -1 : 0));
+			case "isPublic":
+				return sortValue * ((a.isPublic < b.isPublic) ? 1 : (a.isPublic > b.isPublic ? -1 : 0));
 			default:
 				return 0;
 		}
@@ -93,3 +104,5 @@ export const sortSwitch = (
 
 	return toSort;
 };
+
+
