@@ -22,7 +22,7 @@
 
 		try {
 			loading = true;
-			console.log(getRedirectURL());
+			// console.log(getRedirectURL());
 			const { error } = await supabase.auth.signInWithOtp({
 				email,
 				options: {

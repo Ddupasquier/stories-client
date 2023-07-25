@@ -81,8 +81,6 @@ export const sortSwitch = (
 ) => {
 	if (!toSort || !sortBy) return toSort;
 
-	console.log(toSort);
-
 	toSort.sort((a: Story, b: Story) => {
 		const sortValue = order === "asc" ? -1 : 1;
 

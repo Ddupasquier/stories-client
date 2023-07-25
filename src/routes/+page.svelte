@@ -11,8 +11,6 @@
 
 	export let data: { session: AuthSession | null; stories: Story[] };
 
-	// $: console.log(data.stories)
-
 	$: filteredStories = data?.stories.filter((story) =>
 		story.title.toLowerCase().includes(filterTerm.toLowerCase())
 	);
